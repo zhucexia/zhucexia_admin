@@ -19,7 +19,7 @@
 
 	<!-- 以AspectJ方式 定义 AOP -->
 	<aop:config proxy-target-class="true">
-		<aop:advisor pointcut="execution(* com.keji50.zhucexia.service..*.*(..))" advice-ref="txAdvice" />
+		<aop:advisor pointcut="execution(* com.keji50.zhucexiaadmin.service..*.*(..))" advice-ref="txAdvice" />
 	</aop:config>
 
 	<!-- 配置事务传播特性:如果存在一个事务，则支持当前事务。如果没有事务则开启：REQUIRED -->
