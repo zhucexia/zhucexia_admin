@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.keji50.zhucexiaadmin.dao.mapper.SysUserPoMapper">
+	<resultMap id="BaseResultMap" type="com.keji50.zhucexiaadmin.dao.po.SysUserPo">
+		<id column="id" property="id" jdbcType="DECIMAL" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="role_id" property="role_id" jdbcType="VARCHAR" />
+		<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="company" property="company" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="dept_name" property="dept_name" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="VARCHAR" />
+		<result column="createBy" property="createBy" jdbcType="VARCHAR" />
+		<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="updateBy" property="updateBy" jdbcType="VARCHAR" />
+		<result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,username,password,role_id,mobile,email,address,dept_name
+	</sql>
+
+	<!-- 用户登录 -->
+	<select id="login" resultMap="BaseResultMap" parameterType="com.keji50.zhucexiaadmin.dao.po.SysUserPo">
+		select <include refid="Base_Column_List" />
+		from sys_user
+		where 1=1 and username=#{username,jdbcType=VARCHAR}
+		and password=#{password,jdbcType=VARCHAR}
+	</select>
+	<insert id="insertPro" parameterType="com.keji50.zhucexiaadmin.dao.po.ProductPo">
+		insert into product(product_name,product_price,product_description,product_code,product_image,
+		createBy,createTime,updateBy,updateTime,product_grounding,product_status) values(
+		#{product_name,jdbcType=VARCHAR}, #{product_price,jdbcType=DOUBLE},
+		#{product_description,jdbcType=VARCHAR}, #{product_code,jdbcType=DECIMAL},
+		#{product_image,jdbcType=VARCHAR}, #{createBy,jdbcType=DECIMAL},
+		#{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=DECIMAL},
+		#{updateTime,jdbcType=TIMESTAMP}, #{product_grounding,jdbcType=DECIMAL},
+		#{product_status,jdbcType=DECIMAL})
+	</insert>
+	<delete id="deletePro">
+	delete from product where id=#{id,jdbcType=DECIMAL}
+	</delete>
+
+</mapper>
