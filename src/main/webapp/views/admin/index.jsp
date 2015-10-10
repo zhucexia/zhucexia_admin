@@ -20,6 +20,7 @@
 	type="text/css" />
 <link href="${root }/static/css/easyui.css" rel="stylesheet"
 	type="text/css" />
+
 <script type="text/javascript" src="${root }/static/js/common.js"></script>
 <script type="text/javascript"
 	src="${root }/static/js/jquery-1.7.2.min.js"></script>
@@ -30,12 +31,15 @@
 <script type="text/javascript"
 	src="${root }/static/js/jquery-openwindow.js"></script>
 <script type="text/javascript" src="${root }/static/js/dataDic.js"></script>
+
 </head>
 <body class="easyui-layout">
-	<div data-options="region:'north',border:false" style="height:60px;background:#B3DFDA;padding:10px">
-		north region
-	</div>
-	<div data-options="region:'west',split:true,title:'管理模块'" style="width:150px;padding:10px;">
+	<div data-options="region:'north',border:false" style="height:80px;background:#303030">	
+	    <iframe src="${root }/views/admin/top.jsp" width="100%" height="80px" frameborder="no" border="0" scrolling="no"></iframe>
+   </div>
+
+
+	<div data-options="region:'west',split:true,title:'管理模块'" style="width:15%;padding:10px;">
 		<ul id="tt" class="easyui-tree" data-options="url:'${root }/sysRolePower/getRolePower',method:'post',animate:true"></ul>
 	</div>
 	<script type="text/javascript">
@@ -44,7 +48,7 @@
 						onClick:function(node){
 							/*获取节点路径*/
 							var paths=node.attributes.url;
-						
+							alert(paths);
 							/*方法一使用iframe
 							$("#centerpanel").attr("src",paths);
 							还需要在下面添加一个iframe
@@ -52,7 +56,8 @@
 							width="100%" height="100%" scrolling="no"></iframe>
 							*/
 							/*方法二：直接给layout中间的分隔区一个id，然后使用load方法加载页面*/
-							$("#center-main").load(paths);
+							//$("#center-main").load(paths);
+							$("#centerpanel").attr("src",paths);
 						}	
 			})
 				
@@ -63,12 +68,12 @@
 	<div data-options="region:'east',split:true,collapsed:true,title:'East'" style="width:100px;padding:10px;">
 		east region
 	</div>
-	<div data-options="region:'south',border:false" style="height:50px;background:#A9FACD;padding:10px;">
+	<div data-options="region:'south',border:false" style="height:40px;background:#303030;padding:10px;">
 		south region
 	</div>
 	<div data-options="region:'center',title:'功能模块'" id="center-main">
-		<!--  <iframe id="centerpanel" width="100%" height="100%" scrolling="no"></iframe>
-  -->	</div>
+		 <iframe id="centerpanel" width="100%" height="100%" frameborder="no" border="0"  scrolling="no"></iframe>
+  	</div>
 </body>
 
 

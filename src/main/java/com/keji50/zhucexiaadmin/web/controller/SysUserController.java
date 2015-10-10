@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.keji50.zhucexiaadmin.dao.po.SysUserPo;
 import com.keji50.zhucexiaadmin.service.SysUserService;
-import com.mysql.jdbc.interceptors.SessionAssociationInterceptor;
+
 
 /*系统用户*/
 @Controller
@@ -26,17 +26,23 @@ public class SysUserController {
 		/*判断用户是否存在*/
 		SysUserPo sysUserPo=sysUserService.login(sysuser);
 		request.getSession().setAttribute("sysUserpo", sysUserPo);
+		
 		if(sysUserPo!=null){
 			
 			return "admin/index";
 		}
 		else{
+			request.setAttribute("ts", "提示: 输入用户或密码错误！！！");
+			
 			return "admin/login";
 		}
 	}
 	/*进入用户登录页面*/
 	@RequestMapping("/toLogin")
-	public String tologin(){
+	public String tologin(HttpServletRequest request){
+		if(request.getSession().getAttribute("sysUserpo")!=null){
+			request.getSession().removeAttribute("sysUserpo");
+		}
 		return "admin/login";
 	}
 
