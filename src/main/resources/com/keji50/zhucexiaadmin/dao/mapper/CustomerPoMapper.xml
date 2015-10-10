@@ -21,9 +21,26 @@
 		select <include refid="Base_Column_List" />
 		from customer
 		where 1=1
-		<if test="isPinlessMobole != null">
-			and is_pinless_mobile = #{isPinlessMobile,jdbcType=VARCHAR}
+		<if test="isPinlessMobile != null and isPinlessMobile !=''">
+			and is_pinlessmobile = #{isPinlessMobile,jdbcType=VARCHAR}
+		</if>
+		<if test="username != null and username !=''">
+			and username = #{username,jdbcType=VARCHAR}
+		</if>
+		<if test="phoneNumber != null and phoneNumber !=''">
+			and phone_number = #{phoneNumber,jdbcType=VARCHAR}
 		</if>
 	</select>
-
+	<delete id="deletecustomer" parameterType="int">
+		delete from customer where id=#{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="addcustomer"  parameterType="com.keji50.zhucexiaadmin.dao.po.CustomerPo" >
+		insert into customer(id, username, password, phone_number, email, create_by) value(#{id},#{username},#{password},#{phoneNumber},#{email},#{createBy})
+	</insert>
+	<select id="getCustomer" parameterType="int" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List" /> from customer where id=#{id,jdbcType=DECIMAL}
+	</select>
+	<update id="updatecustomer">
+		update customer set username=#{username,jdbcType=VARCHAR},password=#{password,jdbcType=VARCHAR},phone_number=#{phoneNumber,jdbcType=VARCHAR},create_by=#{createBy,jdbcType=VARCHAR},email=#{email,jdbcType=VARCHAR} where id=#{id}
+	</update>
 </mapper>

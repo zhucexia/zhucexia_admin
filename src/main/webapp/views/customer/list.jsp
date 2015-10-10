@@ -68,9 +68,9 @@
 				</table>
 			</fieldset>
 			<div class="queryDataGrid">
-				<div style="width: 1300px;" id="dg"></div>
+				<div style="width: 100%;" id="dg"></div>
 			</div>
-			<input id="changeSuccess" value="false" type="hidden" />
+			<input id="changeSuccess" value="false" type="hidden" name="${mess }"/>
 		</div>
 		<div id="addWin"></div>
 		<div id="editWin"></div>
@@ -81,7 +81,7 @@
 				pageObj.varPageNum = 1;
 				queryDg();
 			});
-
+			
 			$("#clearBtn").click(function() {
 				$("input[type!=button]").val("");
 			});
@@ -104,21 +104,20 @@
 			addWhite = function() {
 				$("#changeSuccess").val("false");
 				$("#addWin").window({
+					title:'客 户 新 增',
 					width : 800,
-					height : 300,
+					height : 250,
 					method : 'post',
 					cache : false,
 					modal : false,
-					closeAnimation : 'fade',
+					//closeAnimation : 'fade',
 					//closable : false,
 					maximizable : false,
 					minimizable : false,
-					href : "${root}/whiteList/addAcWhitleList",
-					onClose : function() {
-						if ($("#changeSuccess").val() == "success") {
-							queryDg();
-						}
-					}
+					href : "${root}/customer/add",
+					/* onClose : function() {	
+						queryDg();
+					}, */
 				});
 			};
 
@@ -126,29 +125,30 @@
 				var checkedItems = $('#dg').datagrid('getChecked');
 				var id = '';
 				if (!checkedItems || checkedItems.length == 0) {
-					alert("未选中任何值,请选择需要修改的白名单客户");
+					$.messager.alert("温馨提示", "未选中,请选择需要修改的白名单客户", "info");
 					return;
 				} else {
 					$.each(checkedItems, function(index, item) {
-						id = item.sno;
+						id = item.id;
 					});
 				}
 				$("#changeSuccess").val("false");
 				$("#editWin").window({
+					title:'客 户 编 辑',
 					width : 800,
-					height : 300,
+					height : 200,
 					method : 'post',
-					closeAnimation : 'fade',
+					//closeAnimation : 'fade',
 					cache : false,
 					//closable : false,
 					maximizable : false,
 					minimizable : false,
-					href : "${root}/whiteList/updateAcWhitleList?sno=" + id,
-					onClose : function() {
-						if ($("#changeSuccess").val() == "success") {
+					href : "${root}/customer/getcustomer?id="+id,
+					/* onClose : function() {
+						//if ($("#changeSuccess").val() == "success") {
 							queryDg();
-						}
-					}
+						//}
+					} */
 				});
 
 			};
@@ -156,21 +156,38 @@
 				var id = '';
 				var checkedItems = $('#dg').datagrid('getChecked');
 				if (!checkedItems || checkedItems.length == 0) {
-					alert("未选中任何值,请选择需要删除的白名单客户");
+					$.messager.alert("温馨提示", "未选中,请选择需要删除的白名单客户", "info");
 					return;
 				} else {
-					$.each(checkedItems, function(index, item) {
-						id = item.sno;
-					});
+					// $.messager.defaults = { ok: "是", cancel: "否" };  
+					   
+				        $.messager.confirm("操作提示", "您确定要执行删除吗？", function (data) {  
+				            if (data) {  
+				            	$.each(checkedItems, function(index, item) {
+									id = item.id;
+									
+								});
+								$.ajax({
+									url : "${root}/customer/deletecustomer",
+									type : 'POST',
+									data : {
+										"sno" : id
+									},
+									success : function(data) {
+										$.messager.alert("温馨提示",data.message , "info");
+										queryDg();
+									},
+									error:function(data) {
+										$.messager.alert("温馨提示",data.message , "info");
+										
+									}
+								});
+				            }  
+				           
+				        });  
+					
 				}
-				$.ajax({
-					url : "${root}/whiteList/deleteWhitle",
-					type : 'POST',
-					data : {
-						"sno" : id
-					},
-					success : queryDg
-				});
+				
 
 			};
 
@@ -252,7 +269,34 @@
 						sortable : true,
 						field : 'createTime',
 						title : '创建日期',
-						width : min2MidWith
+						width : min2MidWith,
+						formatter: function (value, row, index) {
+							var date = new Date(value);
+							var year = date.getFullYear().toString();
+							var month = (date.getMonth() + 1);
+							var day = date.getDate().toString();
+							var hour = date.getHours().toString();
+							var minutes = date.getMinutes().toString();
+							var seconds = date.getSeconds().toString();
+							if (month < 10) {
+								month = "0" + month;
+							}
+							if (day < 10) {
+								day = "0" + day;
+							}
+							if (hour < 10) {
+								 hour = "0" + hour;
+							}
+							if (minutes < 10) {
+								minutes = "0" + minutes;
+							}
+							if (seconds < 10) {
+								seconds = "0" + seconds;
+							 }
+							return year + "/" + month + "/" + day + " " + hour + ":" + minutes + ":" + seconds;
+							}
+							
+
 					}, {
 						field : 'updateBy',
 						title : '更新人',
@@ -260,7 +304,33 @@
 					}, {
 						field : 'updateTime',
 						title : '更新日期',
-						width : min2MidWith
+						width : min2MidWith,
+						formatter: function (value, row, index) {
+							var date = new Date(value);
+							var year = date.getFullYear().toString();
+							var month = (date.getMonth() + 1);
+							var day = date.getDate().toString();
+							var hour = date.getHours().toString();
+							var minutes = date.getMinutes().toString();
+							var seconds = date.getSeconds().toString();
+							if (month < 10) {
+								month = "0" + month;
+							}
+							if (day < 10) {
+								day = "0" + day;
+							}
+							if (hour < 10) {
+								 hour = "0" + hour;
+							}
+							if (minutes < 10) {
+								minutes = "0" + minutes;
+							}
+							if (seconds < 10) {
+								seconds = "0" + seconds;
+							 }
+							return year + "/" + month + "/" + day + " " + hour + ":" + minutes + ":" + seconds;
+							}
+							
 					} ] ]
 				});
 
@@ -278,7 +348,6 @@
 			function loadDg(postUrl, params) {
 				ajaxLoadDg(postUrl, params, refreshDg, $("#dg"));
 			}
-
 			//加载空查询结果数据
 			refreshDg();
 		});
