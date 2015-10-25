@@ -31,6 +31,7 @@
 	src="${root }/static/js/jquery-openwindow.js"></script>
 <script type="text/javascript" src="${root }/static/js/dataDic.js"></script>
 </head>
+
 <body id="depositBody" class="ContentBody">
 	<div class="CContent">
 		<div id="title" class="tablestyle_title">
@@ -44,19 +45,10 @@
 						<tr>
 							<td><label>商品可选属性名称:</label></td>
 							<td>
-								<select id="code"  name="code" class="text" style="width:150px">
-										<option value="" selected="selected">全部</option>
-										<option value="baoshan">宝山</option>
-										<option value="hongkou">虹口</option>
-								</select>
+							<select id="code"  name="code" class="easyui-combobox" data-options="editable:false,valueField:'values',textField:'fields',data:${jsons}" style="width:150px" >
+							</select>
 							</td>
-							<!-- <td><label>用户名:</label></td>
-							<td><input id="username" type="text" /></td> -->
 						</tr>
-						<!-- <tr>
-							<td><label>手机号:</label></td>
-							<td><input id="phoneNumber" type="text" /></td>
-						</tr> -->
 					</tbody>
 					<tfoot>
 						<tr>
@@ -92,6 +84,7 @@
 
 			//查询执行
 			queryDg = function() {
+				alert($('#code').combobox('getValue'));
 				var params = {
 					code : $("#code").val(),
 					pageNum : pageObj.varPageNum,
@@ -246,9 +239,16 @@
 						field : 'sno',
 						title : '编号',
 						hidden : true
-					},{
+					},
+					{
 						sortable : true,
 						field : 'name',
+						title : '商品名称',
+						width : min2MidWith,
+						align : 'center'
+					},{
+						sortable : true,
+						field : 'names',
 						title : '条件名称',
 						width : min2MidWith,
 						align : 'center'
@@ -265,7 +265,7 @@
 						align : 'center'
 					}, 
 					{
-						field : 'optionvalue',
+						field : 'op',
 						title : '可选值',
 						width : min2MidWith,
 						align : 'center'
@@ -275,12 +275,12 @@
 						title : '备注',
 						width : min2MidWith
 					}, {
-						field : 'createBy',
+						field : 'crb',
 						title : '创建人',
 						width : min2MidWith
 					}, {
 						sortable : true,
-						field : 'createTime',
+						field : 'crt',
 						title : '创建日期',
 						width : min2MidWith,
 						formatter: function (value, row, index) {
@@ -311,11 +311,11 @@
 							
 
 					}, {
-						field : 'updateBy',
+						field : 'upb',
 						title : '更新人',
 						width : min2MidWith
 					}, {
-						field : 'updateTime',
+						field : 'upt',
 						title : '更新日期',
 						width : min2MidWith,
 						formatter: function (value, row, index) {

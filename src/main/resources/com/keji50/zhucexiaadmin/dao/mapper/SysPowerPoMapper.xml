@@ -10,7 +10,7 @@
 		<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
 		<result column="updateBy" property="updateBy" jdbcType="VARCHAR" />
 		<result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
-	
+		<result column="treetype" property="treeType" jdbcType="DECIMAL" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		

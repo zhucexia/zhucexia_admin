@@ -45,4 +45,10 @@
     	update sys_role set state='d' where id=#{id}
     </update>
     
+    <!-- 添加用户时候，分配角色给用户，查询所有角色信息 -->
+	<select id="addRoleToUser" resultMap="BaseResultMap" >
+		select id,code,name
+	from sys_role
+	where 1=1 and state='s'
+	</select>
 </mapper>

@@ -27,7 +27,7 @@
 	<!-- 配置静态资源路径 -->
 	<mvc:resources mapping="/static/**" location="/static/" />
 	<mvc:resources mapping="/views/**" location="/views/" />
-
+   <mvc:resources mapping="/resour/**" location="/resour/" />
 	<!-- 配置视图解析器 -->
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">

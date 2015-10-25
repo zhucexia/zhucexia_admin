@@ -14,4 +14,5 @@ public class SysPowerPo extends BasePo {
 	/*状态，数据状态 c:草稿 s;已审核 d:删除*/
 	private String href;
 
+	private int treeType;
 }

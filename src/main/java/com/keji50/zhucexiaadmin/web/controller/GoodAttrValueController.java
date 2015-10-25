@@ -48,7 +48,7 @@ public class GoodAttrValueController {
 		Page<GoodAttrValuePo> page = goodAttrValueService.getCustomerByConditions(conditions);
 		System.out.println("执行查询"+page.size());
 		for (GoodAttrValuePo goodAttrValuePo : page) {
-			System.out.println("条件属性名称"+goodAttrValuePo.getGoodattr().getName()+"条件属性的code"+goodAttrValuePo.getGoodattr().getCode());
+			System.out.println("条件属性名称"+goodAttrValuePo.getGoodattr().getNames()+"条件属性的code"+goodAttrValuePo.getGoodattr().getCode());
 		};
 		return PageUtils.pageToMap(page);
 	}

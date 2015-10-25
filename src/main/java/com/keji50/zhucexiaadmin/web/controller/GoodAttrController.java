@@ -2,6 +2,8 @@ package com.keji50.zhucexiaadmin.web.controller;
 
 
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -17,6 +19,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.keji50.zhucexiaadmin.dao.po.GoodAttrPo;
 import com.keji50.zhucexiaadmin.service.GoodAttrService;
+import com.keji50.zhucexiaadmin.service.GoodService;
 import com.keji50.zhucexiaadmin.web.utils.PageUtils;
 import com.keji50.zhucexiaadmin.web.utils.WebUtils;
 
@@ -31,22 +34,38 @@ public class GoodAttrController {
 
 	@Resource(name = "goodAttrService")
 	private GoodAttrService goodAttrService;
-
+	
+	@Resource(name="GoodService")
+	private GoodService goodService;
+	
+	
 	@RequestMapping(value = "/index")
 	public String index(HttpServletRequest request) {
+		System.out.println("进入了toAddGood方法里面！");
+		/*查询出所有的商品*/
+		List<Map<String,Object>> list = goodService.selectGood();
+		System.out.println("商品总共："+list);
+		/*返回json格式的数据，values,fields,是在addGoodjsp页面上规定的,显示商品类型下拉框*/
+		String json="[{\'values\':\'0\',\'fields\':\'全部\',\'selected\':true},";
+		for(Map<String, Object> map:list){
+			json+="{\'values\':\'"+map.get("id").toString()+"\',"
+					+ "\'fields\':\'"+map.get("name").toString()+"\'},";	
+		}
+		json=json.substring(0, json.length()-1)+"]";
+		System.out.println("进入了sysGoodController的方法--toAddGood--"+json);
+		request.setAttribute("jsons", json);
 		return "goodattr/list";
 	}
 	@RequestMapping(value = "/add")
-	public String add(HttpServletRequest request) {
+	public String add(HttpServletRequest request) {		
 		return "goodattr/add";
 	}
 	@RequestMapping(value = "/getGoodAttrList", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> listByCondition(HttpServletRequest request) {
+	public Map<String, Object> listByConditione(HttpServletRequest request) {
 		String requestJson = WebUtils.getRequestPayload(request);
 		Map<String, Object> conditions = JSONObject.parseObject(requestJson);
-		Page<GoodAttrPo> page = goodAttrService.getCustomerByConditions(conditions);
-		System.out.println("执行查询"+page.size());
+		Page<HashMap<String, Object>> page = goodAttrService.getCustomerByConditionse(conditions);
 		return PageUtils.pageToMap(page);
 	}
 	
@@ -69,7 +88,7 @@ public class GoodAttrController {
 	@ResponseBody
 	public String addgoodattr(HttpServletRequest request,HttpServletResponse response,GoodAttrPo goodattr) {
 		System.out.println("进入新增controller");
-		System.out.println(goodattr.getCreateBy()+"---"+goodattr.getName()+"---"+goodattr.getSort()+"---"+goodattr.getRemark()+"---"+goodattr.getCode());
+		System.out.println(goodattr.getCreateBy()+"---"+goodattr.getNames()+"---"+goodattr.getSort()+"---"+goodattr.getRemark()+"---"+goodattr.getCode());
 		
 		int result=goodAttrService.addgoodattr(goodattr);
 		String mess="";
@@ -94,7 +113,7 @@ public class GoodAttrController {
 	@RequestMapping(value = "/updategoodattr")	
 	@ResponseBody
 	public String updategoodattr(HttpServletRequest request,GoodAttrPo goodattr) {
-		System.out.println("进入修改controller,名为："+goodattr.getName());
+		System.out.println("进入修改controller,名为："+goodattr.getNames());
 		int result=goodAttrService.updategoodattr(goodattr);
 		String mess="";
 		if(result>0){

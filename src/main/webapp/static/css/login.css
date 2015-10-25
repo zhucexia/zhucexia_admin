@@ -1,36 +1,49 @@
 @charset "utf-8";
-*{margin:0;padding:0;list-style-type:none;}
-a,img{border:0;}
-body{font:12px/180% Arial, Helvetica, sans-serif, "新宋体";}
+/* CSS Document */
+/***
+ * uimaker
+ * http://www.uimaker.com
+ * e-mail: admin@uimaker.com
+ */
+*{font-size:9pt;border:0;margin:0;padding:0;}
+body{font-family:'微软雅黑'; margin:0 auto;min-width:980px;}
+ul{display:block;margin:0;padding:0;list-style:none;}
+li{display:block;margin:0;padding:0;list-style: none;}
+img{border:0;}
+dl,dt,dd,span{margin:0;padding:0;display:block;}
+a,a:focus{text-decoration:none;color:#000;outline:none;blr:expression(this.onFocus=this.blur());}
+a:hover{color:#00a4ac;text-decoration:none;}
+table{border-collapse:collapse;border-spacing: 0;}
+cite{font-style:normal;}
+h2{font-weight:normal;}
 
-#userlogin_body{background:url(/images/user_all_bg.gif) #226cc5 repeat-x 50% top;margin:110px 0px 0px;font:12px/150% arial, "宋体" ,helvetica,sans-serif;text-decoration:none}
-#user_login{margin:0px auto;width:590px}
-#user_top,#user_main,#user_bottom{clear:both}
-#user_top li,#user_main li,#user_bottom li{float:left;}
-.user_top_r{}
-.user_top_c{}
-.user_top_l{}
-.user_main_r{}
-.user_main_c{}
-.user_main_l{}
-.user_bottom_r{}
-.user_bottom_c{color:#fff;line-height:117px;padding-top:20px;text-align:right}
-.user_bottom_c a{color:yellow;text-decoration:underline}
-.user_bottom_c a:hover{color:#c00}
-.user_bottom_l{}
-.user_top_r,.user_main_r,.user_bottom_r{float:left;width:180px}
-.user_main_c,.user_top_c,.user_bottom_c{float:left;width:280px}
-.user_top_l,.user_main_l,.user_bottom_l{float:left;width:129px}
-.user_top_r,.user_top_c,.user_top_l{height:116px}
-.user_main_r,.user_main_c,.user_main_l{height:139px}
-.user_bottom_r,.user_bottom_c,.user_bottom_l{height:117px}
-.user_main_r{line-height:139px}
-.user_main_box ul{clear:both}
-.user_main_box li{float:left;}
-.user_main_box .user_main_text{line-height:34px;height:34px}
-.user_main_box .user_main_input{line-height:34px;height:34px}
-.user_main_box .user_main_text{width:60px;color:#000}
-.user_main_box .user_main_input img{margin-bottom:-2px;margin-left:-25px}
-.txtusernamecssclass{border-top-width:0px;padding-left:25px;border-left-width:0px;border-bottom-width:0px;width:140px;line-height:20px;height:21px;border-right-width:0px}
-.txtpasswordcssclass{border-top-width:0px;padding-left:25px;border-left-width:0px;border-bottom-width:0px;width:140px;line-height:20px;height:21px;border-right-width:0px}
-.ibtnentercssclass{width:111px;height:122px;border:0;}
+/*cloud*/
+
+#mainBody {width:100%;height:100%;position:absolute;z-index:-1;}
+.cloud {position:absolute;top:0px;left:0px;width:100%;height:100%;background:url('images/cloud.png') no-repeat;z-index:1;opacity:0.5;}
+#cloud2 {z-index:2;}
+
+
+/*login*/
+.logintop{height:47px; position:absolute; top:0; background:url('images/loginbg1.png') repeat-x;z-index:100; width:100%;}
+.logintop span{color:#fff; line-height:47px; background:url('images/loginsj.png') no-repeat 21px 18px; text-indent:44px; color:#afc5d2; float:left;}
+.logintop ul{float:right; padding-right:30px;}
+.logintop ul li{float:left; margin-left:20px; line-height:47px;}
+.logintop ul li a{color:#afc5d2;}
+.logintop ul li a:hover{color:#fff;}
+.loginbody{background:url('images/loginbg3.png') no-repeat center center; width:100%; height:585px; overflow:hidden; position:absolute; top:47px;}
+.systemlogo{background:url('images/loginlogo.png') no-repeat center;width:100%; height:71px; margin-top:75px;}
+.loginbox{width:692px; height:336px; background:url('images/logininfo.png') no-repeat; margin-top:30px;}
+.loginbox ul{margin-top:88px; margin-left:285px;}
+.loginbox ul li{margin-bottom:25px;}
+.loginbox ul li label{color:#687f92; padding-left:25px;}
+.loginbox ul li label a{color:#687f92;}
+.loginbox ul li label a:hover{color:#3d96c9;}
+.loginbox ul li label input{margin-right:5px;}
+.loginuser{width:299px; height:48px; background:url('images/loginuser.png') no-repeat; border:none; line-height:48px; padding-left:44px; font-size:14px; font-weight:bold;}
+.loginpwd{width:299px; height:48px; background:url('images/loginpassword.png') no-repeat; border:none;line-height:48px; padding-left:44px; font-size:14px; color:#90a2bc;}
+.loginbtn{width:111px;height:35px; background:url('images/buttonbg.png') repeat-x; font-size:14px; font-weight:bold; color:#fff;cursor:pointer; line-height:35px;}
+.loginbm{height:50px; line-height:50px; text-align:center; background:url('images/loginbg2.png') repeat-x;position:absolute; bottom:0; width:100%; color:#0b3a58;}
+.loginbm a{font-weight:bold;color:#0b3a58;}
+.loginbm a:hover{color:#fff;}
+

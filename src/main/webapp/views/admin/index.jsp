@@ -20,7 +20,8 @@
 	type="text/css" />
 <link href="${root }/static/css/easyui.css" rel="stylesheet"
 	type="text/css" />
-
+<link href="${root }/static/css/tree.css" rel="stylesheet"
+	type="text/css" />
 <script type="text/javascript" src="${root }/static/js/common.js"></script>
 <script type="text/javascript"
 	src="${root }/static/js/jquery-1.7.2.min.js"></script>
@@ -31,50 +32,120 @@
 <script type="text/javascript"
 	src="${root }/static/js/jquery-openwindow.js"></script>
 <script type="text/javascript" src="${root }/static/js/dataDic.js"></script>
-
+<script type="text/javascript">
+$(function(){	
+	//导航切换
+	$(".menuson li").click(function(){
+		$(".menuson li.active").removeClass("active")
+		$(this).addClass("active");
+	});
+	
+	$('.title').click(function(){
+		var $ul = $(this).next('ul');
+		$('dd').find('ul').slideUp();
+		if($ul.is(':visible')){
+			$(this).next('ul').slideUp();
+		}else{
+			$(this).next('ul').slideDown();
+		}
+	});
+	 function aa(){
+			alert("bb");
+			$("#centerpanel").attr("src","goodattr/index");	
+		}
+})	
+</script>
 </head>
 <body class="easyui-layout">
-	<div data-options="region:'north',border:false" style="height:80px;background:#303030">	
+	<div data-options="region:'north',border:false" style="height:80px;">	
 	    <iframe src="${root }/views/admin/top.jsp" width="100%" height="80px" frameborder="no" border="0" scrolling="no"></iframe>
    </div>
 
+	<div data-options="region:'west',split:true,title:'  管 理  中 心',iconCls:'icon-manage'" style="width:15%;">
+	<dl class="leftmenu">
+		<dd>
+		    <div class="title">
+		    <span><img src="${root }/static/images/leftico01.png" /></span>系统信息管理
+		    </div>
+		    <ul class="menuson">
+		    	<c:forEach var="tree1" items="${srp1 }" varStatus="status">
+			    	<c:if test="${status.index==0 }">
+			       		 <li  class="active"><cite></cite><a href="javascript:void(0)" onclick="aa('${tree1.sysPowerPo.href}')">${tree1.sysPowerPo.name }</a><i></i></li>
+			       	</c:if>
+			       	<c:if test="${status.index !=0 }">
+			       		<li><cite></cite><a href="javascript:void(0)" onclick="aa('${tree1.sysPowerPo.href}')">${tree1.sysPowerPo.name }</a><i></i></li>
+			       	</c:if>
+		        </c:forEach>
+		    </ul>     
+	    </dd> 
+	    
+	    
+	    <dd>
+	    	<div class="title">
+	    	<span><img src="${root }/static/images/leftico02.png" /></span>客户及订单信息管理
+	    	</div>
+	    <ul class="menuson">
+	        <c:forEach var="tree2" items="${srp2 }" varStatus="status">
+		       <c:if test="${status.index==0 }">
+			       		 <li><cite></cite><a href="javascript:void(0)" onclick="aa('${tree2.sysPowerPo.href}')">${tree2.sysPowerPo.name }</a><i></i></li>
+			       	</c:if>
+			       	<c:if test="${status.index !=0 }">
+			       		<li><cite></cite><a href="javascript:void(0)" onclick="aa('${tree2.sysPowerPo.href}')">${tree2.sysPowerPo.name }</a><i></i></li>
+			       	</c:if>
+		    </c:forEach>
+	    </ul>    
+	    </dd>  
+	    
+	    
+	    <dd>
+	    	<div class="title">
+	    	<span><img src="${root }/static/images/leftico03.png" /></span>商品信息管理
+	    	</div>
+	    <ul class="menuson">
+	        <c:forEach var="tree3" items="${srp3 }" varStatus="status">
+		       <c:if test="${status.index==0 }">
+			       		 <li><cite></cite><a href="javascript:void(0)" onclick="aa('${tree3.sysPowerPo.href}')">${tree3.sysPowerPo.name }</a><i></i></li>
+			       	</c:if>
+			       	<c:if test="${status.index !=0}">
+			       		<li><cite></cite><a href="javascript:void(0)" onclick="aa('${tree3.sysPowerPo.href}')">${tree3.sysPowerPo.name }</a><i></i></li>
+			       	</c:if>
+		    </c:forEach>
+	    </ul>    
+	    </dd>  
+	    
+	     <dd>
+	    	<div class="title">
+	    	<span><img src="${root }/static/images/leftico04.png" /></span>其他管理
+	    	</div>
+	    <ul class="menuson">
+	     <c:forEach var="tree4" items="${srp4 }" varStatus="status">
+		       <c:if test="${status.index==0 }">
+			       		 <li><cite></cite><a href="javascript:void(0)" onclick="aa('${tree4.sysPowerPo.href}')">${tree4.sysPowerPo.name }</a><i></i></li>
+			       	</c:if>
+			       	<c:if test="${status.index !=0 }">
+			       		<li><cite></cite><a href="javascript:void(0)" onclick="aa('${tree4.sysPowerPo.href}')">${tree4.sysPowerPo.name }</a><i></i></li>
+			       	</c:if>
+		    </c:forEach> 
+	    </ul>    
+	    </dd>  
+    </dl> 
 
-	<div data-options="region:'west',split:true,title:'管理模块'" style="width:15%;padding:10px;">
-		<ul id="tt" class="easyui-tree" data-options="url:'${root }/sysRolePower/getRolePower',method:'post',animate:true"></ul>
 	</div>
-	<script type="text/javascript">
-		$(function(){
-			$("#tt").tree({
-						onClick:function(node){
-							/*获取节点路径*/
-							var paths=node.attributes.url;
-							alert(paths);
-							/*方法一使用iframe
-							$("#centerpanel").attr("src",paths);
-							还需要在下面添加一个iframe
-							<iframe id="centerpanel"
-							width="100%" height="100%" scrolling="no"></iframe>
-							*/
-							/*方法二：直接给layout中间的分隔区一个id，然后使用load方法加载页面*/
-							//$("#center-main").load(paths);
-							$("#centerpanel").attr("src",paths);
-						}	
-			})
-				
-			}
-			
-		)
-	</script>
-	<div data-options="region:'east',split:true,collapsed:true,title:'East'" style="width:100px;padding:10px;">
+	
+	<!-- <div data-options="region:'east',split:true,collapsed:true,title:'East'" style="width:100px;padding:10px;">
 		east region
-	</div>
-	<div data-options="region:'south',border:false" style="height:40px;background:#303030;padding:10px;">
+	</div> -->
+	<!-- <div data-options="region:'south',border:false" style="height:50px;background:#3B95C8;padding:10px;">
 		south region
-	</div>
-	<div data-options="region:'center',title:'功能模块'" id="center-main">
-		 <iframe id="centerpanel" width="100%" height="100%" frameborder="no" border="0"  scrolling="no"></iframe>
+	</div> -->
+	<div data-options="region:'center',title:'功能模块',iconCls:'icon-database'" id="center-main" name="center-main">
+		 <iframe id="centerpanel" width="100%" height="100%" frameborder="no" border="0" name="centerpanel" scrolling="no"></iframe>
   	</div>
 </body>
-
+<script type="text/javascript">
+		function aa(dd){
+			$("#centerpanel").attr("src",dd);		
+		 }
+	</script> 
 
 </html>

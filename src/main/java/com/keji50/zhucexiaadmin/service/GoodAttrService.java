@@ -1,5 +1,6 @@
 package com.keji50.zhucexiaadmin.service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -48,6 +49,20 @@ public class GoodAttrService {
 		// TODO Auto-generated method stub
 		int result=goodAttrPoMapper.updategoodattr(goodattr);
 		return result;
+	}
+
+	public Page<HashMap<String, Object>> getCustomerByConditionse(
+		Map<String, Object> conditions) {
+		// TODO Auto-generated method stub
+		PageUtils.initPageInfo(conditions);
+		
+		// 分页插件
+        PageHelper.startPage((Integer) conditions.get(PageUtils.PAGE_NUM), (Integer) conditions.get(PageUtils.PAGE_SIZE));
+        // 根据查询条件查询客户信息
+        System.out.println("进入goodattrservice");
+        Page<HashMap<String, Object>> page = goodAttrPoMapper.selectByConditionse(conditions);
+        return page;
+		//return null;
 	}
 
 

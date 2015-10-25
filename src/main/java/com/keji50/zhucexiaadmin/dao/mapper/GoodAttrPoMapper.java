@@ -1,5 +1,6 @@
 package com.keji50.zhucexiaadmin.dao.mapper;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.github.pagehelper.Page;
@@ -17,4 +18,6 @@ public interface GoodAttrPoMapper {
 	GoodAttrPo getgoodattr(int id);
 
 	int updategoodattr(GoodAttrPo goodattr);
+
+	Page<HashMap<String, Object>> selectByConditionse(Map<String, Object> conditions);
 }

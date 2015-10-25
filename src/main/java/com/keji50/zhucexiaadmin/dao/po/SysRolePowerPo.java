@@ -21,5 +21,7 @@ public class SysRolePowerPo extends BasePo {
 	private String power_update;
 	private SysRolePo sysRolePo;
 	private SysPowerPo sysPowerPo;
+	
+
 
 }

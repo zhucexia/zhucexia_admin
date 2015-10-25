@@ -37,14 +37,13 @@
 <% SysUserPo sysUser=(SysUserPo)request.getSession().getAttribute("sysUserpo"); %>
 <script type="text/javascript">
 		/**退出系统**/
-		function logout(){
-			
-			   
+		function logout(){ 
 			if(confirm("您确定要退出本系统吗？")){
-
 				top.location.href="${root}/sysUser/toLogin";
 			} 
 		}
+		//运动时分秒
+	    var timer = setInterval(getDate01, 1000);
 		
 		/**获得当前日期**/
 		function  getDate01(){
@@ -59,37 +58,36 @@
 				myMonth = "0" + myMonth;
 			}
 			document.getElementById("yue_fen").innerHTML =  myYear + "." + myMonth;
-			document.getElementById("day_day").innerHTML =  myYear + "." + myMonth + "." + myDay;
-		}
-		
+			document.getElementById("day_day").innerHTML =  myYear + "-" + myMonth + "-" + myDay+" "+myhour+":"+mymin+":"+mys;
+		}		
 	</script>
-<body onLoad="getDate01()" id="bos">
+<body onLoad="getDate01()" id="bos" style="background:url(${root}/static/images/topbg.gif) repeat-x;">
     <div id="top">
 		<div id="top_logo">
-			<img alt="logo" src="${root }/static/images/logo.jpg" width="274" height="49" style="vertical-align:middle;">
+			<img alt="logo" src="${root }/static/images/logo.png" style="vertical-align:middle;">
 		</div>
 		<div id="top_links">
 			<div id="top_op">
 				<ul>
 					<li>
-						<img alt="当前用户" src="${root }/static/images/user.jpg">：
+						<img alt="当前用户" src="${root }/static/images/admin.png" width="45" height="45">：
 						
-						<span ><%=sysUser.getUsername() %></span>
+						<span style="font-size:15px;font-weight:400;color:#E4E4E4"><%=sysUser.getUsername() %></span>
 					</li>
 					<li>
-						<img alt="事务月份" src="${root }/static/images/month.jpg">：
-						<span id="yue_fen"></span>
+						<img alt="事务月份" src="${root }/static/images/rili.png" width="45" height="45">：
+						<span id="yue_fen" style="font-size:15px;font-weight:400;color:#E4E4E4"></span>
 					</li>
 					<li>
-						<img alt="今天是" src="${root }/static/images/date.jpg">：
-						<span id="day_day"></span>
+						<img alt="今天是" src="${root }/static/images/timer5.png" width="45" height="45">：
+						<span id="day_day" style="font-size:15px;font-weight:400;color:#E4E4E4"></span>
 					</li>
 				</ul> 
 			</div>
 			<div id="top_close">
 				<%-- <form action="${root }/sysUser/toLogin"> --%>
 					 <a href="javascript:void(0);" onClick="logout();" target="_parent">
-						<img alt="退出系统" title="退出系统" src="${root }/static/images/close.jpg" style="position: relative; top: 20px; left: 25px;">
+						<img alt="退出系统" title="退出系统" src="${root }/static/images/esc1.png" width="90" height="90" style="position: relative;">
 					</a> 
 					<%-- <input type="image" src="${root }/static/images/close.jpg" id="esc" style="position: relative; top: 20px; left: 25px;"/> --%>
 				<!-- </form> -->

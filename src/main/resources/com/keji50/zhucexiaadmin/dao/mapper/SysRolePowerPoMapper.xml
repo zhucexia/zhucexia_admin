@@ -27,6 +27,7 @@
 		<association property="sysPowerPo" javaType="com.keji50.zhucexiaadmin.dao.po.SysPowerPo">
 		 	<id column="id" property="id" jdbcType="DECIMAL" />
 			<result column="name" property="name" jdbcType="VARCHAR" />
+			<result column="treetype" property="treeType" jdbcType="DECIMAL" />
 			<result column="href" property="href" jdbcType="VARCHAR" />
 		</association>
 		 
@@ -35,7 +36,14 @@
 	</sql>
 	
 	<select id="selectRolePower" resultMap="BaseResultMap" parameterType="java.lang.String">
-		select a.*,c.name,c.href from sys_role_power a ,sys_power c 
+		select a.*,c.name,c.href,c.treetype from sys_role_power a ,sys_power c 
 		where 1=1 and  a.power_id=c.id and a.role_id=#{role_id}
+	</select>
+		<!-- 左连接不同权限对应了的角色 -->
+	<select id="getPowers" resultType="java.util.HashMap" parameterType="java.lang.String">
+		<!-- select a.*,c.name,c.id from sys_role_power a right outer join sys_power c 
+		on 1=1 and  a.power_id=c.id and a.role_id=#{role_id} -->
+		select a.id,a.name,c.role_id,c.power_id from sys_power a left outer join sys_role_power c 
+		on a.id=c.power_id and c.role_id=#{role_id}
 	</select>
 </mapper>

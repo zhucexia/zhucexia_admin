@@ -17,30 +17,30 @@ html,body {
 	left: 0;
 	right: 0;
 	height: 80px;
-	background-color:#303030;
+	background-color:#056DAF;
 }
 
 #top_logo {
-	width: 300px;
+	width: 400px;
 	float: left;
 	vertical-align: middle;
-	height: 65px;
-	line-height: 65px;
+	height: 80px;
+	line-height: 80px;
 	padding: 1px 1px 1px 40px;
+	background: url('images/topleft.jpg') no-repeat;
 }
 
 #top_links {
-	width: 480px;
-	height: 65px;
+	width: 600px;
+	height:80px;
 	float: right;
-	line-height: 65px;
+	line-height: 80px;
 	color: #ADADAD;
-	line-height: 65px;
 	position: relative;
 }
 
 #top_op {
-	width: 400px;
+	width: 600px;
 }
 
 #top_op ul {
@@ -50,10 +50,11 @@ html,body {
 #top_op ul li {
 	display: inline-block;
 	margin-right: 20px;
+	height:80px;
 }
 
 #top_op ul li img {
-	vertical-align: text-top;
+	vertical-align:middle;
 }
 
 #top_links a:link,#nav_links a:visited,#nav_links a:hover,#nav_links a:active
@@ -76,6 +77,7 @@ html,body {
 	top: 0px;
 	border-left: 1px solid #171717;
 	vertical-align: text-top;
+	float:right;
 }
 
 #side {
