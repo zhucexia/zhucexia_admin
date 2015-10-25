@@ -34,12 +34,6 @@
 							<td><label>备注:</label></td>
 							<td><input id="remark" type="text" name="remark"/></td>
 						</tr>
-						<tr>
-							<!-- <td><label>创建时间:</label></td>
-							<td><input id="createTime" type="text" name="createTime"/></td> -->
-							<td><label>创建人:</label></td>
-							<td><input id="createBy" type="text" name="createBy"/></td>
-						</tr>
 					</tbody>
 					<tfoot>
 						<tr>
@@ -154,21 +148,20 @@
 			    			    	return $(this).form('validate');
 			    			    },    
 			    			    success:function(data){ 
-			    			    	var obj = jQuery.parseJSON(data);
-			    					if(obj=="新增成功"){
+			    					if(data==0){
 			    						queryDg();
 			    						$("#addWin").window("close");
-			    						$.messager.alert("操作提示", obj,"info");
-			    						 
+										alert("添加成功！");			    						 
+			    					}else if(data==1){
+			    						alert("发现异常，请联系系统管理员！");
+			    					}else{
+			    						alert("添加失败，该类型已存在！");
 			    					}
-			    			       
 			    			    }    
 			    			});  
 			            }  
 			           
 			        });  	
-			
-
 			}
 		</script>
 </body>

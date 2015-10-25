@@ -9,7 +9,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html class="htmlOverFlowHidden" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>客户查询</title>
+<title>权限分配</title>
 <link href="${root }/static/css/css.css" rel="stylesheet"
 	type="text/css" />
 <link href="${root }/static/css/style.css" rel="stylesheet"
@@ -24,17 +24,17 @@
 <script type="text/javascript"
 	src="${root }/static/js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="${root }/static/js/jquery-ui.js"></script>
-
-<script type="text/javascript"
-	src="${root }/static/js/jquery.easyui.min.js"></script>
 <script type="text/javascript"
 	src="${root }/static/js/jquery-openwindow.js"></script>
+<script type="text/javascript" src="${root }/static/js/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="${root }/static/js/dataDic.js"></script>
+<script type="text/javascript"
+	src="${root }/static/ckeditor/ckeditor.js"></script>
 </head>
 <body id="depositBody" class="ContentBody">
 	<div class="CContent">
 		<div id="title" class="tablestyle_title">
-			<label>客户查询</label>
+			<label>权限分配</label>
 		</div>
 		<div class="CPanel">
 			<fieldset>
@@ -42,19 +42,8 @@
 				<table style="width: 100%;" class="CContent">
 					<tbody>
 						<tr>
-							<td><label>绑定手机号:</label></td>
-							<td>
-								<select id="isPinlessMobile"  name="isPinlessMobile" class="text" class="text" style="width:150px">
-										<option value="0" selected="selected">已绑定</option>
-										<option value="1">未绑定</option>
-								</select>
-							</td>
-							<td><label>用户名:</label></td>
-							<td><input id="username" type="text" /></td>
-						</tr>
-						<tr>
-							<td><label>手机号:</label></td>
-							<td><input id="phoneNumber" type="text" /></td>
+							<td><label>角色编号:</label></td>
+							<td><input id="role_id" type="test"/></td>
 						</tr>
 					</tbody>
 					<tfoot>
@@ -68,12 +57,13 @@
 				</table>
 			</fieldset>
 			<div class="queryDataGrid">
-				<div style="width: 100%;" id="dg"></div>
+				<div style="width: 1300px;" id="dg"></div>
 			</div>
-			<input id="changeSuccess" value="false" type="hidden" name="${mess }"/>
+			<input id="changeSuccess" value="false" type="hidden" name="flags"/>
 		</div>
 		<div id="addWin"></div>
 		<div id="editWin"></div>
+		<div id="manageWin"></div>		
 	</div>
 	<script language="javascript">
 		$(function() {
@@ -81,7 +71,7 @@
 				pageObj.varPageNum = 1;
 				queryDg();
 			});
-			
+
 			$("#clearBtn").click(function() {
 				$("input[type!=button]").val("");
 			});
@@ -92,40 +82,41 @@
 			//查询执行
 			queryDg = function() {
 				var params = {
-					isPinlessMobile : $("#isPinlessMobile").val(),
-					username : $("#username").val(),
-					phoneNumber : $("#phoneNumber").val(),
+					goodCode : $("#goodCode").val(),
+					username : $("#goodAttr").val(),
+					
 					pageNum : pageObj.varPageNum,
 					pageSize : pageObj.varPageSize
 				};
-				loadDg('${root}/customer/getCustomerList', params);
+				loadDg('${root}/goodprice/getGoodPriceList', params);
 			};
 
 			addWhite = function() {
 				$("#changeSuccess").val("false");
 				$("#addWin").window({
-					title:'客 户 新 增',
 					width : 800,
-					height : 250,
+					height : 600,
 					method : 'post',
 					cache : false,
-					modal : false,
+					modal : true,
 					//closeAnimation : 'fade',
-					//closable : false,
+					closable : true,
 					maximizable : false,
 					minimizable : false,
-					href : "${root}/customer/add",
-					/* onClose : function() {	
-						queryDg();
-					}, */
+					href : "${root}/goodprice/toAddGoodPrice",
+					onClose: function() {	
+								queryDg();
+					
+					}
 				});
 			};
 
 			editWhite = function() {
+				alert()
 				var checkedItems = $('#dg').datagrid('getChecked');
 				var id = '';
 				if (!checkedItems || checkedItems.length == 0) {
-					$.messager.alert("温馨提示", "未选中,请选择需要修改的白名单客户", "info");
+					alert("未选中任何值,请选择需要修改的白名单客户");
 					return;
 				} else {
 					$.each(checkedItems, function(index, item) {
@@ -134,21 +125,20 @@
 				}
 				$("#changeSuccess").val("false");
 				$("#editWin").window({
-					title:'客 户 编 辑',
-					width : 800,
-					height : 200,
+					width : 820,
+					height : 300,
 					method : 'post',
-					//closeAnimation : 'fade',
+					closeAnimation : 'fade',
 					cache : false,
 					//closable : false,
 					maximizable : false,
 					minimizable : false,
-					href : "${root}/customer/getcustomer?id="+id,
-					/* onClose : function() {
-						//if ($("#changeSuccess").val() == "success") {
+					href : "${root}/goodprice/toUpdatePrice?id=" + id,
+					onClose : function() {
+						if ($("#changeSuccess").val() == "success") {
 							queryDg();
-						//}
-					} */
+						}
+					}
 				});
 
 			};
@@ -156,47 +146,33 @@
 				var id = '';
 				var checkedItems = $('#dg').datagrid('getChecked');
 				if (!checkedItems || checkedItems.length == 0) {
-					$.messager.alert("温馨提示", "未选中,请选择需要删除的白名单客户", "info");
+					alert("未选中任何值,请选择需要删除的白名单客户");
 					return;
 				} else {
-					// $.messager.defaults = { ok: "是", cancel: "否" };  
-					   
-				        $.messager.confirm("操作提示", "您确定要执行删除吗？", function (data) {  
-				            if (data) {  
-				            	$.each(checkedItems, function(index, item) {
-									id = item.id;
-									
-								});
-								$.ajax({
-									url : "${root}/customer/deletecustomer",
-									type : 'POST',
-									data : {
-										"sno" : id
-									},
-									success : function(data) {
-										$.messager.alert("温馨提示",data.message , "info");
-										queryDg();
-									},
-									error:function(data) {
-										$.messager.alert("温馨提示",data.message , "info");
-										
-									}
-								});
-				            }  
-				           
-				        });  
-					
+					$.each(checkedItems, function(index, item) {
+						id = item.id;
+					});
 				}
-				
+				$.ajax({
+					url : "${root}/goodprice/delete",
+					type : 'POST',
+					data : {
+						"id" : id
+					},
+					success : function(msg){
+						if(msg){
+							queryDg()
+						}else{
+							alert("删除失败！");
+						}
+					}
+				});
 
 			};
+			
 
 			var toolbar = [ {
-				text : '增加',
-				iconCls : 'icon-add',
-				handler : addWhite
-			}, {
-				text : '修改',
+				text : '设置权限',
 				iconCls : 'icon-edit',
 				handler : editWhite
 			}, '-', {
@@ -243,108 +219,61 @@
 					   {
 						field : 'ck',
 						checkbox : 'true'
-					}, {
-						field : 'sno',
+					},{
+						field : 'id',
 						title : '编号',
 						hidden : true
 					},{
+						field : 'role_id',
+						title : '角色编号',
+						hidden : true
+					},{
+						field : 'power_id',
+						title : '权限编号',
+						hidden : true
+					},{
 						sortable : true,
-						field : 'username',
-						title : '用户名',
+						field : 'role_name',
+						title : '角色名称',
 						width : min2MidWith,
 						align : 'center'
-					}, {
-						field : 'phoneNumber',
-						title : '手机号',
-						width : min2MidWith
-					}, {
-						field : 'email',
-						title : '邮箱',
-						width : middleWidth
-					}, {
-						field : 'createBy',
-						title : '创建人',
-						width : min2MidWith
-					}, {
+					},{
 						sortable : true,
-						field : 'createTime',
-						title : '创建日期',
+						field : 'power_name',
+						title : '权限名称',
 						width : min2MidWith,
-						formatter: function (value, row, index) {
-							var date = new Date(value);
-							var year = date.getFullYear().toString();
-							var month = (date.getMonth() + 1);
-							var day = date.getDate().toString();
-							var hour = date.getHours().toString();
-							var minutes = date.getMinutes().toString();
-							var seconds = date.getSeconds().toString();
-							if (month < 10) {
-								month = "0" + month;
-							}
-							if (day < 10) {
-								day = "0" + day;
-							}
-							if (hour < 10) {
-								 hour = "0" + hour;
-							}
-							if (minutes < 10) {
-								minutes = "0" + minutes;
-							}
-							if (seconds < 10) {
-								seconds = "0" + seconds;
-							 }
-							return year + "/" + month + "/" + day + " " + hour + ":" + minutes + ":" + seconds;
-							}
-					}, {
-						field : 'updateBy',
-						title : '更新人',
+						align : 'center'
+					},{						
+						field : 'power_insert',
+						title : '添加权限',
 						width : min2MidWith
-					}, {
-						field : 'updateTime',
-						title : '更新日期',
-						width : min2MidWith,
-						formatter: function (value, row, index) {
-							var date = new Date(value);
-							var year = date.getFullYear().toString();
-							var month = (date.getMonth() + 1);
-							var day = date.getDate().toString();
-							var hour = date.getHours().toString();
-							var minutes = date.getMinutes().toString();
-							var seconds = date.getSeconds().toString();
-							if (month < 10) {
-								month = "0" + month;
-							}
-							if (day < 10) {
-								day = "0" + day;
-							}
-							if (hour < 10) {
-								 hour = "0" + hour;
-							}
-							if (minutes < 10) {
-								minutes = "0" + minutes;
-							}
-							if (seconds < 10) {
-								seconds = "0" + seconds;
-							 }
-							return year + "/" + month + "/" + day + " " + hour + ":" + minutes + ":" + seconds;
-							}
-					}] ]
+					},{
+						field : 'power_delete',
+						title : '删除权限',
+						width : min2MidWith
+					},{
+						field : 'power_update',
+						title : '修改权限',
+						width : min2MidWith
+					},{
+						field : 'power_select',
+						title : '查看权限',
+						width : min2MidWith
+					}]]
 				});
-
 				//设置分页控件
 				setDgPagination();
 			}
-
 			//设置分页控件
 			function setDgPagination() {
 				var p = $('#dg').datagrid('getPager');
 				dgPagination(p, pageObj, queryDg);
 			}
-
 			//加载查询结果
 			function loadDg(postUrl, params) {
 				ajaxLoadDg(postUrl, params, refreshDg, $("#dg"));
 			}
+
 			//加载空查询结果数据
 			refreshDg();
 		});

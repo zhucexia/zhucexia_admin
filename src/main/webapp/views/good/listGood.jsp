@@ -30,11 +30,15 @@
 <script type="text/javascript"
 	src="${root }/static/js/jquery-openwindow.js"></script>
 <script type="text/javascript" src="${root }/static/js/dataDic.js"></script>
+<%-- <script type="text/javascript"
+	src="${root }/static/tinymce/tinymce.min.js"></script>  --%> 
+ <script type="text/javascript"
+	src="${root }/static/ckeditor/ckeditor.js"></script>
 </head>
 <body id="depositBody" class="ContentBody">
 	<div class="CContent">
 		<div id="title" class="tablestyle_title">
-			<label>订单查询</label>
+			<label>客户查询</label>
 		</div>
 		<div class="CPanel">
 			<fieldset>
@@ -42,21 +46,19 @@
 				<table style="width: 100%;" class="CContent">
 					<tbody>
 						<tr>
-							<td><label>订单状态:</label></td>
+							<td><label>绑定手机号:</label></td>
 							<td>
-								<select id="orderstate"  name="orderstate" class="text" style="width:150px">
-										<option value="0" selected="selected">未确认</option>
-										<option value="1">已确认</option>
-										<option value="2">交易成功</option>
-										<option value="9">交易取消</option>
+								<select id="isPinlessMobile"  name="isPinlessMobile" class="text" class="text" style="width:150px">
+										<option value="0" selected="selected">已绑定</option>
+										<option value="1">未绑定</option>
 								</select>
 							</td>
-							<td><label>订单号:</label></td>
-							<td><input id="id" type="text" name="id"/></td>
+							<td><label>用户名:</label></td>
+							<td><input id="username" type="text" /></td>
 						</tr>
 						<tr>
 							<td><label>手机号:</label></td>
-							<td><input id="mobile" type="text" name="mobile"/></td>
+							<td><input id="phoneNumber" type="text" /></td>
 						</tr>
 					</tbody>
 					<tfoot>
@@ -64,8 +66,7 @@
 							<td colspan="4" align="center"><input id="queryBtn"
 								type="button" class="right-button08" style="margin-left: 20px"
 								value="查询"></input> <input id="clearBtn" type="button"
-								class="right-button08" style="margin-left: 20px" value="清除"></input>
-							</td>
+								class="right-button08" style="margin-left: 20px" value="清除"></input></td>
 						</tr>
 					</tfoot>
 				</table>
@@ -73,14 +74,11 @@
 			<div class="queryDataGrid">
 				<div style="width: 1300px;" id="dg"></div>
 			</div>
-			<input id="changeSuccess" value="false" type="hidden" />
-			<input id="selectSuccess" value="false" type="hidden" />
+			<input id="changeSuccess" value="false" type="hidden" name="flags"/>
 		</div>
-		<!-- <div id="addWin"></div> -->
+		<div id="addWin"></div>
 		<div id="editWin"></div>
-	</div>
-	<div id="detailWin">
-	<div style="width:998px;" id="detail" ></div>
+		<div id="manageWin"></div>		
 	</div>
 	<script language="javascript">
 		$(function() {
@@ -88,7 +86,7 @@
 				pageObj.varPageNum = 1;
 				queryDg();
 			});
-			
+
 			$("#clearBtn").click(function() {
 				$("input[type!=button]").val("");
 			});
@@ -99,20 +97,40 @@
 			//查询执行
 			queryDg = function() {
 				var params = {
-					orderstate : $("#orderstate").val(),
-					id : $("#id").val(),
-					mobile : $("#mobile").val(),
+					isPinlessMobile : $("#isPinlessMobile").val(),
+					username : $("#username").val(),
+					phoneNumber : $("#phoneNumber").val(),
 					pageNum : pageObj.varPageNum,
 					pageSize : pageObj.varPageSize
 				};
-				loadDg('${root}/salaorder/getorderList', params);
+				loadDg('${root}/good/getGoodList', params);
+			};
+
+			addWhite = function() {
+				$("#changeSuccess").val("false");
+				$("#addWin").window({
+					width : 800,
+					height : 600,
+					method : 'post',
+					cache : false,
+					modal : true,
+					//closeAnimation : 'fade',
+					closable : true,
+					maximizable : false,
+					minimizable : false,
+					href : "${root}/good/toAddGood",
+					onClose: function() {	
+								queryDg();
+					
+					}
+				});
 			};
 
 			editWhite = function() {
 				var checkedItems = $('#dg').datagrid('getChecked');
 				var id = '';
 				if (!checkedItems || checkedItems.length == 0) {
-					$.messager.alert("温馨提示", "未选中,请选择需要修改的白名单客户", "info");
+					alert("未选中任何值,请选择需要修改的白名单客户");
 					return;
 				} else {
 					$.each(checkedItems, function(index, item) {
@@ -121,21 +139,20 @@
 				}
 				$("#changeSuccess").val("false");
 				$("#editWin").window({
-					title:'编  辑',
-					width : 800,
-					height : 200,
+					width : 820,
+					height : 300,
 					method : 'post',
-					//closeAnimation : 'fade',
+					closeAnimation : 'fade',
 					cache : false,
 					//closable : false,
 					maximizable : false,
 					minimizable : false,
-					href : "${root}/salaorder/getorder?id="+id,
-					/* onClose : function() {
-						//if ($("#changeSuccess").val() == "success") {
+					href : "${root}/good/toUpdateGood?id=" + id,
+					onClose : function() {
+						if ($("#changeSuccess").val() == "success") {
 							queryDg();
-						//}
-					} */
+						}
+					}
 				});
 
 			};
@@ -143,163 +160,60 @@
 				var id = '';
 				var checkedItems = $('#dg').datagrid('getChecked');
 				if (!checkedItems || checkedItems.length == 0) {
-					$.messager.alert("温馨提示", "未选中,请选择需要删除的白名单客户", "info");
-					return;
-				} else {
-					// $.messager.defaults = { ok: "是", cancel: "否" };  
-					   
-				        $.messager.confirm("操作提示", "您确定要执行删除吗？", function (data) {  
-				            if (data) {  
-				            	$.each(checkedItems, function(index, item) {
-									id = item.id;
-									
-								});
-								$.ajax({
-									url : "${root}/salaorder/deletesalaorder",
-									type : 'POST',
-									data : {
-										"sno" : id
-									},
-									success : function(data) {
-										$.messager.alert("温馨提示",data.message , "info");
-										queryDg();
-									}
-								});
-				            }  
-				           
-				        });  
-					
-				}
-				
-
-			};
-			
-			detailWhite = function(){
-				var checkedItems = $('#dg').datagrid('getChecked');
-				var id = '';
-				if (!checkedItems || checkedItems.length == 0) {
-					$.messager.alert("温馨提示", "未选中,请选择需要修改的白名单客户", "info");
+					alert("未选中任何值,请选择需要删除的白名单客户");
 					return;
 				} else {
 					$.each(checkedItems, function(index, item) {
 						id = item.id;
 					});
-					if(('#detailWin').panel==null){
-						
-					$('#detailWin').panel({
-						title:'订单详情',
-						width : 1000,
-						height : 180,
-						closable : true,
-						cache : false
-						/* tools : [{
-							text : '关闭',
-							iconCls : 'icon-close',
-							handler : function(){
-								$('#detailWin').panel('close');
-							}
-						}] */
-					}); 
-					}
 				}
 				$.ajax({
-					url:"${root}/saleorderdetail/getorderdetail",
-					type:'POST',
-					data:{"id":id},
-					dataType:"json",
-					success:function(map){
-						$('#detail').datagrid({
-							data:[{
-								order_id : map.order_id,
-								good_id : map.good_id,
-								good_name : map.good_name,
-								good_price_id : map.good_price_id,
-								good_price : map.good_price,
-								good_num : map.good_num,
-								total_price : map.total_price
-							}]
-						});
+					url : "${root}/product/delPro",
+					type : 'POST',
+					data : {
+						"id" : id
+					},
+					success : queryDg()
+				});
+
+			};
+			manageWhite = function() {
+				var checkedItems = $('#dg').datagrid('getChecked');
+				var id = '';
+				if (!checkedItems || checkedItems.length == 0) {
+					alert("未选中任何值,请选择需要修改的白名单客户");
+					return;
+				} else {
+					$.each(checkedItems, function(index, item) {
+						id = item.id;
+						good_type_name=item.good_type_name;
+					});
+				}
+				$("#changeSuccess").val("false");
+				$("#manageWin").window({
+					title:"产品关联",
+					width : 400,
+					height : 300,
+					method : 'post',
+					closeAnimation : 'fade',
+					cache : false,
+					//closable : false,
+					maximizable : false,
+					minimizable : false,
+					href : "${root}/goodRelation/toManageGood?id=" + id+"&good_type_name="+good_type_name,
+					onClose : function() {
+						if ($("#changeSuccess").val() == "success") {
+							queryDg();
+						}
 					}
 				});
-				var middleWidth = "180px";
-				var min2MidWith = "120px";
-				var minWidth = "100px";
-				$("#detail").datagrid({
- 						/* data : loadData, */	
-						rownumbers : true,
-						fit : true,
-						pagination : true,
-						singleSelect : true,
-						pageList : [ 50, 20 ],
-						pageNumber : pageObj.varPageNum,
-						pageSize : pageObj.varPageSize,
-						onLoadSuccess : function(data) {
-							if (data.total > 0) {
-								return;
-							}
-								$('#detail').datagrid('insertRow', {
-									row : {
-										id : '没有查到数据',
-									}
-								});
-						},
-						autoRowHeight : false,//取消自动行高
-						remoteSort : false,
-						multiSort : true,
-						cache : false,
-						columns : [ [ 
-						{
-							field : 'sno',
-							title : '编号',
-							hidden : true
-						},
-						{
-							//sortable : true,
-							field : 'order_id',
-							title : '订单编号',
-							width : min2MidWith,
-							align : 'center'
-						},{
-							
-							field : 'good_id',
-							title : '商品编号',
-							width : min2MidWith,
-							align : 'center'
-						}, {
-							field : 'good_name',
-							title : '商品名称',
-							width : min2MidWith
-						}, {
-							field : 'good_price_id',
-							title : '商品价格编号',
-							width : min2MidWith
-						}, {
-							field : 'good_price',
-							title : '商品价格',
-							width : min2MidWith
-						}, {
-							/* sortable : true, */
-							field : 'good_num',
-							title : '商品数量',
-							width : min2MidWith
-						}, {
-							field : 'total_price',
-							title : '订单总价',
-							width : min2MidWith
-						} ] ]
-					});
-				/* $('#detail').datagrid('load',{'order_id':'id','address':'${root}/saleorderdetail/getorderdetail'});
-				$('#detail').datagrid('reload'); */
-			};
-			//销毁订单详情面板
-			/* $('#detailWin').panel({
-				onClose : function(){
-					$('#detailWin').panel('destroy',true);
-					alert("面板关闭");
-				}
-			}); */
 
+			};
 			var toolbar = [ {
+				text : '增加',
+				iconCls : 'icon-add',
+				handler : addWhite
+			}, {
 				text : '修改',
 				iconCls : 'icon-edit',
 				handler : editWhite
@@ -307,10 +221,10 @@
 				text : '删除',
 				iconCls : 'icon-delete',
 				handler : deleteWhite
-			}  ,'-',{
-				text : '查看详情',
-				iconCls : 'icon-detail',
-				handler : detailWhite
+			}, {
+				text : '产品管理',
+				iconCls : 'icon-delete',
+				handler : manageWhite
 			} ];
 
 			//刷新datafrid
@@ -332,12 +246,11 @@
 						if (data.total > 0) {
 							return;
 						}
-							$('#dg').datagrid('insertRow', {
-								row : {
-									id : '没有查到数据',
-								}
-							});
-						
+						$('#dg').datagrid('insertRow', {
+							row : {
+								username : '没有查到数据',
+							}
+						});
 						/* $('#dg').datagrid('mergeCells', {
 							index : 0,
 							field : 'username',
@@ -352,48 +265,50 @@
 					   {
 						field : 'ck',
 						checkbox : 'true'
-					},
-					{
-						field : 'sno',
+					}, {
+						field : 'id',
 						title : '编号',
 						hidden : true
-					},
-					{
-						//sortable : true,
-						field : 'id',
-						title : '订单编号',
+					},{
+						sortable : true,
+						field : 'code',
+						title : '商品编号',
 						width : min2MidWith,
 						align : 'center'
 					},{
-						
-						field : 'customername',
-						title : '客户名称',
+						sortable : true,
+						field : 'name',
+						title : '商品名称',
 						width : min2MidWith,
 						align : 'center'
 					}, {
-						field : 'mobile',
-						title : '手机号',
+						field : 'good_type_name',
+						title : '商品类型',
 						width : min2MidWith
 					}, {
-						field : 'email',
-						title : '邮箱',
+						field : 'price_market',
+						title : '市场价',
 						width : middleWidth
 					}, {
-						field : 'orderstate',
-						title : '订单状态',
-						width : min2MidWith
+						field : 'price',
+						title : '商品价格',
+						width : middleWidth
 					}, {
 						sortable : true,
-						field : 'ordermoney',
-						title : '金额',
-						width : min2MidWith
+						field : 'pic',
+						title : '图片',
+						/* width : "40px",*/
+						height:200, 
+						width : middleWidth,
+					//	height: middleHeight,
+						align: "center",
+						formatter:function(value,row,index){
+							return "<img src='${root}/static/upload/"+value+"' width='200px' height='400px'>";
+						}
 					}, {
-						field : 'updateBy',
-						title : '更新人',
-						width : min2MidWith
-					}, {
-						field : 'updateTime',
-						title : '更新日期',
+						sortable : true,
+						field : 'begin_sale_time',
+						title : '上市时间',
 						width : min2MidWith,
 						formatter: function (value, row, index) {
 							var date = new Date(value);
@@ -420,28 +335,78 @@
 							 }
 							return year + "-" + month + "-" + day + " " + hour + ":" + minutes + ":" + seconds;
 							}
-					} ] ]
+					}, {
+						sortable : true,
+						field : 'end_sale_time',
+						title : '下市时间',
+						width : min2MidWith,
+						formatter: function (value, row, index) {
+							var date = new Date(value);
+							var year = date.getFullYear().toString();
+							var month = (date.getMonth() + 1);
+							var day = date.getDate().toString();
+							var hour = date.getHours().toString();
+							var minutes = date.getMinutes().toString();
+							var seconds = date.getSeconds().toString();
+							if (month < 10) {
+								month = "0" + month;
+							}
+							if (day < 10) {
+								day = "0" + day;
+							}
+							if (hour < 10) {
+								 hour = "0" + hour;
+							}
+							if (minutes < 10) {
+								minutes = "0" + minutes;
+							}
+							if (seconds < 10) {
+								seconds = "0" + seconds;
+							 }
+							return year + "-" + month + "-" + day + " " + hour + ":" + minutes + ":" + seconds;
+							}
+					}, {
+						sortable : true,
+						field : 'index_show',
+						title : '首页显示(是/否)',
+						width : min2MidWith,
+						formatter: function(value,row,index){
+							/*判断是否显示*/
+							if(value==1){
+								return "是";
+							}
+							else if(value==0){
+								return "否";
+							}
+							else{
+								return "不解之谜";
+							}
+						}
+					} , {
+						sortable : true,
+						field : 'sort',
+						title : '排序',
+						width : min2MidWith
+					}]]
 				});
-
 				//设置分页控件
 				setDgPagination();
 			}
-
 			//设置分页控件
 			function setDgPagination() {
 				var p = $('#dg').datagrid('getPager');
 				dgPagination(p, pageObj, queryDg);
 			}
-
 			//加载查询结果
 			function loadDg(postUrl, params) {
 				ajaxLoadDg(postUrl, params, refreshDg, $("#dg"));
 			}
-			/* function loadDetail(postUrl,params) */
+
 			//加载空查询结果数据
 			refreshDg();
-			
 		});
 	</script>
+	 
+	
 </body>
 </html>

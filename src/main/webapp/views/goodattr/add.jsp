@@ -1,7 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*,com.keji50.zhucexiaadmin.dao.po.SysUserPo" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="/views/include/base.jsp"%>
+<% SysUserPo sysUser=(SysUserPo)request.getSession().getAttribute("sysUserpo"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -20,19 +21,32 @@
 			<table style="width: 100%;height:auto" class="CContent">
 					<tbody>
 						<tr>
-							<td><label>用户名:</label></td>
-							<td><input type="text" name="username" ></input></td>
-							<td><label>绑定手机号:</label></td>
+							<td><label>条件名称:</label></td>
+							<td><input type="text" name="name" ></input></td>
+							<td><label>条件代码:</label></td>
 							<td>
-								<input  type="text" name="phoneNumber" />
+								<input  type="text" name="code" />
 							</td>
 							
 						</tr>
 						<tr>
-							<td><label>绑定邮箱号:</label></td>
-							<td><input type="text" name="email"></td>
-							<td><label>密码:</label></td>
-							<td><input id="password" type="text" name="password"/></td>
+							<td><label>序号:</label></td>
+							<td><input type="text" name="sort"></td>
+							<td><label>备注:</label></td>
+							<td><input id="remark" type="text" name="remark"/></td>
+						</tr>
+						<tr>
+							<td><label>商品类型:</label></td>
+							<td><input  name="good_type_id" class="easyui-combobox" data-options="editable:false,valueField:'values',textField:'fields',data:${jsons}" /> </td>
+						</tr>
+						<tr style="display:none">	
+							<td><label>创建人:</label></td>
+							<td><input id="createBy" name="createBy" value="<%=sysUser.getUsername() %>"/></td>
+						</tr>
+						<tr>
+							<td><label>可选值:</label></td>
+							<td><input type="text" name="optionvalue"></td>
+							
 						</tr>
 					</tbody>
 					<tfoot>
@@ -47,7 +61,7 @@
 		<script type="text/javascript">
 	
 	$.extend($.fn.validatebox.defaults.rules, {
-		loginName: {
+		code: {
 			validator: function (value, param) {
 				return /^[\w]+$/.test(value);
 			},
@@ -91,46 +105,48 @@
 	        },
 	        message: '格式不正确,请使用下面格式:020-88888888'
 	    },
-	    mobile: {// 验证手机号码
+	    sort: {// 验证序号
 	        validator: function (value) {
-	        	
-	            return /^(13|15|18)\d{9}$/i.test(value);
+	        	 
+	            return /^([0-9])+\d*$/i.test(value);
 	        },
-	        message: '手机号码格式不正确'
+	        message: '序号格式不正确'
 	    },
-	   
 	})
 	function validate() {
-		$("input[name='username']").validatebox({    
+		$("input[name='code']").validatebox({    
 			required: true,    
-			validType: 'loginName',
+			validType: 'code',
 			invalidMessage:'英文字母、数字及下划线。',
-			missingMessage:'用户名不能为空！'
+			missingMessage:'条件代码不能为空！'
 		});
-		$("input[name='password']").validatebox({    
+		
+		$("input[name='sort']").validatebox({    
 			required: true,    
-			validType: 'password',
-			invalidMessage:'密码由字母和数字组成，至少6位',
-			missingMessage:'密码不能为空！'
+			validType: 'sort',
+			invalidMessage:'请输入数字序号！',
+			missingMessage:'序号不能为空！'
 		});
-		$("input[name='phoneNumber']").validatebox({    
-			required: true,    
-			validType: "mobile",
-			invalidMessage:'请输入正确的手机号！',
-			missingMessage:'手机不能为空！'
-		});
-		$("input[name='email']").validatebox({    
-			required: true,    
-			validType: "email",
-			invalidMessage:'请输入正确的邮箱号！',
-			missingMessage:'手机不能为空！'
-		});
+		
 		$("input[name='createBy']").validatebox({    
 			required: true,    
 			validType: 'createBy',
 			invalidMessage:'英文字母、数字及下划线。',
 			missingMessage:'创建人不能为空！'
 		});
+		$("input[name='name']").validatebox({    
+			required: true,    
+			//validType: "email",
+			//invalidMessage:'请输入正确的邮箱号！',
+			missingMessage:'条件名称不能为空！'
+		});
+		$("input[name='good_id']").validatebox({    
+			required: true,    
+			//validType: "email",
+			//invalidMessage:'请输入正确的邮箱号！',
+			missingMessage:'商品不能为空！'
+		});
+		
     //设置text需要验证
    
 	}
@@ -142,20 +158,18 @@
 			            if (data) {  
 			            	
 			            	$('#yourformid').form('submit', {    
-			    			    url:"${root }/customer/newcus",  
+			    			    url:"${root }/goodattr/addgoodattr",  
 			    			    onSubmit: function(){
 			    			    	validate();
 			    			    	return $(this).form('validate');
 			    			    },    
 			    			    success:function(data){ 
-			    					if(data==0){
+			    			    	var obj = jQuery.parseJSON(data);
+			    					if(obj=="新增成功"){
 			    						queryDg();
 			    						$("#addWin").window("close");
-			    						alert("添加成功！");
-			    					}else if(data==1){
-			    						alert("出现异常，请联系系统管理员！");
-			    					}else{
-			    						alert("添加失败，用户名已存在！");
+			    						$.messager.alert("操作提示", obj,"info");
+			    						 
 			    					}
 			    			       
 			    			    }    
