@@ -66,6 +66,7 @@
 			<version>${lombok.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		
 
 		<!-- Spring相关 -->
 		<dependency>
