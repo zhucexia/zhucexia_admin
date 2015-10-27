@@ -68,7 +68,7 @@ public class GoodPriceService {
 			goodAttrPo.setCode(CodeUtil.createCode(16));
 			System.out.println(goodAttrPo.getCode());
 			goodAttrPo.setGoodTypeId(good_type_id);
-			goodAttrPo.setName(goodAttrName);
+			goodAttrPo.setNames(goodAttrName);
 			goodAttrPo.setOptionvalue(goodAttrValue);
 			int goodAttrId;
 			Boolean bl = goodAttrPoMapper.checkGoodAttr(goodAttrPo)==null;
