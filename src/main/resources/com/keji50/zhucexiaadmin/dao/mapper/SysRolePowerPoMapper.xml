@@ -46,16 +46,16 @@
 		on a.id=c.power_id and c.role_id=#{role_id}
 	</select>
 	<insert id="insertRolePower" parameterType="com.keji50.zhucexiaadmin.dao.po.SysRolePowerPo">
-		insert into sys_role_power (role_id,power_id,power_insert,power_update,power_delete,power_select) 
-		values(#{role_id},#{power_id},#{power_insert},#{power_update},#{power_delete},#{power_select})
+		insert into sys_role_power (role_id,power_id) 
+		values(#{role_id},#{power_id})
 	</insert>
 	
 	<select id="checkRolePower" parameterType="com.keji50.zhucexiaadmin.dao.po.SysRolePowerPo" 
-		resultType="com.keji50.zhucexiaadmin.dao.po.SysRolePowerPo">
-		select state from sys_role_power where role_id=#{role_id} and power_id=#{power_id}
+		resultMap="BaseResultMap">
+		select * from sys_role_power where role_id=#{role_id} and power_id=#{power_id}
 	</select>
 	
-	<update id="deleteRolePower" parameterType="int">
-		update sys_role_power set state=0 where id=#{id}
-	</update>
+	<delete id="deleteRolePower" parameterType="com.keji50.zhucexiaadmin.dao.po.SysRolePowerPo">
+		delete from sys_role_power  where role_id=#{role_id} and power_id=#{power_id}
+	</delete>
 </mapper>

@@ -16,6 +16,6 @@ public interface SysRolePowerPoMapper {
 	
 	public SysRolePowerPo checkRolePower(SysRolePowerPo sysRolePowerPo);
 	
-	public int deleteRolePower(int id);
+	public int deleteRolePower(SysRolePowerPo sysRolePowerPo);
 
 }

@@ -28,9 +28,7 @@
 	</form>
 	
 	<script type="text/javascript">
-	function validates () {
-	
-	}
+
 	function submits(){
 			//获取被选中的tree节点
 			var nodes=$('#tt').tree('getChecked');	// get checked nodes
@@ -39,30 +37,25 @@
             var str="";
             $.each(nodes,function (name,value){
             	str+=value.id+",";
-            	alert(value.id);
             });
             $("#selectedPower").attr("value",str);
-            //$("#unselected").attr("value",)
+            var str2="";
+            $.each(unnodes,function(name,value){
+            	str2+=value.id+",";
+            });
+            $("#unSelected").attr("value",str2);
+            //$("#unselected").attr("value",);
 			//ajax 动态提交表单数据			
 			$("#distributePowerForm").form('submit',{
 				url :"${root}/sysRolePower/distriPower", 
-				onSubmit:function(param){
-					param.str1=str;
-					validates();
-					//alert($(this).form('enableValidation').form('validate'));
-					//return $(this).form('enableValidation').form('validate');	
-				},
 				success:function(data){
-					var data=eval("("+data+")");
 					/*判断是否成功插入数据到数据库*/
-					alert(data.message);
-					if(data.message){	
-						$("#changeSuccess").val() == "success"
-						$("#editWin").window('close');		
-					}
-					else{}
+					data=eval('('+data+')');
+					alert(data.msg);
+						$("#changeSuccess").val="success";
+						$("#distriWin").window('close');						
 				}	
-			})
+			});
 		}
 	</script>	   
 </body>

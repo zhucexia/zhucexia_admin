@@ -181,37 +181,7 @@
 				});
 
 			};
-<<<<<<< HEAD
-			setPowerWhite = function(){
-				var id = '';
-				var checkedItems = $('#dg').datagrid('getChecked');
-				if (!checkedItems || checkedItems.length == 0) {
-					alert("未选中任何值,请选择需要删除的白名单客户");
-					return;
-				} else {
-					$.each(checkedItems, function(index, item) {
-						id = item.id;
-					});
-				}
-				$("#changeSuccess").val("false");
-				$("#editWin").window({
-					width : 800,
-					height : 300,
-					method : 'post',
-					closeAnimation : 'fade',
-					cache : false,
-					//closable : false,
-					maximizable : false,
-					minimizable : false,
-					href : "${root}/sysRole/toSetRolePower?id=" + id,
-					onClose : function() {
-						if ($("#changeSuccess").val() == "success") {
-							queryDg();
-						}
-					}
-				});
-			};
-=======
+			
              
 			distributionWhite = function() {
 				var checkedItems = $('#dg').datagrid('getChecked');
@@ -242,7 +212,6 @@
 						}
 					}
 				});
->>>>>>> refs/remotes/origin/master
 
 			};
 			var toolbar = [ {
@@ -257,19 +226,11 @@
 				text : '删除',
 				iconCls : 'icon-delete',
 				handler : deleteWhite
-<<<<<<< HEAD
-			}, '-', {
-				text : '分配权限',
-				iconCls : 'icon-delete',
-				handler : setPowerWhite
-			 } ];
-=======
 			} , {
 				text : '权限分配',
 				iconCls : 'icon-delete',
 				handler : distributionWhite
 			}];
->>>>>>> refs/remotes/origin/master
 
 			//刷新datafrid
 			function refreshDg(loadData) {
