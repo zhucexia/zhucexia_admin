@@ -2,6 +2,7 @@ package com.keji50.zhucexiaadmin.web.controller;
 
 
 
+import java.sql.Timestamp;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.keji50.zhucexiaadmin.dao.po.CustomerPo;
+import com.keji50.zhucexiaadmin.dao.po.SysUserPo;
 import com.keji50.zhucexiaadmin.service.CustomerService;
 import com.keji50.zhucexiaadmin.web.utils.PageUtils;
 import com.keji50.zhucexiaadmin.web.utils.WebUtils;
@@ -69,18 +71,29 @@ public class CustomerController {
 	
 	@RequestMapping(value = "/newcus", method = RequestMethod.POST)	
 	@ResponseBody
-	public String newcus(HttpServletRequest request,HttpServletResponse response,CustomerPo cust) {
+	public int newcus(HttpServletRequest request,HttpServletResponse response,CustomerPo cust) {
 		System.out.println("进入新增controller");
 		System.out.println(cust.getPassword()+"---"+cust.getUsername()+"---"+cust.getEmail()+"---"+cust.getPhoneNumber()+"---"+cust.getCreateBy());
-		
-		int result=customerService.addcustomer(cust);
-		String mess="";
-		if(result>0){
-			mess="新增成功";
+		Boolean flag = customerService.checkCustomer(cust);
+		System.out.println("查重结果"+flag);
+		int i = 0;
+		if(flag){
+			SysUserPo sysUserPo = (SysUserPo)request.getSession().getAttribute("sysUserpo");
+			System.out.println(sysUserPo.toString());
+			String userName = sysUserPo.getUsername();
+			cust.setCreateBy(userName);
+			Timestamp time = new Timestamp(System.currentTimeMillis());
+			cust.setCreateTime(time);
+			int result=customerService.addcustomer(cust);
+			if(result>0){
+				i=0;
+			}else{
+				i=1;
+			}
 		}else{
-			mess="新增失败";
+			i=2;
 		}
-		return mess;
+		return i;
 	}
 	
 	@RequestMapping(value = "/getcustomer", method = RequestMethod.POST)	
@@ -95,16 +108,26 @@ public class CustomerController {
 	
 	@RequestMapping(value = "/updatecustomer")	
 	@ResponseBody
-	public String updatecustomer(HttpServletRequest request,CustomerPo cust) {
+	public int updatecustomer(HttpServletRequest request,CustomerPo cust) {
 		System.out.println("进入修改controller,名为："+cust.getUsername());
-		int result=customerService.updatecustomer(cust);
-		String mess="";
-		if(result>0){
-			mess="修改成功";
+		Boolean flag = customerService.checkCustomer(cust);
+		int i = 0;
+		if(flag){
+			SysUserPo sysUserPo = (SysUserPo)request.getSession().getAttribute("sysUserPo");
+			String userName = sysUserPo.getUsername();
+			cust.setUpdateBy(userName);
+			Timestamp time = new Timestamp(System.currentTimeMillis());
+			cust.setUpdateTime(time);
+			int result=customerService.updatecustomer(cust);
+			if(result>0){
+				i=0;
+			}else{
+				i=1;
+			}
 		}else{
-			mess="修改成功";	
+			i=2;
 		}
-		return mess;
+		return i;
 	}
 	
 }

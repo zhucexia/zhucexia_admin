@@ -91,7 +91,7 @@
 				loadDg('${root}/goodprice/getGoodPriceList', params);
 			};
 
-			addWhite = function() {
+			/* addWhite = function() {
 				$("#changeSuccess").val("false");
 				$("#addWin").window({
 					width : 800,
@@ -109,7 +109,7 @@
 					
 					}
 				});
-			};
+			}; */
 
 			editWhite = function() {
 				alert()
@@ -142,7 +142,7 @@
 				});
 
 			};
-			deleteWhite = function() {
+			/* deleteWhite = function() {
 				var id = '';
 				var checkedItems = $('#dg').datagrid('getChecked');
 				if (!checkedItems || checkedItems.length == 0) {
@@ -168,17 +168,13 @@
 					}
 				});
 
-			};
+			}; */
 			
 
 			var toolbar = [ {
 				text : '设置权限',
 				iconCls : 'icon-edit',
 				handler : editWhite
-			}, '-', {
-				text : '删除',
-				iconCls : 'icon-delete',
-				handler : deleteWhite
 			} ];
 
 			//刷新datafrid

@@ -29,12 +29,19 @@
 		delete from good_type where id=#{id,jdbcType=DECIMAL}
 	</delete>
 	<insert id="addgoodtype"  parameterType="com.keji50.zhucexiaadmin.dao.po.GoodTypePo" >
-		insert into good_type(id, name, code, sort, create_by,remark) value(#{id},#{name},#{code},#{sort},#{createBy},#{remark})
+		insert into good_type(name, code, sort, create_by,create_time,remark) values(#{name},
+		#{code},#{sort},#{createBy},#{createTime},#{remark})
 	</insert>
 	<select id="getgoodtype" parameterType="int" resultMap="BaseResultMap">
 		select <include refid="Base_Column_List" /> from good_type where id=#{id,jdbcType=DECIMAL}
 	</select>
-	<update id="updategoodtype">
-		update good_type set name=#{name,jdbcType=VARCHAR},code=#{code,jdbcType=VARCHAR},remark=#{remark,jdbcType=VARCHAR},create_by=#{createBy,jdbcType=VARCHAR},sort=#{sort,jdbcType=VARCHAR} where id=#{id}
+	<update id="updategoodtype" parameterType="com.keji50.zhucexiaadmin.dao.po.GoodTypePo">
+		update good_type set name=#{name,jdbcType=VARCHAR},code=#{code,jdbcType=VARCHAR},
+		remark=#{remark,jdbcType=VARCHAR},sort=#{sort,jdbcType=VARCHAR},update_by=#{updateBy},
+		update_time=#{updateTime} where id=#{id}
 	</update>
+	<select id="checkGoodType" parameterType="com.keji50.zhucexiaadmin.dao.po.GoodTypePo" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from good_type where 1=1 and name=#{name} and code=#{code}
+	</select>
 </mapper>

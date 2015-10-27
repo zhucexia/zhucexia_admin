@@ -1,6 +1,10 @@
 package com.keji50.zhucexiaadmin.web.controller;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
+import java.util.logging.SimpleFormatter;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -48,24 +52,32 @@ public class SysRoleController {
 	}
 	@RequestMapping(value="/addRoles",method = RequestMethod.POST)
 	@ResponseBody
-	public JSONObject  addPro(SysRolePo sysRolePo,HttpServletRequest request){
+	public int addPro(SysRolePo sysRolePo,HttpServletRequest request){
 		/*调用service层方法*/
 		System.out.println(sysRolePo.toString()) ;
-		/*把负责添加人的id值放入到sysRolePo中去*/
-		SysUserPo sysUser=(SysUserPo)request.getSession().getAttribute("sysUserpo");
-		String user_id = Integer.toString(sysUser.getId());
-		sysRolePo.setCreateBy(user_id);
-		/*返回是否插入数据的标示值*/
-		int flag=sysRoleService.insertRole(sysRolePo);
-		/*声明json数据类型变量，返回到前台*/
-		JSONObject json;
-		if(flag>0){
-		json= JSONObject.parseObject("{'message':'true'}");
+		Boolean result = sysRoleService.checkRole(sysRolePo);
+		int i = 0;
+		if(result){
+			/*把负责添加人的id值放入到sysRolePo中去*/
+			SysUserPo sysUser=(SysUserPo)request.getSession().getAttribute("sysUserpo");
+			System.out.println(sysUser.toString());
+			String user_name = sysUser.getUsername();
+			sysRolePo.setCreateBy(user_name);
+			Timestamp time = new Timestamp(System.currentTimeMillis());
+			sysRolePo.setCreateTime(time);
+			/*返回是否插入数据的标示值*/
+			int flag=sysRoleService.insertRole(sysRolePo);
+			/*声明json数据类型变量，返回到前台*/
+			if(flag>0){
+				i=0;
+			}
+			else{
+				i=1;
+			}
+		}else{
+			i=2;
 		}
-		else{
-		json=JSONObject.parseObject("{'message':'false'}");
-		}
-		return  json;
+		return i;
 	}
 	
 	
@@ -80,22 +92,31 @@ public class SysRoleController {
 	}
 	@RequestMapping(value="/editRole" ,method = RequestMethod.POST)
 	@ResponseBody
-	public JSONObject editRole(SysRolePo sysRolePo,HttpServletRequest request){
-		/*把负责修改人的id值放入到sysRolePo中去*/
-		SysUserPo sysUser=(SysUserPo)request.getSession().getAttribute("sysUserpo");
-		String user_id = Integer.toString(sysUser.getId());
-		sysRolePo.setUpdateBy(user_id);
-		/*返回是否修改成功*/
-		int flag=sysRoleService.updateRole(sysRolePo);
-		/*声明json数据类型变量，返回到前台*/
-		JSONObject json;
-		if(flag>0){
-		json= JSONObject.parseObject("{'message':'true'}");
+	public int editRole(SysRolePo sysRolePo,HttpServletRequest request){
+		Boolean result = sysRoleService.checkRole(sysRolePo);
+		int i;
+		if(result){
+			/*把负责修改人的id值放入到sysRolePo中去*/
+			SysUserPo sysUser=(SysUserPo)request.getSession().getAttribute("sysUserpo");
+			String user_name = sysUser.getUsername();
+			sysRolePo.setUpdateBy(user_name);
+			long l = System.currentTimeMillis();
+			Timestamp time = new Timestamp(l);
+			System.out.println(time);
+			sysRolePo.setUpdateTime(time);
+			System.out.println("=====-=-=-=-=-=-="+sysRolePo.getUpdateTime());
+			/*返回是否修改成功*/
+			int flag=sysRoleService.updateRole(sysRolePo);
+			/*声明json数据类型变量，返回到前台*/
+			if(flag>0){
+				i=0;
+			}else{
+				i=1;
+			}
+		}else{
+			i=2;
 		}
-		else{
-		json=JSONObject.parseObject("{'message':'false'}");
-		}
-		return  json;
+		return i;
 	}
 	
 	

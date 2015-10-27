@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.keji50.zhucexiaadmin.dao.mapper.GoodRelationPoMapper">
+	<resultMap id="BaseResultMap" type="com.keji50.zhucexiaadmin.dao.po.GoodRelationPo">
+		<id column="id" property="id" jdbcType="DECIMAL" />
+		<result column="good_id" property="good_id" jdbcType="DECIMAL" />
+		<result column="related_good_id" property="related_good_id" jdbcType="DECIMAL" />
+		<result column="related_good_name" property="related_good_name" jdbcType="VARCHAR" />
+		<result column="create_by" property="createBy" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">	
+	id,good_id,related_good_id,related_good_name,create_by,create_time,update_by,update_time	
+	</sql>
+	
+	
+	<!-- 查询某个商品的套餐和服务的配置关系 -->
+	<select id="getGoodRelation" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT a.id AS goods_id,a.good_id,a.related_good_id,a.related_good_name,b.id,b.name FROM 
+		(SELECT * FROM good_relation WHERE good_id=#{id}) a RIGHT OUTER JOIN
+		(SELECT * FROM good WHERE state='s' AND good_type_name!=#{good_type_name})b ON a.related_good_id =b.id 
+	</select>
+    <insert id="addRelation" parameterType="com.keji50.zhucexiaadmin.dao.po.GoodRelationPo">
+		insert into good_relation(good_id,related_good_id,related_good_name,
+		create_by,create_time,update_by,update_time) values(
+		#{good_id,jdbcType=DECIMAL}, #{related_good_id,jdbcType=DECIMAL},
+		 #{related_good_name,jdbcType=VARCHAR},#{createBy,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR},
+		#{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+	
+	<!-- 查询单个的角色信息 ,然后修改角色信息-->
+	<select id="getRoleById" resultMap="BaseResultMap" >
+		select <include refid="Base_Column_List" />
+	from sys_role
+	where 1=1 and id=#{id} 
+	</select>
+    <update id="updateRole" parameterType="com.keji50.zhucexiaadmin.dao.po.SysRolePo">
+    	update sys_role set name=#{name,jdbcType=VARCHAR},code=#{code,jdbcType=VARCHAR},
+    	update_by=#{updateBy,jdbcType=VARCHAR}
+    	where id=#{id,jdbcType=DECIMAL}
+    </update>
+    
+    <!-- 逻辑删除 -->
+    <delete id="delRelation">
+    	delete from good_relation where good_id=#{good_id} and related_good_id in (#{unSelected})
+    </delete>
+    
+    <!-- 添加用户时候，分配角色给用户，查询所有角色信息 -->
+	<select id="addRoleToUser" resultMap="BaseResultMap" >
+		select id,code,name
+	from sys_role
+	where 1=1 and state='s'
+	</select>
+</mapper>

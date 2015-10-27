@@ -18,7 +18,7 @@ public class SysUserPo extends BasePo {
 	/*电话号码*/
 	private String mobile;
 	/*邮件*/
-	private String eamil;
+	private String email;
 	/*公司*/
 	private String company;
 	/*地址*/

@@ -2,6 +2,7 @@ package com.keji50.zhucexiaadmin.web.controller;
 
 
 
+import java.sql.Timestamp;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.keji50.zhucexiaadmin.dao.po.GoodTypePo;
+import com.keji50.zhucexiaadmin.dao.po.SysUserPo;
 import com.keji50.zhucexiaadmin.service.GoodTypeService;
 import com.keji50.zhucexiaadmin.web.utils.PageUtils;
 import com.keji50.zhucexiaadmin.web.utils.WebUtils;
@@ -68,18 +70,26 @@ public class GoodTypeController {
 	
 	@RequestMapping(value = "/addgoodtype", method = RequestMethod.POST)	
 	@ResponseBody
-	public String addgoodtype(HttpServletRequest request,HttpServletResponse response,GoodTypePo goodtype) {
+	public int addgoodtype(HttpServletRequest request,HttpServletResponse response,GoodTypePo goodtype) {
 		System.out.println("进入新增controller");
 		System.out.println(goodtype.getCreateBy()+"---"+goodtype.getName()+"---"+goodtype.getSort()+"---"+goodtype.getRemark()+"---"+goodtype.getCode());
-		
-		int result=goodTypeService.addgoodtype(goodtype);
-		String mess="";
-		if(result>0){
-			mess="新增成功";
+		Boolean flag = goodTypeService.checkGoodType(goodtype);
+		int i=0;
+		if(flag){
+			SysUserPo sysUserPo = (SysUserPo)request.getSession().getAttribute("sysUserpo");
+			goodtype.setCreateBy(sysUserPo.getUsername());
+			Timestamp time = new Timestamp(System.currentTimeMillis());
+			goodtype.setCreateTime(time);
+			int result=goodTypeService.addgoodtype(goodtype);
+			if(result>0){
+				i=0;
+			}else{
+				i=1;
+			}
 		}else{
-			mess="新增失败";
+			i=2;
 		}
-		return mess;
+		return i;
 	}
 	
 	@RequestMapping(value = "/getgoodtype", method = RequestMethod.POST)	
@@ -94,17 +104,26 @@ public class GoodTypeController {
 	
 	@RequestMapping(value = "/updategoodtype")	
 	@ResponseBody
-	public String updategoodtype(HttpServletRequest request,GoodTypePo goodtype) {
+	public int updategoodtype(HttpServletRequest request,GoodTypePo goodtype) {
 		System.out.println("进入修改controller,名为："+goodtype.getName());
-		int result=goodTypeService.updategoodtype(goodtype);
-		String mess="";
-		if(result>0){
-			mess="修改成功";
+		Boolean flag = goodTypeService.checkGoodType(goodtype);
+		int i = 0;
+		if(flag){
+			SysUserPo sysUserPo = (SysUserPo)request.getSession().getAttribute("sysUserpo");
+			goodtype.setUpdateBy(sysUserPo.getUsername());
+			Timestamp time = new Timestamp(System.currentTimeMillis());
+			System.out.println(time);
+			goodtype.setUpdateTime(time);
+			int result=goodTypeService.updategoodtype(goodtype);
+			if(result>0){
+				i=0;
+			}else{
+				i=1;	
+			}
 		}else{
-			mess="修改成功";	
+			i=2;
 		}
-		System.out.println(mess);
-		return mess;
+		return i;
 	}
 	
 }
