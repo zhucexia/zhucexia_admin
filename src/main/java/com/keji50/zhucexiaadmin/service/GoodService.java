@@ -56,13 +56,9 @@ public class GoodService {
 	public GoodPo getGoodById(String id) {
 		return goodPoMapper.getGoodById(id);
 	}
-
 	public List<Map<String, Object>> selectGood() {
 		// TODO Auto-generated method stub
 		return goodPoMapper.selectGood();
 	}
-
-	
-	
 
 }

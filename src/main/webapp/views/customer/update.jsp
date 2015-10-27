@@ -34,13 +34,7 @@
 							<td><label>密码:</label></td>
 							<td><input  type="text" name="password" value="${customer.password }"/></td>
 						</tr>
-						<tr>
-							<!-- <td><label>创建时间:</label></td>
-							<td><input id="createTime" type="text" name="createTime"/></td> -->
-						 <td style="display:none;"><input type="hidden" name="id" value="${customer.id }"/></td>
-							<td><label>创建人:</label></td>
-							<td><input type="text" name="createBy" value="${customer.createBy }"/></td>
-						</tr>
+						
 					</tbody>
 					<tfoot>
 						<tr>
@@ -64,21 +58,14 @@
 			    			    	return $(this).form('validate');
 			    			    },    
 			    			    success:function(data){    
-			    			    	var obj = jQuery.parseJSON(data);
-			    			    	/* alert(obj); */
-			    					if(obj=="修改成功"){
+			    					if(data==0){
 			    						 queryDg();
 			    						 $("#editWin").window("close");
-			    						 $.messager.alert("操作提示", obj,"info");
-			    					}
-			    			    } ,
-			    			    error:function(data){
-			    			    	var obj = jQuery.parseJSON(data);
-			    			    	//alert(obj);
-			    					if(obj=="修改失败"){
-			    						$.messager.alert("操作提示", obj,"error");
-			    						 //queryDg();
-			    						 $("#editWin").window("close");
+			    						 alert("修改成功！");
+			    					}else if(data==1){
+			    						alert("出现异常，请联系系统管理员！");
+			    					}else{
+			    						alert("修改失败，该用户名已存在！");
 			    					}
 			    			    }
 			    			});  

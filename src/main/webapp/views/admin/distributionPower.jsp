@@ -28,6 +28,7 @@
 	</form>
 	
 	<script type="text/javascript">
+<<<<<<< HEAD
 	function validates () {
 	
 	}
@@ -63,6 +64,36 @@
 					else{}
 				}	
 			})
+=======
+
+	function submits(){
+			//获取被选中的tree节点
+			var nodes=$('#tt').tree('getChecked');	// get checked nodes
+			//获取未被选中的节点
+            var unnodes=$('#tt').tree('getChecked','unchecked');	// get checked nodes
+            var str="";
+            $.each(nodes,function (name,value){
+            	str+=value.id+",";
+            });
+            $("#selectedPower").attr("value",str);
+            var str2="";
+            $.each(unnodes,function(name,value){
+            	str2+=value.id+",";
+            });
+            $("#unSelected").attr("value",str2);
+            //$("#unselected").attr("value",);
+			//ajax 动态提交表单数据			
+			$("#distributePowerForm").form('submit',{
+				url :"${root}/sysRolePower/distriPower", 
+				success:function(data){
+					/*判断是否成功插入数据到数据库*/
+					data=eval('('+data+')');
+					alert(data.msg);
+						$("#changeSuccess").val="success";
+						$("#distriWin").window('close');						
+				}	
+			});
+>>>>>>> refs/remotes/origin/master
 		}
 	</script>	   
 </body>

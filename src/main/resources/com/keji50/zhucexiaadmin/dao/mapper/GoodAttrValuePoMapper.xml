@@ -22,7 +22,7 @@
 					javaType：映射到user的哪个属性
 			 -->
 		 	  <id column="id" property="id" jdbcType="DECIMAL" />
-			  <result column="name" property="name" jdbcType="VARCHAR" />
+			  <result column="names" property="name" jdbcType="VARCHAR" />
 			  <result column="code" property="code" jdbcType="VARCHAR" />
 		</association>
 	</resultMap>
@@ -30,7 +30,7 @@
 		id,good_id,good_attr_id, attr_value, sort,create_by,create_time, update_by, update_time
 	</sql>
 	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="java.util.HashMap">
-		SELECT a.*,b.name,b.code
+		SELECT a.*,b.names,b.code
 		FROM good_attr_value a LEFT JOIN good_attr b ON a.good_attr_id=b.id
 		WHERE 1=1
 		 <if test="id != null and id !=''">
@@ -41,12 +41,25 @@
 		delete from good_attr_value where id=#{id,jdbcType=DECIMAL}
 	</delete>
 	<insert id="addgoodattrvalue"  parameterType="com.keji50.zhucexiaadmin.dao.po.GoodAttrValuePo" >
-		insert into good_attr_value(id, good_id, good_attr_id, sort, create_by,attr_value,create_time) value(#{id},#{goodid},#{goodattrid},#{sort},#{createBy},#{attrvalue},now())
+		insert into good_attr_value(good_id, good_attr_id, sort, create_by,attr_value,create_time) 
+		values(#{goodid},#{goodattrid},#{sort},#{createBy},#{attrvalue},#{createTime})
 	</insert>
 	<select id="getgoodattrvalue" parameterType="int" resultMap="BaseResultMap">
 		select <include refid="Base_Column_List" /> from good_attr_value where id=#{id,jdbcType=DECIMAL}
 	</select>
 	<update id="updategoodattrvalue">
-		update good_attr_value set good_id=#{goodid,jdbcType=DECIMAL},attr_value=#{attrvalue,jdbcType=VARCHAR},good_attr_id=#{goodattrid,jdbcType=DECIMAL},update_by=#{updateBy,jdbcType=VARCHAR},sort=#{sort,jdbcType=DECIMAL},update_time=now() where id=#{id}
+		update good_attr_value set good_id=#{goodid,jdbcType=DECIMAL},attr_value=#{attrvalue,jdbcType=VARCHAR},
+		good_attr_id=#{goodattrid,jdbcType=DECIMAL},update_by=#{updateBy,jdbcType=VARCHAR},
+		sort=#{sort,jdbcType=DECIMAL},update_time=#{updateTime} where id=#{id}
+	</update>
+	<select id="checkAttrValue" parameterType="com.keji50.zhucexiaadmin.dao.po.GoodAttrValuePo" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from good_attr_value where good_id=#{goodid} and good_attr_id=#{goodattrid} and attr_value=#{attrvalue}
+	</select>
+	<select id="getAttrOptionValue" resultType="string">
+		select option_value from good_attr where id=#{goodAttrId}
+	</select>
+	<update id="updateAttrOptionValue" parameterType="com.keji50.zhucexiaadmin.dao.po.GoodAttrPo">
+		update good_attr set option_value=#{optionvalue},update_by=#{updateBy},update_time=#{updateTime} where id=#{id}
 	</update>
 </mapper>

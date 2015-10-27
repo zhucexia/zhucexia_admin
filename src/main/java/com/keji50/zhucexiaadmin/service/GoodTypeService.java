@@ -26,31 +26,33 @@ public class GoodTypeService {
         PageHelper.startPage((Integer) conditions.get(PageUtils.PAGE_NUM), (Integer) conditions.get(PageUtils.PAGE_SIZE));
         // 根据查询条件查询客户信息
         Page<GoodTypePo> page = goodTypePoMapper.selectByCondition(conditions);
+        for(GoodTypePo goodTypePo:page){
+        	System.out.println("时间++++++++"+goodTypePo.getCreateTime()+goodTypePo.getUpdateTime());
+        }
         return page;
 	}
 
 	public int addgoodtype(GoodTypePo goodtype) {
-		// TODO Auto-generated method stub
 		int result=goodTypePoMapper.addgoodtype(goodtype);
 		return result;
 	}
 
 	public int deletegoodtype(int id) {
-		// TODO Auto-generated method stub
 		return goodTypePoMapper.deletecustomer(id);
 	}
 	public GoodTypePo getgoodtype(int id) {
-		// TODO Auto-generated method stub
 		GoodTypePo c=goodTypePoMapper.getgoodtype(id);
 		return c;
 	}
 	public int updategoodtype(GoodTypePo goodtype) {
-		// TODO Auto-generated method stub
 		int result=goodTypePoMapper.updategoodtype(goodtype);
 		return result;
 	}
 
-
+	public Boolean checkGoodType(GoodTypePo goodtype){
+		Boolean flag = goodTypePoMapper.checkGoodType(goodtype)==null;
+		return flag;
+	}
 
 
 }

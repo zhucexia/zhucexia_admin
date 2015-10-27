@@ -91,10 +91,33 @@ public class SysRolePowerController {
 	
 	/*重新选择权限，进行分配*/
 	@RequestMapping("/distriPower")
-	public String distriPower(String role_id,String selectedPower,HttpServletRequest request){
+	@ResponseBody
+	public JSONObject distriPower(String role_id,String selectedPower,String unselected,HttpServletRequest request){
 		/*获取目前角色有那些权限*/
+		SysRolePowerPo sysRolePowerPo = new SysRolePowerPo();
 		selectedPower =selectedPower.substring(0,selectedPower.length()-1);
+		String [] powerIds = selectedPower.split(",");
+		for(int i=0;i<powerIds.length;i++){
+			System.out.println(powerIds[i]);
+			sysRolePowerPo.setPower_id(powerIds[i]);
+			sysRolePowerPo.setRole_id(role_id);
+			if(sysRolePowerService.checkRolePower(sysRolePowerPo)){
+				sysRolePowerService.insertRolePower(sysRolePowerPo);
+			}
+		}
+		unselected = unselected.substring(0, unselected.length()-1);
+		String [] unselectedIds = unselected.split(",");
+		System.out.println("未选中ID"+unselectedIds.toString());
+		for(int i=0;i<unselectedIds.length;i++){
+			sysRolePowerPo.setPower_id(unselectedIds[i]);
+			sysRolePowerPo.setRole_id(role_id);
+			if(!sysRolePowerService.checkRolePower(sysRolePowerPo)){
+				sysRolePowerService.deleteRolePower(sysRolePowerPo);
+			}
+		}
 		System.out.println("进入了rolepowercontroller里面的方法--distriPower--"+"id--"+role_id+"--"+selectedPower);
-		return null;
+		String str = "{'msg':'权限分配成功！'}";
+		JSONObject json = JSONObject.parseObject(str);
+		return json;
 	}
 }

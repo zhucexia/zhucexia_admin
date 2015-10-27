@@ -85,4 +85,5 @@
 	<select id="selectGood" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		select name,id from good
 	</select>
+
 </mapper>

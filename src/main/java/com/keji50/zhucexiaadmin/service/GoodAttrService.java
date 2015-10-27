@@ -1,19 +1,14 @@
 package com.keji50.zhucexiaadmin.service;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
-
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.keji50.zhucexiaadmin.dao.mapper.GoodAttrPoMapper;
 import com.keji50.zhucexiaadmin.dao.po.GoodAttrPo;
-import com.keji50.zhucexiaadmin.dao.po.GoodTypePo;
 import com.keji50.zhucexiaadmin.web.utils.PageUtils;
-
+import java.util.List;
 @Service(value = "goodAttrService")
 public class GoodAttrService {
 	
@@ -32,21 +27,17 @@ public class GoodAttrService {
 	}
 
 	public int addgoodattr(GoodAttrPo goodattr) {
-		// TODO Auto-generated method stub
 		int result=goodAttrPoMapper.addgoodattr(goodattr);
 		return result;
 	}
 	public int deletegoodattr(int id) {
-		// TODO Auto-generated method stub
 		return goodAttrPoMapper.deletegoodattr(id);
 	}
 	public GoodAttrPo getgoodattr(int id) {
-		// TODO Auto-generated method stub
 		GoodAttrPo c=goodAttrPoMapper.getgoodattr(id);
 		return c;
 	}
 	public int updategoodattr(GoodAttrPo goodattr) {
-		// TODO Auto-generated method stub
 		int result=goodAttrPoMapper.updategoodattr(goodattr);
 		return result;
 	}
@@ -65,7 +56,15 @@ public class GoodAttrService {
 		//return null;
 	}
 
+	public Boolean checkGoodAtrr(GoodAttrPo goodAttrPo){
+		Boolean flag = goodAttrPoMapper.checkGoodAttr(goodAttrPo)==null;
+		return flag;
+	}
 
+	public List<Map<String, Object>> getGoodType() {
+		
+		return goodAttrPoMapper.getGoodType();
+	}
 
 
 }

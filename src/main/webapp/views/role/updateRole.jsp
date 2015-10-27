@@ -46,14 +46,15 @@
 					
 				},
 				success:function(data){
-					var data=eval("("+data+")");
 					/*判断是否成功插入数据到数据库*/
-					alert(data.message);
-					if(data.message){	
-						$("#editWin").window('close');		
-						$("#changeSuccess").attr("value","success");
+					if(data==0){	
+						$("#editWin").window('close');
+						alert("修改成功！")
+					}else if(data==1){
+						alert("出现异常，请联系系统管理员！");
+					}else{
+						alert("修改失败，该角色已存在！");
 					}
-					else{}
 				}	
 			})
 		}

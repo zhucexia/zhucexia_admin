@@ -1,8 +1,6 @@
 package com.keji50.zhucexiaadmin.web.controller;
-
-
-
 import java.util.HashMap;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.keji50.zhucexiaadmin.dao.po.GoodAttrPo;
+import com.keji50.zhucexiaadmin.dao.po.SysUserPo;
 import com.keji50.zhucexiaadmin.service.GoodAttrService;
 import com.keji50.zhucexiaadmin.service.GoodService;
 import com.keji50.zhucexiaadmin.web.utils.PageUtils;
@@ -57,7 +56,17 @@ public class GoodAttrController {
 		return "goodattr/list";
 	}
 	@RequestMapping(value = "/add")
-	public String add(HttpServletRequest request) {		
+
+	public String add(HttpServletRequest request) {
+		List<Map<String,Object>> list = goodAttrService.getGoodType();
+		String json="[{\'values\':\'0\',\'fields\':\'请选择类型\',\'selected\':true},";
+		for(Map<String, Object> map:list){
+			json+="{\'values\':\'"+map.get("id").toString()+"\',"
+					+ "\'fields\':\'"+map.get("name").toString()+"\'},";	
+		}
+		json=json.substring(0, json.length()-1)+"]";
+		System.out.println("进入了sysGoodController的方法--toAddGood--"+json);
+		request.setAttribute("jsons", json);
 		return "goodattr/add";
 	}
 	@RequestMapping(value = "/getGoodAttrList", method = RequestMethod.POST)
@@ -86,43 +95,61 @@ public class GoodAttrController {
 	
 	@RequestMapping(value = "/addgoodattr", method = RequestMethod.POST)	
 	@ResponseBody
-	public String addgoodattr(HttpServletRequest request,HttpServletResponse response,GoodAttrPo goodattr) {
+	public int addgoodattr(HttpServletRequest request,HttpServletResponse response,GoodAttrPo goodattr) {
 		System.out.println("进入新增controller");
-		System.out.println(goodattr.getCreateBy()+"---"+goodattr.getNames()+"---"+goodattr.getSort()+"---"+goodattr.getRemark()+"---"+goodattr.getCode());
-		
-		int result=goodAttrService.addgoodattr(goodattr);
-		String mess="";
-		if(result>0){
-			mess="新增成功";
+		System.out.println(goodattr.getCreateBy()+"---"+goodattr.getNames()+"---"+goodattr.getSort()+"---"+goodattr.getRemark()+"---"+goodattr.getCode()+"---"+goodattr.getGoodTypeId());
+		Boolean flag = goodAttrService.checkGoodAtrr(goodattr);
+		int i = 0;
+		if(flag){
+			SysUserPo sysUserPo = (SysUserPo)request.getSession().getAttribute("sysUserpo");
+			goodattr.setCreateBy(sysUserPo.getUsername());
+			Timestamp time = new Timestamp(System.currentTimeMillis());
+			goodattr.setCreateTime(time);
+			int result=goodAttrService.addgoodattr(goodattr);
+			System.out.println("插入结果："+result);
+			if(result>0){
+				i=0;
+			}else{
+				i=1;
+			}
 		}else{
-			mess="新增失败";
+			i=2;
 		}
-		return mess;
+		return i;
 	}
 	
 	@RequestMapping(value = "/getgoodattr", method = RequestMethod.POST)	
 	public String getgoodattr(HttpServletRequest request) {
 		System.out.println("编辑id："+request.getParameter("id"));
 		int id=Integer.valueOf(request.getParameter("id"));
-		GoodAttrPo goodty=goodAttrService.getgoodattr(id);
-		request.setAttribute("goodtype", goodty);
+		GoodAttrPo goodAttrPo=goodAttrService.getgoodattr(id);
+		request.setAttribute("goodAttr", goodAttrPo);
 		//System.out.println(cus.getUsername());
 		return "goodattr/update";
 	}
 	
 	@RequestMapping(value = "/updategoodattr")	
 	@ResponseBody
-	public String updategoodattr(HttpServletRequest request,GoodAttrPo goodattr) {
+	public int updategoodattr(HttpServletRequest request,GoodAttrPo goodattr) {
 		System.out.println("进入修改controller,名为："+goodattr.getNames());
-		int result=goodAttrService.updategoodattr(goodattr);
-		String mess="";
-		if(result>0){
-			mess="修改成功";
+		Boolean flag = goodAttrService.checkGoodAtrr(goodattr);
+		int i=0;
+		if(flag){
+			SysUserPo sysUserPo = (SysUserPo)request.getSession().getAttribute("sysUserpo");
+			goodattr.setUpdateBy(sysUserPo.getUsername());
+			Timestamp time = new Timestamp(System.currentTimeMillis());
+			goodattr.setUpdateTime(time);
+			int result=goodAttrService.updategoodattr(goodattr);
+			if(result>0){
+				i=0;
+			}else{
+				i=1;
+			}
 		}else{
-			mess="修改成功";	
+			i=2;
 		}
-		System.out.println(mess);
-		return mess;
+		return i;
+
 	}
 	
 }

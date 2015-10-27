@@ -115,9 +115,13 @@
 						$("#changeSuccess").val() == "success"
 						$("#editWin").window('close');		
 					}
+<<<<<<< HEAD
 					else{
 						
 					}
+=======
+					else{}
+>>>>>>> refs/remotes/origin/master
 				}	
 			})
 		}

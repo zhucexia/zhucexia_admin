@@ -27,6 +27,7 @@ public class CustomerService {
 		// 分页插件
         PageHelper.startPage((Integer) conditions.get(PageUtils.PAGE_NUM), (Integer) conditions.get(PageUtils.PAGE_SIZE));
         // 根据查询条件查询客户信息
+        System.out.println("service中"+customerPoMapper.selectByCondition(conditions).toString());
         Page<CustomerPo> page = customerPoMapper.selectByCondition(conditions);
        /* SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd");
         for (CustomerPo customerPo : page) {
@@ -38,28 +39,28 @@ public class CustomerService {
 	}
 
 	public int deletecustomer(int id) {
-		// TODO Auto-generated method stub
 		return customerPoMapper.deletecustomer(id);
 	}
 
 	public int addcustomer(CustomerPo cust) {
-		// TODO Auto-generated method stub
 		int result=customerPoMapper.addcustomer(cust);
 		return result;
 	}
 
 	public CustomerPo getCustomer(int id) {
-		// TODO Auto-generated method stub
 		CustomerPo c=customerPoMapper.getCustomer(id);
 		return c;
 	}
 
 	public int updatecustomer(CustomerPo cust) {
-		// TODO Auto-generated method stub
 		int result=customerPoMapper.updatecustomer(cust);
 		return result;
 	}
-
+	
+	public Boolean checkCustomer(CustomerPo cust){
+		Boolean flag = customerPoMapper.checkCustomer(cust)==null;
+		return flag;
+	}
 
 
 

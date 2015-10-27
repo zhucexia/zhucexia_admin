@@ -19,6 +19,7 @@
 		 <form method="post" id="updateform" >
 			<table style="width: 100%;height:auto" class="CContent">
 					<tbody>
+						<input type="hidden" name="id" value="${goodtype.id }"/>
 						<tr>
 							<td><label>商品类型名称:</label></td>
 							<td><input type="text" name="name" value="${goodtype.name }"></input></td>
@@ -33,13 +34,6 @@
 							<td><input type="text" name="sort" value="${goodtype.sort }"></td>
 							<td><label>备注:</label></td>
 							<td><input id="remark" type="text" name="remark" value="${goodtype.remark }"/></td>
-						</tr>
-						<tr>
-							<!-- <td><label>创建时间:</label></td>
-							<td><input id="createTime" type="text" name="createTime"/></td> -->
-							<td style="display:none;"><input type="hidden" name="id" value="${goodtype.id }"/></td>
-							<td><label>创建人:</label></td>
-							<td><input id="createBy" type="text" name="createBy" value="${goodtype.createBy }"/></td>
 						</tr>
 					</tbody>
 					<tfoot>
@@ -65,25 +59,17 @@
 			    			    	return $(this).form('validate');
 			    			    },    
 			    			    success:function(data){    
-			    			    	var obj = jQuery.parseJSON(data);
-			    			    	/* alert(obj); */
-			    					if(obj=="修改成功"){
+			    					if(data==0){
 			    						 queryDg();
 			    						 $("#editWin").window("close");
-			    						 $.messager.alert("操作提示", obj,"info");
+			    						 alert("修改成功！");
+			    					}else if(data==1){
+			    						alert("发现异常，请联系系统管理员！");
+			    					}else{
+			    						alert("修改失败，该类型已存在！");
 			    					}
 			    			    } ,
-			    			    error:function(data){
-			    			    	var obj = jQuery.parseJSON(data);
-			    			    	//alert(obj);
-			    					if(obj=="修改失败"){
-			    						$.messager.alert("操作提示", obj,"error");
-			    						 //queryDg();
-			    						 $("#editWin").window("close");
-			    					}
-			    			    }
 			    			});  
-
 			            }  
 			           
 			        });  	

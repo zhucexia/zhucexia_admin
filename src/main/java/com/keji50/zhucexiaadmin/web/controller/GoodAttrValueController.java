@@ -1,7 +1,6 @@
 package com.keji50.zhucexiaadmin.web.controller;
 
-
-
+import java.sql.Timestamp;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
+import com.keji50.zhucexiaadmin.dao.po.GoodAttrPo;
 import com.keji50.zhucexiaadmin.dao.po.GoodAttrValuePo;
 import com.keji50.zhucexiaadmin.service.GoodAttrValueService;
 import com.keji50.zhucexiaadmin.web.utils.PageUtils;
@@ -70,18 +70,38 @@ public class GoodAttrValueController {
 	
 	@RequestMapping(value = "/addgoodattrvalue", method = RequestMethod.POST)	
 	@ResponseBody
-	public String addgoodattr(HttpServletRequest request,HttpServletResponse response,GoodAttrValuePo goodattrvalue) {
+	public int addgoodattr(HttpServletRequest request,HttpServletResponse response,GoodAttrValuePo goodattrvalue) {
 		System.out.println("进入新增controller");
 		System.out.println(goodattrvalue.getCreateBy()+"---"+goodattrvalue.getAttrvalue()+"---"+goodattrvalue.getGoodid()+"---"+goodattrvalue.getSort()+"---"+goodattrvalue.getCreateBy());
-		
-		int result=goodAttrValueService.addgoodattrvalue(goodattrvalue);
-		String mess="";
-		if(result>0){
-			mess="新增成功";
+		Boolean flag = goodAttrValueService.checkAttrValue(goodattrvalue);
+		System.out.println("新加属性枚举查重"+flag);
+		int i=0;
+		if(flag){
+			String optionValue = goodAttrValueService.getAttrOptionValue(goodattrvalue.getGoodattrid());
+			Boolean bl = optionValue.contains(goodattrvalue.getAttrvalue());
+			int result1 = 0;
+			Timestamp time = new Timestamp(System.currentTimeMillis());
+			if(!bl){
+				optionValue+=","+goodattrvalue.getAttrvalue();
+				GoodAttrPo goodAttrPo = new GoodAttrPo();
+				goodAttrPo.setId(goodattrvalue.getGoodattrid());
+				goodAttrPo.setOptionvalue(optionValue);
+				System.out.println(optionValue);
+				goodAttrPo.setUpdateTime(time);
+				result1 = goodAttrValueService.updateAttrOptionValue(goodAttrPo);
+			}
+			goodattrvalue.setCreateTime(time);
+			int result=goodAttrValueService.addgoodattrvalue(goodattrvalue);
+			
+			if(result>0&&(bl||result1>0)){
+				i=0;
+			}else{
+				i=1;
+			}
 		}else{
-			mess="新增失败";
+			i=2;
 		}
-		return mess;
+		return i;
 	}
 	
 	@RequestMapping(value = "/getgoodattrvalue", method = RequestMethod.POST)	
@@ -96,18 +116,36 @@ public class GoodAttrValueController {
 	
 	@RequestMapping(value = "/updategoodattrvalue")	
 	@ResponseBody
-	public String updategoodattrvalue(HttpServletRequest request,GoodAttrValuePo goodattrvalue) {
+	public int updategoodattrvalue(HttpServletRequest request,GoodAttrValuePo goodattrvalue) {
 		System.out.println("进入修改controller,名为："+goodattrvalue.getAttrvalue()+"--"+goodattrvalue.getUpdateBy()+"--"+goodattrvalue.getGoodattrid()+"--"+goodattrvalue.getGoodid()+"--"+goodattrvalue.getSort());
-		int result=goodAttrValueService.updategoodattrvalue(goodattrvalue);
-		System.out.println("进入修改controller处理后"+goodattrvalue);
-		String mess="";
-		if(result>0){
-			mess="修改成功";
-		}else{
-			mess="修改失败";
-		}
-		System.out.println(mess);
-		return mess;
+		Boolean flag = goodAttrValueService.checkAttrValue(goodattrvalue);
+		int i = 0;
+		if(flag){
+			Timestamp time = new Timestamp(System.currentTimeMillis());
+			String optionValue = goodAttrValueService.getAttrOptionValue(goodattrvalue.getGoodattrid());
+			Boolean bl = optionValue.contains(goodattrvalue.getAttrvalue());
+			System.out.println("判断属性值是否存在"+bl);
+			int result1 = 0;
+			if(!bl){
+				optionValue+=","+goodattrvalue.getAttrvalue();
+				GoodAttrPo goodAttrPo = new GoodAttrPo();
+				goodAttrPo.setId(goodattrvalue.getGoodattrid());
+				goodAttrPo.setOptionvalue(optionValue);
+				goodAttrPo.setUpdateTime(time);
+				result1 = goodAttrValueService.updateAttrOptionValue(goodAttrPo);
+			}
+			goodattrvalue.setUpdateTime(time);
+			int result=goodAttrValueService.updategoodattrvalue(goodattrvalue);
+			System.out.println("进入修改controller处理后"+goodattrvalue);
+			if(result>0&&(bl||result1>0)){
+				i=0;
+			}else{
+				i=1;
+			}
+		}else
+			i=2;
+		return i;
+
 	}
 	
 }

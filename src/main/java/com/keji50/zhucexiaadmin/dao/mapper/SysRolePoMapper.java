@@ -17,8 +17,12 @@ public interface SysRolePoMapper {
 	public int updateRole(SysRolePo sysRolePo);
 
 	public int deleteRole(int id);
+	
+	public SysRolePo checkRole(SysRolePo sysRole);
 
 	public List<SysRolePo> addRoleToUser();
+	
+
 	
 
 }

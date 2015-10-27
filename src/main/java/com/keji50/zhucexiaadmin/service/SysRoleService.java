@@ -38,6 +38,10 @@ public class SysRoleService {
 		return sysRolePoMapper.insertRole(sysRolePo);
 	}
 	
+	public Boolean checkRole(SysRolePo sysRolePo){
+		Boolean flag = sysRolePoMapper.checkRole(sysRolePo)==null;
+		return flag;
+	}
 	
 	/*修改角色信息*/
 	public SysRolePo getRoleById(int id) {
@@ -55,3 +59,4 @@ public class SysRoleService {
 		return sysRolePoMapper.addRoleToUser();
 	}
 }
+

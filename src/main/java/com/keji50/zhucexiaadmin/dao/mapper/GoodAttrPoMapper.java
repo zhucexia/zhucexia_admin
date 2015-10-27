@@ -1,11 +1,11 @@
 package com.keji50.zhucexiaadmin.dao.mapper;
-
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.github.pagehelper.Page;
 import com.keji50.zhucexiaadmin.dao.po.GoodAttrPo;
-import com.keji50.zhucexiaadmin.dao.po.GoodTypePo;
+
 
 public interface GoodAttrPoMapper {
 	
@@ -19,5 +19,12 @@ public interface GoodAttrPoMapper {
 
 	int updategoodattr(GoodAttrPo goodattr);
 
+
 	Page<HashMap<String, Object>> selectByConditionse(Map<String, Object> conditions);
+
+	
+	public  GoodAttrPo checkGoodAttr(GoodAttrPo goodAttrPo);
+
+	List<Map<String, Object>> getGoodType();
+
 }

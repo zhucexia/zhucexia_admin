@@ -34,13 +34,11 @@ public class SysUserController {
 	
 	@Resource(name="SysUserService")
 	private SysUserService sysUserService;
-	
 	@Resource(name="sysRoleService")
     private SysRoleService sysRoleService;
-	
 	@Resource(name="SysRolePowerService")
 	private SysRolePowerService sysRolePowerService;
-	
+
 	/*系统用户登录*/
 	@RequestMapping("/login")
 	public String login(SysUserPo sysuser,HttpServletRequest request){

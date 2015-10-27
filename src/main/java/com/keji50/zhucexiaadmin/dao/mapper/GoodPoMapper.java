@@ -22,4 +22,5 @@ public interface GoodPoMapper {
 	 * @return
 	 */
 	public List<Map<String, Object>> selectGood();
+
 }
