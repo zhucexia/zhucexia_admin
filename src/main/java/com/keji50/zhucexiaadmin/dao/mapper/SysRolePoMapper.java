@@ -1,5 +1,6 @@
 package com.keji50.zhucexiaadmin.dao.mapper;
 
+import java.util.List;
 import java.util.Map;
 
 import com.github.pagehelper.Page;
@@ -18,5 +19,8 @@ public interface SysRolePoMapper {
 	public int deleteRole(int id);
 	
 	public SysRolePo checkRole(SysRolePo sysRole);
+
+	public List<SysRolePo> addRoleToUser();
+	
 
 }

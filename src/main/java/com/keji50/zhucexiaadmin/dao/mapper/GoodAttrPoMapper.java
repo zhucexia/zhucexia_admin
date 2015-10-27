@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.github.pagehelper.Page;
 import com.keji50.zhucexiaadmin.dao.po.GoodAttrPo;
-import com.keji50.zhucexiaadmin.dao.po.GoodTypePo;
+
 
 public interface GoodAttrPoMapper {
 	

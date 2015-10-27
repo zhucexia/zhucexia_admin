@@ -18,6 +18,40 @@
 </head>
 <body>
 		 <form method="post" id="updateform" >
+<<<<<<< HEAD
+			<table style="width: 100%;height:auto" class="CContent">
+					<tbody>
+						<tr>
+							<td><label>条件名称:</label></td>
+							<td><input type="text" name="name" value="${goodtype.name }"></input></td>
+							<td><label>条件代码:</label></td>
+							<td>
+								<input  type="text" name="code" value="${goodtype.code }"/>
+							</td>
+							
+						</tr>
+						<tr>
+							<td><label>序号:</label></td>
+							<td><input type="text" name="sort" value="${goodtype.sort }"></td>
+							<td><label>备注:</label></td>
+							<td><input id="remark" type="text" name="remark" value="${goodtype.remark }"/></td>
+						</tr>
+						<tr>
+							<!-- <td><label>创建时间:</label></td>
+							<td><input id="createTime" type="text" name="createTime"/></td> -->
+							<td><label>商品名称(开发填为id):</label></td>
+							<%-- <td><input  name="good_id" class="easyui-combobox" data-options="editable:false,valueField:'values',textField:'fields',data:${jsons}" /> </td> --%>
+							<td><input id="good_id" type="text" name="goodid" value="${goodtype.goodid }"/></td>
+							
+							<td style="display:none;"><input id="updateBy" type="text" name="updateBy" value="<%=sysUser.getUsername() %>"/></td>
+							<td><label>创建人:</label></td>
+							<td><input id="createBy" type="text" name="createBy" value="${goodtype.createBy }"/></td>
+						</tr>
+						<tr>
+							<td><label>可选值:</label></td>
+							<td><input type="text" name="optionvalue" value="${goodtype.optionvalue }"></td>
+							<td style="display:none;"><input type="hidden" name="id" value="${goodtype.id }"/></td>
+=======
 		 	<input type="hidden" name="id" value="${goodAttr.id }"/>
 			<table style="width: 100%;height:auto" class="CContent">
 					<tbody>
@@ -44,6 +78,7 @@
 							<td><label>可选值:</label></td>
 							<td><input type="text" name="optionvalue" value="${goodAttr.optionvalue }"></td>
 							<td style="display:none;"><input id="updateBy" type="text" name="updateBy" value="<%=sysUser.getUsername() %>"/></td>
+>>>>>>> refs/remotes/origin/master
 						</tr>
 					</tbody>
 					<tfoot>

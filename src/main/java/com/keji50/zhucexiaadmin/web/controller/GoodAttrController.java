@@ -133,6 +133,7 @@ public class GoodAttrController {
 			i=2;
 		}
 		return i;
+
 	}
 	
 }

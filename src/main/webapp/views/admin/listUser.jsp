@@ -1,3 +1,36 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ include file="/views/include/base.jsp"%>
+<%@ include file="/views/include/meta.jsp"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="/tld/JSTLFunction.tld" prefix="dic"%>
+<%@ include file="/views/include/dataDic.jsp"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html class="htmlOverFlowHidden" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>客户查询</title>
+<link href="${root }/static/css/css.css" rel="stylesheet"
+	type="text/css" />
+<link href="${root }/static/css/style.css" rel="stylesheet"
+	type="text/css" />
+<link href="${root }/static/css/bigpage.css" rel="stylesheet"
+	type="text/css" />
+<link href="${root }/static/css/jquery-ui.css" rel="stylesheet"
+	type="text/css" />
+<link href="${root }/static/css/easyui.css" rel="stylesheet"
+	type="text/css" />
+<script type="text/javascript" src="${root }/static/js/common.js"></script>
+<script type="text/javascript"
+	src="${root }/static/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="${root }/static/js/jquery-ui.js"></script>
+
+<script type="text/javascript"
+	src="${root }/static/js/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="${root }/static/js/jquery-openwindow.js"></script>
+<script type="text/javascript" src="${root }/static/js/dataDic.js"></script>
+</head>
 <body id="depositBody" class="ContentBody">
 	<div class="CContent">
 		<div id="title" class="tablestyle_title">
@@ -35,14 +68,14 @@
 				</table>
 			</fieldset>
 			<div class="queryDataGrid">
-				<div style="width: 1300px;" id="dg"></div>
+				<div style="width: 100%;" id="dg"></div>
 			</div>
 			<input id="changeSuccess" value="false" type="hidden" name="flags"/>
 		</div>
 		<div id="addWin"></div>
 		<div id="editWin"></div>
 	</div>
-	<script language="javascript">
+	<script  type="text/javascript">
 		$(function() {
 			$("#queryBtn").click(function() {
 				pageObj.varPageNum = 1;
@@ -65,7 +98,7 @@
 					pageNum : pageObj.varPageNum,
 					pageSize : pageObj.varPageSize
 				};
-				loadDg('${root}/product/getProductList', params);
+				loadDg('${root}/sysUser/getUser', params);
 			};
 
 			addWhite = function() {
@@ -80,7 +113,7 @@
 					closable : true,
 					maximizable : false,
 					minimizable : false,
-					href : "${root}/product/toAddPro",
+					href : "${root}/sysUser/toAddUser",
 					onClose: function() {	
 								queryDg();
 					
@@ -96,7 +129,7 @@
 					return;
 				} else {
 					$.each(checkedItems, function(index, item) {
-						id = item.sno;
+						id = item.id;
 					});
 				}
 				$("#changeSuccess").val("false");
@@ -109,7 +142,7 @@
 					//closable : false,
 					maximizable : false,
 					minimizable : false,
-					href : "${root}/whiteList/updateAcWhitleList?sno=" + id,
+					href : "${root}/sysUser/toUpUser?id=" + id,
 					onClose : function() {
 						if ($("#changeSuccess").val() == "success") {
 							queryDg();
@@ -130,14 +163,21 @@
 					});
 				}
 				$.ajax({
-					url : "${root}/product/delPro",
+					url : "${root}/sysUser/delUser",
 					type : 'POST',
 					data : {
 						"id" : id
 					},
-					success : queryDg()
+					success : function(data){
+						alert(data.message);
+						$.messager.alert("温馨提示",data.message,"info");
+						queryDg();	
+					},
+					error:function(data){
+						alert(data.message);
+						$.messager.alert("温馨提示",data.message,"info");
+					}
 				});
-
 			};
 
 			var toolbar = [ {
@@ -198,27 +238,130 @@
 						hidden : true
 					},{
 						sortable : true,
-						field : 'product_name',
+						field : 'username',
 						title : '用户名',
 						width : min2MidWith,
 						align : 'center'
 					}, {
-						field : 'product_price',
-						title : '价格',
+						field : 'realname',
+						title : '真实姓名',
 						width : min2MidWith
 					}, {
-						field : 'product_description',
-						title : '产品描述',
-						width : middleWidth
+						field : 'name',
+						title : '角色',
+						width : min2MidWith,
+						formatter: function(value,row,index){
+							if (row.sysRolePo){
+								return row.sysRolePo.name;
+							} else {
+								return value;
+							}
+						}
+
 					}, {
-						field : 'product_code',
-						title : '产品编号',
+						field : 'mobile',
+						title : '手机号',
 						width : min2MidWith
 					}, {
 						sortable : true,
-						field : 'product_grounding',
-						title : '上架/下架',
+						field : 'email',
+						title : '邮箱',
 						width : min2MidWith
+					}, {
+						sortable : true,
+						field : 'address',
+						title : '地址',
+						width : min2MidWith
+					}, {
+						sortable : true,
+						field : 'dept_name',
+						title : '部门',
+						width : min2MidWith
+					},{
+						field : 'state',
+						title : '状态',
+						width : min2MidWith,
+						formatter: function(value,row,index){
+							if (row.state=='s'){
+								return "已审核";
+							} else if(row.state=='c'){
+								return "草稿";
+							}
+							else{
+								return "删除";
+							}
+						}
+					}, {
+						sortable : true,
+						field : 'createBy',
+						title : '创建人',
+						width : min2MidWith
+					}, {
+						sortable : true,
+						field : 'createTime',
+						title : '创建时间',
+						width : min2MidWith,
+						formatter: function (value, row, index) {
+							var date = new Date(value);
+							var year = date.getFullYear().toString();
+							var month = (date.getMonth() + 1);
+							var day = date.getDate().toString();
+							var hour = date.getHours().toString();
+							var minutes = date.getMinutes().toString();
+							var seconds = date.getSeconds().toString();
+							if (month < 10) {
+								month = "0" + month;
+							}
+							if (day < 10) {
+								day = "0" + day;
+							}
+							if (hour < 10) {
+								 hour = "0" + hour;
+							}
+							if (minutes < 10) {
+								minutes = "0" + minutes;
+							}
+							if (seconds < 10) {
+								seconds = "0" + seconds;
+							 }
+							return year + "/" + month + "/" + day + " " + hour + ":" + minutes + ":" + seconds;
+							}
+						
+					}, {
+						sortable : true,
+						field : 'updateBy',
+						title : '修改人',
+						width : min2MidWith
+					}, {
+						sortable : true,
+						field : 'updateTime',
+						title : '修改时间',
+						width : min2MidWith,
+						formatter: function (value, row, index) {
+							var date = new Date(value);
+							var year = date.getFullYear().toString();
+							var month = (date.getMonth() + 1);
+							var day = date.getDate().toString();
+							var hour = date.getHours().toString();
+							var minutes = date.getMinutes().toString();
+							var seconds = date.getSeconds().toString();
+							if (month < 10) {
+								month = "0" + month;
+							}
+							if (day < 10) {
+								day = "0" + day;
+							}
+							if (hour < 10) {
+								 hour = "0" + hour;
+							}
+							if (minutes < 10) {
+								minutes = "0" + minutes;
+							}
+							if (seconds < 10) {
+								seconds = "0" + seconds;
+							 }
+							return year + "/" + month + "/" + day + " " + hour + ":" + minutes + ":" + seconds;
+							}
 					}] ]
 				});
 

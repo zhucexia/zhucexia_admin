@@ -1,7 +1,5 @@
 package com.keji50.zhucexiaadmin.web.controller;
 
-
-
 import java.sql.Timestamp;
 import java.util.Map;
 
@@ -147,6 +145,7 @@ public class GoodAttrValueController {
 		}else
 			i=2;
 		return i;
+
 	}
 	
 }

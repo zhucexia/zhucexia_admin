@@ -239,6 +239,7 @@
 						checkbox : 'true'
 					}, {
 						field : 'id',
+
 						title : '编号',
 						hidden : true
 					}, {

@@ -1,6 +1,5 @@
 package com.keji50.zhucexiaadmin.service;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -11,9 +10,8 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.keji50.zhucexiaadmin.dao.mapper.GoodAttrPoMapper;
 import com.keji50.zhucexiaadmin.dao.po.GoodAttrPo;
-import com.keji50.zhucexiaadmin.dao.po.GoodTypePo;
 import com.keji50.zhucexiaadmin.web.utils.PageUtils;
-
+import java.util.List;
 @Service(value = "goodAttrService")
 public class GoodAttrService {
 	

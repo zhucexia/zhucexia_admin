@@ -61,4 +61,5 @@ public class GoodAttrValueService {
 		int i = goodAttrValuePoMapper.updateAttrOptionValue(goodAttrPo);
 		return i;
 	}
+
 }

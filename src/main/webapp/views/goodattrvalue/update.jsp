@@ -42,6 +42,7 @@
 							<td><input  name="good_id" class="easyui-combobox" data-options="editable:false,valueField:'values',textField:'fields',data:${jsons}" /> </td>
 							<td><input id="good_id" type="text" name="goodid"/></td> --%>
 							<td style="display:none;"><input id="updateBy" type="text" name="updateBy" value="<%=sysUser.getUsername() %>"/></td>
+
 							
 							<td style="display:none;"><input type="hidden" name="id" value="${goodAttrValuePo.id }"/></td>
 						</tr>

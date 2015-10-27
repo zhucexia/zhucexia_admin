@@ -36,6 +36,7 @@
 							<td><input id="remark" type="text" name="remark"/></td>
 						</tr>
 						<tr>
+
 							<td><label>商品类型:</label></td>
 							<td><input  name="good_type_id" class="easyui-combobox" data-options="editable:false,valueField:'values',textField:'fields',data:${jsons}" /> </td>
 						</tr>

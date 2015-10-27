@@ -16,11 +16,18 @@
 		<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
 		<result column="updateBy" property="updateBy" jdbcType="VARCHAR" />
 		<result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+			<association property="sysRolePo" javaType="com.keji50.zhucexiaadmin.dao.po.SysRolePo">
+			<id column="id" property="id" jdbcType="DECIMAL"/>
+			<result column="name" property="name" jdbcType="VARCHAR"/>
+		   </association>
 	</resultMap>
 	<sql id="Base_Column_List">
 		id,username,password,role_id,mobile,email,address,dept_name
 	</sql>
-
+	<sql id="base_list">
+		a.id,a.username,a.realname,a.password,a.role_id,a.mobile,email,a.company,a.address,
+		a.dept_name,a.state,a.create_by,a.create_time,a.update_by,a.update_time
+	</sql>
 	<!-- 用户登录 -->
 	<select id="login" resultMap="BaseResultMap" parameterType="com.keji50.zhucexiaadmin.dao.po.SysUserPo">
 		select <include refid="Base_Column_List" />
@@ -28,18 +35,45 @@
 		where 1=1 and username=#{username,jdbcType=VARCHAR}
 		and password=#{password,jdbcType=VARCHAR}
 	</select>
-	<insert id="insertPro" parameterType="com.keji50.zhucexiaadmin.dao.po.ProductPo">
-		insert into product(product_name,product_price,product_description,product_code,product_image,
-		createBy,createTime,updateBy,updateTime,product_grounding,product_status) values(
-		#{product_name,jdbcType=VARCHAR}, #{product_price,jdbcType=DOUBLE},
-		#{product_description,jdbcType=VARCHAR}, #{product_code,jdbcType=DECIMAL},
-		#{product_image,jdbcType=VARCHAR}, #{createBy,jdbcType=DECIMAL},
-		#{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=DECIMAL},
-		#{updateTime,jdbcType=TIMESTAMP}, #{product_grounding,jdbcType=DECIMAL},
-		#{product_status,jdbcType=DECIMAL})
+	<!-- 单个用户信息查询 -->
+	 <select id="getUser" resultMap="BaseResultMap" >
+		select <include refid="base_list" />
+		from sys_user a 
+		where 1=1 and id=#{id,jdbcType=DECIMAL}
+	</select> 
+		
+	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.keji50.zhucexiaadmin.dao.po.SysUserPo">
+		select <include refid="base_list"/> ,b.name
+		from sys_user a ,sys_role b  where 1=1  and a.role_id=b.id and a.state='c'or a.state='s'
+	</select>
+	
+	<insert id="insertUser" parameterType="com.keji50.zhucexiaadmin.dao.po.SysUserPo">
+		insert into sys_user(username,password,realname,role_id,mobile,email,
+		company,address,dept_name,create_by,create_time,update_by,update_time) values(
+		#{username,jdbcType=VARCHAR}, '123456',
+		#{realname,jdbcType=VARCHAR}, #{role_id,jdbcType=VARCHAR},
+		#{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},#{company,jdbcType=VARCHAR},
+		#{address,jdbcType=VARCHAR}, #{dept_name,jdbcType=VARCHAR},
+        #{createBy,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},
+        #{updateBy,jdbcType=VARCHAR},
+		#{updateTime,jdbcType=TIMESTAMP})
 	</insert>
-	<delete id="deletePro">
+	<!-- 修改用户信息 -->
+	<update id="updateUser" parameterType="com.keji50.zhucexiaadmin.dao.po.SysUserPo" >
+		update sys_user set username=#{username,jdbcType=VARCHAR},realname=#{realname,jdbcType=VARCHAR},
+		role_id=#{role_id,jdbcType=VARCHAR},mobile=#{mobile,jdbcType=VARCHAR},
+		company=#{company,jdbcType=VARCHAR},address=#{address,jdbcType=VARCHAR},
+		dept_name=#{dept_name,jdbcType=VARCHAR},update_by=#{updateBy,jdbcType=VARCHAR},
+		email=#{email,jdbcType=VARCHAR}
+		where id=#{id,jdbcType=DECIMAL}
+	</update>
+	
+	<!-- 删除用户信息，逻辑删除，即修改了状态字段 -->
+	<update id="deleteUser">
+		update sys_user set state="d" where id=#{id,jdbcType=DECIMAL}
+	</update>
+	<!-- <delete id="deletePro">
 	delete from product where id=#{id,jdbcType=DECIMAL}
-	</delete>
+	</delete> -->
 
 </mapper>

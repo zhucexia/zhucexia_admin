@@ -49,4 +49,5 @@
 	<select id="getGoodType" resultType="java.util.HashMap">
 		select id,name from good_type where 1=1
 	</select>
+
 </mapper>

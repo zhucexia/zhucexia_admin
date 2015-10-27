@@ -46,6 +46,7 @@
 		    	</td>
 		    </tr>
 		    <tr>
+
 		    	<td>商品价格</td>
 		    	<td>
 		    		<input type="test" name="price"/>

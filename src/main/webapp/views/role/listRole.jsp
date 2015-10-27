@@ -68,12 +68,13 @@
 				</table>
 			</fieldset>
 			<div class="queryDataGrid">
-				<div style="width: 1300px;" id="dg"></div>
+				<div style="width: 100%;" id="dg"></div>
 			</div>
 			<input id="changeSuccess" value="false" type="hidden" name="flags"/>
 		</div>
 		<div id="addWin"></div>
 		<div id="editWin"></div>
+		<div id="distriWin"></div>	
 	</div>
 	<script language="javascript">
 		$(function() {
@@ -180,6 +181,7 @@
 				});
 
 			};
+<<<<<<< HEAD
 			setPowerWhite = function(){
 				var id = '';
 				var checkedItems = $('#dg').datagrid('getChecked');
@@ -209,7 +211,40 @@
 					}
 				});
 			};
+=======
+             
+			distributionWhite = function() {
+				var checkedItems = $('#dg').datagrid('getChecked');
+				var id = '';
+				if (!checkedItems || checkedItems.length == 0) {
+					alert("未选中任何值,请选择需要修改的白名单客户");
+					return;
+				} else {
+					$.each(checkedItems, function(index, item) {
+						id = item.id;
+					});
+				}
+				$("#changeSuccess").val("false");
+				$("#distriWin").window({
+					width : 250,
+					height : 400,
+					title:"角色授权",
+					method : 'post',
+					closeAnimation : 'fade',
+					cache : false,
+					//closable : false,
+					maximizable : false,
+					minimizable : false,
+					href : "${root}/sysRolePower/toDistriPower?id=" + id,
+					onClose : function() {
+						if ($("#changeSuccess").val() == "success") {
+							queryDg();
+						}
+					}
+				});
+>>>>>>> refs/remotes/origin/master
 
+			};
 			var toolbar = [ {
 				text : '增加',
 				iconCls : 'icon-add',
@@ -222,11 +257,19 @@
 				text : '删除',
 				iconCls : 'icon-delete',
 				handler : deleteWhite
+<<<<<<< HEAD
 			}, '-', {
 				text : '分配权限',
 				iconCls : 'icon-delete',
 				handler : setPowerWhite
 			 } ];
+=======
+			} , {
+				text : '权限分配',
+				iconCls : 'icon-delete',
+				handler : distributionWhite
+			}];
+>>>>>>> refs/remotes/origin/master
 
 			//刷新datafrid
 			function refreshDg(loadData) {
