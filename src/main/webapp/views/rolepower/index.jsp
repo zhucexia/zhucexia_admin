@@ -9,7 +9,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html class="htmlOverFlowHidden" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>客户查询</title>
+<title>权限分配</title>
 <link href="${root }/static/css/css.css" rel="stylesheet"
 	type="text/css" />
 <link href="${root }/static/css/style.css" rel="stylesheet"
@@ -24,21 +24,17 @@
 <script type="text/javascript"
 	src="${root }/static/js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="${root }/static/js/jquery-ui.js"></script>
-
-<script type="text/javascript"
-	src="${root }/static/js/jquery.easyui.min.js"></script>
 <script type="text/javascript"
 	src="${root }/static/js/jquery-openwindow.js"></script>
+<script type="text/javascript" src="${root }/static/js/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="${root }/static/js/dataDic.js"></script>
-<%-- <script type="text/javascript"
-	src="${root }/static/tinymce/tinymce.min.js"></script>  --%> 
- <script type="text/javascript"
+<script type="text/javascript"
 	src="${root }/static/ckeditor/ckeditor.js"></script>
 </head>
 <body id="depositBody" class="ContentBody">
 	<div class="CContent">
 		<div id="title" class="tablestyle_title">
-			<label>客户查询</label>
+			<label>权限分配</label>
 		</div>
 		<div class="CPanel">
 			<fieldset>
@@ -46,19 +42,8 @@
 				<table style="width: 100%;" class="CContent">
 					<tbody>
 						<tr>
-							<td><label>绑定手机号:</label></td>
-							<td>
-								<select id="isPinlessMobile"  name="isPinlessMobile" class="text" class="text" style="width:150px">
-										<option value="0" selected="selected">已绑定</option>
-										<option value="1">未绑定</option>
-								</select>
-							</td>
-							<td><label>用户名:</label></td>
-							<td><input id="username" type="text" /></td>
-						</tr>
-						<tr>
-							<td><label>手机号:</label></td>
-							<td><input id="phoneNumber" type="text" /></td>
+							<td><label>角色编号:</label></td>
+							<td><input id="role_id" type="test"/></td>
 						</tr>
 					</tbody>
 					<tfoot>
@@ -97,16 +82,16 @@
 			//查询执行
 			queryDg = function() {
 				var params = {
-					isPinlessMobile : $("#isPinlessMobile").val(),
-					username : $("#username").val(),
-					phoneNumber : $("#phoneNumber").val(),
+					goodCode : $("#goodCode").val(),
+					username : $("#goodAttr").val(),
+					
 					pageNum : pageObj.varPageNum,
 					pageSize : pageObj.varPageSize
 				};
-				loadDg('${root}/good/getGoodList', params);
+				loadDg('${root}/goodprice/getGoodPriceList', params);
 			};
 
-			addWhite = function() {
+			/* addWhite = function() {
 				$("#changeSuccess").val("false");
 				$("#addWin").window({
 					width : 800,
@@ -118,15 +103,16 @@
 					closable : true,
 					maximizable : false,
 					minimizable : false,
-					href : "${root}/good/toAddGood",
+					href : "${root}/goodprice/toAddGoodPrice",
 					onClose: function() {	
 								queryDg();
 					
 					}
 				});
-			};
+			}; */
 
 			editWhite = function() {
+				alert()
 				var checkedItems = $('#dg').datagrid('getChecked');
 				var id = '';
 				if (!checkedItems || checkedItems.length == 0) {
@@ -147,7 +133,7 @@
 					//closable : false,
 					maximizable : false,
 					minimizable : false,
-					href : "${root}/good/toUpdateGood?id=" + id,
+					href : "${root}/goodprice/toUpdatePrice?id=" + id,
 					onClose : function() {
 						if ($("#changeSuccess").val() == "success") {
 							queryDg();
@@ -156,7 +142,7 @@
 				});
 
 			};
-			deleteWhite = function() {
+			/* deleteWhite = function() {
 				var id = '';
 				var checkedItems = $('#dg').datagrid('getChecked');
 				if (!checkedItems || checkedItems.length == 0) {
@@ -168,63 +154,27 @@
 					});
 				}
 				$.ajax({
-					url : "${root}/product/delPro",
+					url : "${root}/goodprice/delete",
 					type : 'POST',
 					data : {
 						"id" : id
 					},
-					success : queryDg()
-				});
-
-			};
-			manageWhite = function() {
-				var checkedItems = $('#dg').datagrid('getChecked');
-				var id = '';
-				if (!checkedItems || checkedItems.length == 0) {
-					alert("未选中任何值,请选择需要修改的白名单客户");
-					return;
-				} else {
-					$.each(checkedItems, function(index, item) {
-						id = item.id;
-						good_type_name=item.good_type_name;
-					});
-				}
-				$("#changeSuccess").val("false");
-				$("#manageWin").window({
-					title:"产品关联",
-					width : 400,
-					height : 300,
-					method : 'post',
-					closeAnimation : 'fade',
-					cache : false,
-					//closable : false,
-					maximizable : false,
-					minimizable : false,
-					href : "${root}/goodRelation/toManageGood?id=" + id+"&good_type_name="+good_type_name,
-					onClose : function() {
-						if ($("#changeSuccess").val() == "success") {
-							queryDg();
+					success : function(msg){
+						if(msg){
+							queryDg()
+						}else{
+							alert("删除失败！");
 						}
 					}
 				});
 
-			};
+			}; */
+			
+
 			var toolbar = [ {
-				text : '增加',
-				iconCls : 'icon-add',
-				handler : addWhite
-			}, {
-				text : '修改',
+				text : '设置权限',
 				iconCls : 'icon-edit',
 				handler : editWhite
-			}, '-', {
-				text : '删除',
-				iconCls : 'icon-delete',
-				handler : deleteWhite
-			}, {
-				text : '产品管理',
-				iconCls : 'icon-delete',
-				handler : manageWhite
 			} ];
 
 			//刷新datafrid
@@ -265,127 +215,45 @@
 					   {
 						field : 'ck',
 						checkbox : 'true'
-					}, {
+					},{
 						field : 'id',
 						title : '编号',
 						hidden : true
 					},{
+						field : 'role_id',
+						title : '角色编号',
+						hidden : true
+					},{
+						field : 'power_id',
+						title : '权限编号',
+						hidden : true
+					},{
 						sortable : true,
-						field : 'code',
-						title : '商品编号',
+						field : 'role_name',
+						title : '角色名称',
 						width : min2MidWith,
 						align : 'center'
 					},{
 						sortable : true,
-						field : 'name',
-						title : '商品名称',
+						field : 'power_name',
+						title : '权限名称',
 						width : min2MidWith,
 						align : 'center'
-					}, {
-						field : 'good_type_name',
-						title : '商品类型',
+					},{						
+						field : 'power_insert',
+						title : '添加权限',
 						width : min2MidWith
-					}, {
-						field : 'price_market',
-						title : '市场价',
-						width : middleWidth
-					}, {
-						field : 'price',
-						title : '商品价格',
-						width : middleWidth
-					}, {
-						sortable : true,
-						field : 'pic',
-						title : '图片',
-						/* width : "40px",*/
-						height:200, 
-						width : middleWidth,
-					//	height: middleHeight,
-						align: "center",
-						formatter:function(value,row,index){
-							return "<img src='${root}/static/upload/"+value+"' width='200px' height='400px'>";
-						}
-					}, {
-						sortable : true,
-						field : 'begin_sale_time',
-						title : '上市时间',
-						width : min2MidWith,
-						formatter: function (value, row, index) {
-							var date = new Date(value);
-							var year = date.getFullYear().toString();
-							var month = (date.getMonth() + 1);
-							var day = date.getDate().toString();
-							var hour = date.getHours().toString();
-							var minutes = date.getMinutes().toString();
-							var seconds = date.getSeconds().toString();
-							if (month < 10) {
-								month = "0" + month;
-							}
-							if (day < 10) {
-								day = "0" + day;
-							}
-							if (hour < 10) {
-								 hour = "0" + hour;
-							}
-							if (minutes < 10) {
-								minutes = "0" + minutes;
-							}
-							if (seconds < 10) {
-								seconds = "0" + seconds;
-							 }
-							return year + "-" + month + "-" + day + " " + hour + ":" + minutes + ":" + seconds;
-							}
-					}, {
-						sortable : true,
-						field : 'end_sale_time',
-						title : '下市时间',
-						width : min2MidWith,
-						formatter: function (value, row, index) {
-							var date = new Date(value);
-							var year = date.getFullYear().toString();
-							var month = (date.getMonth() + 1);
-							var day = date.getDate().toString();
-							var hour = date.getHours().toString();
-							var minutes = date.getMinutes().toString();
-							var seconds = date.getSeconds().toString();
-							if (month < 10) {
-								month = "0" + month;
-							}
-							if (day < 10) {
-								day = "0" + day;
-							}
-							if (hour < 10) {
-								 hour = "0" + hour;
-							}
-							if (minutes < 10) {
-								minutes = "0" + minutes;
-							}
-							if (seconds < 10) {
-								seconds = "0" + seconds;
-							 }
-							return year + "-" + month + "-" + day + " " + hour + ":" + minutes + ":" + seconds;
-							}
-					}, {
-						sortable : true,
-						field : 'index_show',
-						title : '首页显示(是/否)',
-						width : min2MidWith,
-						formatter: function(value,row,index){
-							/*判断是否显示*/
-							if(value==1){
-								return "是";
-							}
-							else if(value==0){
-								return "否";
-							}
-							else{
-								return "不解之谜";
-							}
-						}
-					} , {
-						sortable : true,
-						field : 'sort',
-						title : '排序',
+					},{
+						field : 'power_delete',
+						title : '删除权限',
+						width : min2MidWith
+					},{
+						field : 'power_update',
+						title : '修改权限',
+						width : min2MidWith
+					},{
+						field : 'power_select',
+						title : '查看权限',
 						width : min2MidWith
 					}]]
 				});
@@ -406,7 +274,5 @@
 			refreshDg();
 		});
 	</script>
-	 
-	
 </body>
 </html>

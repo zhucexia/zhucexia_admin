@@ -2,7 +2,6 @@ package com.keji50.zhucexiaadmin.web.controller;
 
 import java.io.File;  
 import java.io.IOException;  
-import java.io.InputStream;
 import java.io.PrintWriter;  
 import java.net.URLDecoder;  
 import java.net.URLEncoder;  
@@ -10,12 +9,9 @@ import java.util.ArrayList;
 import java.util.Iterator;  
 import java.util.List;  
   
-import java.util.Properties;
-
 import javax.servlet.http.HttpServletRequest;  
 import javax.servlet.http.HttpServletResponse;  
   
-
 import org.apache.commons.lang.StringUtils;  
 import org.apache.log4j.Logger;  
 import org.springframework.stereotype.Controller;  
@@ -60,19 +56,7 @@ public class FileBrowerController {
     public void processBrowerPost(ModelMap modelMap,  
             HttpServletRequest request, HttpServletResponse response) {  
         //项目路径
-    	 String tempPath="";
-     	/*读取config配置文件里的配置*/
-     	Properties prop = new Properties(); 
-     	InputStream in = this.getClass() .getResourceAsStream("/config.properties" ); 
-     	try {
- 			prop.load(in);
- 			System.out.println("------"+prop.get("fileupload.dir"));
- 			tempPath=(String) prop.get("fileupload.dir");
- 		} catch (IOException e) {
- 			// TODO Auto-generated catch block
- 			e.printStackTrace();
- 		} 	
-    	String str1=tempPath;
+    	String str1=request.getContextPath();
         String typeStr = request.getParameter("type");  
         String floderName =request.getParameter("fo");  
         System.out.println("floderName ---"+floderName );
@@ -86,7 +70,7 @@ public class FileBrowerController {
         if(StringUtils.isNotBlank(floderName)){  
             floderName = URLDecoder.decode(floderName);  
             // 如果请求中存在文件夹名称，则定位到文件夹中  
-            realPath = tempPath+floderName;  
+            realPath = request.getSession().getServletContext().getRealPath(floderName);  
            // System.out.println("realPath----111---"+realPath);
             if(logger.isInfoEnabled()){  
                 logger.info("sub floder:"+realPath);  
@@ -96,8 +80,7 @@ public class FileBrowerController {
            // realPath = request.getSession().getServletContext().getRealPath(FOR_FREEMARKER_LOAD_DIR+ File.separator+FILE_UPLOAD_DIR+ File.separator+FILE_UPLOAD_SUB_IMG_DIR);  
         	
         	//realPath = request.getSession().getServletContext().getRealPath("\resour"+File.separator+"upload"+File.separator+"img");  
-        	//realPath = request.getSession().getServletContext().getRealPath("resour"+File.separator+"upload");  
-        	realPath=tempPath+FOR_FREEMARKER_LOAD_DIR+File.separator+FILE_UPLOAD_DIR;
+        	realPath = request.getSession().getServletContext().getRealPath("resour"+File.separator+"upload");  
             if(logger.isInfoEnabled()){  
                 logger.info("default floder:"+realPath);  
             }  

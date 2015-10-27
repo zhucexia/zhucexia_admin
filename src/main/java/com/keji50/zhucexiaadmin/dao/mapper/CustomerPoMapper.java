@@ -15,4 +15,6 @@ public interface CustomerPoMapper {
 	CustomerPo getCustomer(int id);
 
 	int updatecustomer(CustomerPo cust);
+	
+	CustomerPo checkCustomer(CustomerPo cust);
 }

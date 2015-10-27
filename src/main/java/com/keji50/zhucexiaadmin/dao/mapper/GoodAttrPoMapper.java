@@ -1,10 +1,11 @@
 package com.keji50.zhucexiaadmin.dao.mapper;
 
+import java.util.List;
 import java.util.Map;
 
 import com.github.pagehelper.Page;
 import com.keji50.zhucexiaadmin.dao.po.GoodAttrPo;
-import com.keji50.zhucexiaadmin.dao.po.GoodTypePo;
+
 
 public interface GoodAttrPoMapper {
 	
@@ -17,4 +18,8 @@ public interface GoodAttrPoMapper {
 	GoodAttrPo getgoodattr(int id);
 
 	int updategoodattr(GoodAttrPo goodattr);
+	
+	public  GoodAttrPo checkGoodAttr(GoodAttrPo goodAttrPo);
+
+	List<Map<String, Object>> getGoodType();
 }

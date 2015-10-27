@@ -5,7 +5,7 @@
 		<id column="id" property="id" jdbcType="DECIMAL" />
 		<result column="username" property="username" jdbcType="VARCHAR" />
 		<result column="password" property="password" jdbcType="VARCHAR" />
-		<result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
+		<result column="mobile" property="phoneNumber" jdbcType="VARCHAR" />
 		<result column="email" property="email" jdbcType="VARCHAR" />
 		<result column="create_by" property="createBy" jdbcType="VARCHAR" />
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -13,7 +13,7 @@
 		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, username, password, phone_number, email, create_by, create_time, update_by, update_time
+		id, username, password, mobile, email, create_by, create_time, update_by, update_time
 	</sql>
 
 	<!-- 新增会员 -->
@@ -28,19 +28,25 @@
 			and username = #{username,jdbcType=VARCHAR}
 		</if>
 		<if test="phoneNumber != null and phoneNumber !=''">
-			and phone_number = #{phoneNumber,jdbcType=VARCHAR}
-		</if>
+			and mobile = #{phoneNumber,jdbcType=VARCHAR}
+		</if> -->
 	</select>
 	<delete id="deletecustomer" parameterType="int">
 		delete from customer where id=#{id,jdbcType=DECIMAL}
 	</delete>
 	<insert id="addcustomer"  parameterType="com.keji50.zhucexiaadmin.dao.po.CustomerPo" >
-		insert into customer(id, username, password, phone_number, email, create_by) value(#{id},#{username},#{password},#{phoneNumber},#{email},#{createBy})
+		insert into customer(id, username, password, mobile, email, create_by,create_time) value(#{id},#{username},#{password},#{phoneNumber},#{email},#{createBy},#{createTime})
 	</insert>
 	<select id="getCustomer" parameterType="int" resultMap="BaseResultMap">
 		select <include refid="Base_Column_List" /> from customer where id=#{id,jdbcType=DECIMAL}
 	</select>
 	<update id="updatecustomer">
-		update customer set username=#{username,jdbcType=VARCHAR},password=#{password,jdbcType=VARCHAR},phone_number=#{phoneNumber,jdbcType=VARCHAR},create_by=#{createBy,jdbcType=VARCHAR},email=#{email,jdbcType=VARCHAR} where id=#{id}
+		update customer set username=#{username,jdbcType=VARCHAR},password=#{password,jdbcType=VARCHAR},
+		mobile=#{phoneNumber,jdbcType=VARCHAR},update_by=#{UpdateBy,jdbcType=VARCHAR},update_time=#{updatTime},
+		email=#{email,jdbcType=VARCHAR} where id=#{id}
 	</update>
+	<select id="checkCustomer" parameterType="com.keji50.zhucexiaadmin.dao.po.CustomerPo" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from customer where username=#{username}
+	</select>
 </mapper>

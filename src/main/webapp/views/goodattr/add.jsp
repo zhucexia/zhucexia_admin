@@ -36,13 +36,13 @@
 							<td><input id="remark" type="text" name="remark"/></td>
 						</tr>
 						<tr>
-							<!-- <td><label>创建时间:</label></td>
-							<td><input id="createTime" type="text" name="createTime"/></td> -->
-							<td><label>商品名称(开发填为id):</label></td>
-							<%-- <td><input  name="good_id" class="easyui-combobox" data-options="editable:false,valueField:'values',textField:'fields',data:${jsons}" /> </td> --%>
-							<td><input id="good_id" type="text" name="goodid"/></td>
+
+							<td><label>商品类型:</label></td>
+							<td><input  name="good_type_id" class="easyui-combobox" data-options="editable:false,valueField:'values',textField:'fields',data:${jsons}" /> </td>
+						</tr>
+						<tr style="display:none">	
 							<td><label>创建人:</label></td>
-							<td><input id="createBy" type="text" name="createBy" value="<%=sysUser.getUsername() %>"/></td>
+							<td><input id="createBy" name="createBy" value="<%=sysUser.getUsername() %>"/></td>
 						</tr>
 						<tr>
 							<td><label>可选值:</label></td>

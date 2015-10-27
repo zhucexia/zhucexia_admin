@@ -45,13 +45,15 @@
 					
 				},
 				success:function(data){
-					var data=eval("("+data+")");
-					/*判断是否成功插入数据到数据库*/
-					alert(data.message);
-					if(data.message){	
-						$("#addWin").window('close');		
+					if(data==0){	
+						$("#addWin").window('close');
+						alert("添加成功！");
 					}
-					else{}
+					else if(data==1){
+						alert("出现异常，请联系系统管理员！")
+					}else{
+						alert("添加失败，该角色已存在！")
+					}
 				}	
 			})
 		}

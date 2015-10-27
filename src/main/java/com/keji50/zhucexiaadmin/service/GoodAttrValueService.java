@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.keji50.zhucexiaadmin.dao.mapper.GoodAttrValuePoMapper;
+import com.keji50.zhucexiaadmin.dao.po.GoodAttrPo;
 import com.keji50.zhucexiaadmin.dao.po.GoodAttrValuePo;
 import com.keji50.zhucexiaadmin.web.utils.PageUtils;
 
@@ -30,26 +31,35 @@ public class GoodAttrValueService {
 	}
 
 	public int addgoodattrvalue(GoodAttrValuePo goodattrvalue) {
-		// TODO Auto-generated method stub
 		int result=goodAttrValuePoMapper.addgoodattrvalue(goodattrvalue);
 		return result;
 	}
 
 	public int deletegoodattrvalue(int id) {
-		// TODO Auto-generated method stub
 		return goodAttrValuePoMapper.deletegoodattrvalue(id);
 	}
 	public GoodAttrValuePo getgoodattrvalue(int id) {
-		// TODO Auto-generated method stub
 		GoodAttrValuePo c=goodAttrValuePoMapper.getgoodattrvalue(id);
 		return c;
 	}
 	public int updategoodattrvalue(GoodAttrValuePo goodattrvalue) {
-		// TODO Auto-generated method stub
 		int result=goodAttrValuePoMapper.updategoodattrvalue(goodattrvalue);
 		return result;
-
 	}
 
+	public Boolean checkAttrValue(GoodAttrValuePo goodAttrValue){
+		Boolean flag = goodAttrValuePoMapper.checkAttrValue(goodAttrValue)==null;
+		return flag;
+	}
+
+	public String getAttrOptionValue(int goodAttrId) {
+		return goodAttrValuePoMapper.getAttrOptionValue(goodAttrId);
+	}
+
+	public int updateAttrOptionValue(GoodAttrPo goodAttrPo) {
+		System.out.println("进入goodAttrValueService的updateAttrOprionValue方法！");
+		int i = goodAttrValuePoMapper.updateAttrOptionValue(goodAttrPo);
+		return i;
+	}
 
 }

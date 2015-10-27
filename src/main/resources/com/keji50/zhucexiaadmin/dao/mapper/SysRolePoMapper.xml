@@ -22,10 +22,9 @@
 	</select>
     <insert id="insertRole" parameterType="com.keji50.zhucexiaadmin.dao.po.SysRolePo">
 		insert into sys_role(code,name,
-		create_by,create_time,update_by,update_time) values(
+		create_by,create_time) values(
 		#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
-		#{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR},
-		#{updateTime,jdbcType=TIMESTAMP})
+		#{createTime,jdbcType=TIMESTAMP})
 	</insert>
 	
 	<!-- 查询单个的角色信息 ,然后修改角色信息-->
@@ -36,7 +35,7 @@
 	</select>
     <update id="updateRole" parameterType="com.keji50.zhucexiaadmin.dao.po.SysRolePo">
     	update sys_role set name=#{name,jdbcType=VARCHAR},code=#{code,jdbcType=VARCHAR},
-    	update_by=#{updateBy,jdbcType=VARCHAR}
+    	update_by=#{updateBy},update_time=#{updateTime}
     	where id=#{id,jdbcType=DECIMAL}
     </update>
     
@@ -45,10 +44,17 @@
     	update sys_role set state='d' where id=#{id}
     </update>
     
+
     <!-- 添加用户时候，分配角色给用户，查询所有角色信息 -->
 	<select id="addRoleToUser" resultMap="BaseResultMap" >
 		select id,code,name
 	from sys_role
 	where 1=1 and state='s'
 	</select>
+
+    <select id="checkRole" parameterType="com.keji50.zhucexiaadmin.dao.po.SysRolePo" resultMap="BaseResultMap">
+    	select <include refid="Base_Column_List"/>
+    	from sys_role where 1=1 and code=#{code} and name=#{name}
+    </select>
+    
 </mapper>

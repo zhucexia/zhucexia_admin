@@ -16,4 +16,6 @@ public interface GoodTypePoMapper {
 	int addgoodtype(GoodTypePo goodtype);
 
 	int updategoodtype(GoodTypePo goodtype);
+	
+	GoodTypePo checkGoodType(GoodTypePo goodtype);
 }

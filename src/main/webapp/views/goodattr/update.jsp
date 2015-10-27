@@ -18,6 +18,7 @@
 </head>
 <body>
 		 <form method="post" id="updateform" >
+<<<<<<< HEAD
 			<table style="width: 100%;height:auto" class="CContent">
 					<tbody>
 						<tr>
@@ -50,6 +51,34 @@
 							<td><label>可选值:</label></td>
 							<td><input type="text" name="optionvalue" value="${goodtype.optionvalue }"></td>
 							<td style="display:none;"><input type="hidden" name="id" value="${goodtype.id }"/></td>
+=======
+		 	<input type="hidden" name="id" value="${goodAttr.id }"/>
+			<table style="width: 100%;height:auto" class="CContent">
+					<tbody>
+						<tr>
+							<td><label>条件名称:</label></td>
+							<td><input type="text" name="name" value="${goodAttr.name }"></input></td>
+							<td><label>条件代码:</label></td>
+							<td>
+								<input  type="text" name="code" value="${goodAttr.code }"/>
+							</td>
+							
+						</tr>
+						<tr>
+							<td><label>序号:</label></td>
+							<td><input type="text" name="sort" value="${goodAttr.sort }"></td>
+							<td><label>备注:</label></td>
+							<td><input id="remark" type="text" name="remark" value="${goodAttr.remark }"/></td>
+						</tr>
+						<tr style="display:none;">
+							<td><label>商品类型:</label></td>
+							<td><input id="good_type_id" type="text" name="goodTypeId" value="${goodAttr.goodTypeId }"/></td>							
+						</tr>
+						<tr>
+							<td><label>可选值:</label></td>
+							<td><input type="text" name="optionvalue" value="${goodAttr.optionvalue }"></td>
+							<td style="display:none;"><input id="updateBy" type="text" name="updateBy" value="<%=sysUser.getUsername() %>"/></td>
+>>>>>>> refs/remotes/origin/master
 						</tr>
 					</tbody>
 					<tfoot>

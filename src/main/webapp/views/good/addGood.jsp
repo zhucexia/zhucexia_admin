@@ -46,6 +46,13 @@
 		    	</td>
 		    </tr>
 		    <tr>
+
+		    	<td>商品价格</td>
+		    	<td>
+		    		<input type="test" name="price"/>
+		    	</td>
+		    </tr>
+		    <tr>
 		    	<td>封面图片</td>
 		    	<td>
 		    		<input type="file" name="pic"/>

@@ -1,5 +1,6 @@
 package com.keji50.zhucexiaadmin.dao.po;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import lombok.Data;
@@ -9,10 +10,10 @@ public class BasePo {
 	
 	private String createBy;
 	
-	private Date createTime;
+	private Timestamp createTime;
 	
 	private String updateBy;
 	
-	private Date updateTime;
+	private Timestamp updateTime;
 	
 }

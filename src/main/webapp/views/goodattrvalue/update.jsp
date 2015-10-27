@@ -42,8 +42,8 @@
 							<td><input  name="good_id" class="easyui-combobox" data-options="editable:false,valueField:'values',textField:'fields',data:${jsons}" /> </td>
 							<td><input id="good_id" type="text" name="goodid"/></td> --%>
 							<td style="display:none;"><input id="updateBy" type="text" name="updateBy" value="<%=sysUser.getUsername() %>"/></td>
-							<td><label>创建人:</label></td>
-							<td><input id="createBy" type="text" name="createBy" value="<%=sysUser.getUsername() %>"/></td>
+
+							
 							<td style="display:none;"><input type="hidden" name="id" value="${goodAttrValuePo.id }"/></td>
 						</tr>
 					</tbody>
@@ -70,22 +70,14 @@
 			    			    	return $(this).form('validate');
 			    			    },    
 			    			    success:function(data){    
-			    			    	var obj = jQuery.parseJSON(data);
-			    			    	/* alert(obj); */
-			    					/* if(obj=="修改成功"){ */
+			    					if(data==0){
 			    						 queryDg();
 			    						 $("#editWin").window("close");
-			    						 $.messager.alert("操作提示", obj,"info");
-			    					/* } */
-			    			    } ,
-			    			    error:function(data){
-			    			    	var obj = jQuery.parseJSON(data);
-			    			    	//alert(obj);
-			    					if(obj=="修改失败"){
-			    						$.messager.alert("操作提示", obj,"error");
-			    						 //queryDg();
-			    						 $("#editWin").window("close");
-			    					}
+			    						 alert("修改成功！");
+			    					}else if(data==1){
+			    						alert("发现异常，请联系管理员！");
+			    					}else
+			    						alert("该属性已存在！");
 			    			    }
 			    			});  
 

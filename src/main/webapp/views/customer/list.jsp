@@ -295,8 +295,6 @@
 							 }
 							return year + "/" + month + "/" + day + " " + hour + ":" + minutes + ":" + seconds;
 							}
-							
-
 					}, {
 						field : 'updateBy',
 						title : '更新人',
@@ -330,8 +328,7 @@
 							 }
 							return year + "/" + month + "/" + day + " " + hour + ":" + minutes + ":" + seconds;
 							}
-							
-					} ] ]
+					}] ]
 				});
 
 				//设置分页控件

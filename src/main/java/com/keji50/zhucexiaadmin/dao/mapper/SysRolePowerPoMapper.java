@@ -10,4 +10,12 @@ public interface SysRolePowerPoMapper {
 	public List<SysRolePowerPo> selectRolePower(String role_id);
 
 	public List<HashMap<String, Object>> getPowers(String role_id);
+
+	
+	public int insertRolePower(SysRolePowerPo sysrRolePowerPo);
+	
+	public SysRolePowerPo checkRolePower(SysRolePowerPo sysRolePowerPo);
+	
+	public int deleteRolePower(int id);
+
 }

@@ -4,10 +4,8 @@ import lombok.Data;
 
 @Data
 public class GoodAttrPo extends BasePo {
-	
 	private int id;
-	
-	private int goodid;
+	private int goodTypeId;
 	
 	private String code;
 	

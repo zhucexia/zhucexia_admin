@@ -2,7 +2,6 @@ package com.keji50.zhucexiaadmin.web.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -11,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,7 +46,7 @@ public class AdminFileUploadController<logger> {
      
     private static final String FILE_UPLOAD_DIR = "/upload";
     private static final String FILE_UPLOAD_SUB_IMG_DIR = "/img";
-    private static final String FOR_RESOURCES_LOAD_DIR = "resour";
+    private static final String FOR_RESOURCES_LOAD_DIR = "/resour";
     //每个上传子目录保存的文件的最大数目
     private static final int MAX_NUM_PER_UPLOAD_SUB_DIR = 500;
     //上传文件的最大文件大小
@@ -106,6 +104,7 @@ public class AdminFileUploadController<logger> {
             	System.out.println("size---------------------size-size");
                 return;
             }
+
             Iterator<MultipartFile> fileitemIndex = fileitem.iterator();
             if (fileitemIndex.hasNext()) {
                 MultipartFile file = fileitemIndex.next();
@@ -157,20 +156,8 @@ public class AdminFileUploadController<logger> {
 
                 // 组装返回url，以便于ckeditor定位图片
                 fileUrl = FOR_RESOURCES_LOAD_DIR + FILE_UPLOAD_DIR + FILE_UPLOAD_SUB_IMG_DIR + "/" + folder.getName() + "/" + newfile.getName();
-                String tempPath="";
-            	/*读取config配置文件里的配置*/
-            	Properties prop = new Properties(); 
-            	InputStream in = this.getClass() .getResourceAsStream("/config.properties" ); 
-            	try {
-        			prop.load(in);
-        			System.out.println("------"+prop.get("fileupload.dir"));
-        			tempPath=(String) prop.get("fileupload.dir");
-        		} catch (IOException e) {
-        			// TODO Auto-generated catch block
-        			e.printStackTrace();
-        		} 	
-                fileUrl = tempPath + fileUrl;
                 fileUrl = StringUtils.replace(fileUrl, "//", "/");
+                fileUrl = request.getContextPath() + fileUrl;
                  System.out.println("fileUrl-----"+fileUrl+"===================");
                 // 将上传的图片的url返回给ckeditor
                 String callback = request.getParameter("CKEditorFuncNum");
@@ -233,21 +220,10 @@ public class AdminFileUploadController<logger> {
      * @return
      */
     private File buildFolder(HttpServletRequest request) {
-    	String tempPath="";
-    	/*读取config配置文件里的配置*/
-    	Properties prop = new Properties(); 
-    	InputStream in = this.getClass() .getResourceAsStream("/config.properties" ); 
-    	try {
-			prop.load(in);
-			System.out.println("------"+prop.get("fileupload.dir"));
-			tempPath=(String) prop.get("fileupload.dir");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 	
         // 这里照顾一下CKEDITOR，由于ftl放置位置的原因，这里必须要在freemarker目录下才能被加载到图片，否则虽然可以正常上传和使用，但是
         // 在控件中无法正常操作
-        String realPath = tempPath+FOR_RESOURCES_LOAD_DIR;
+        String realPath = request.getSession().getServletContext()
+                .getRealPath(FOR_RESOURCES_LOAD_DIR);
         	System.out.println("buildFolder方法中====realPath---"+realPath);
         logger.error(realPath);
 

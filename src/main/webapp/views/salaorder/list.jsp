@@ -74,9 +74,13 @@
 				<div style="width: 1300px;" id="dg"></div>
 			</div>
 			<input id="changeSuccess" value="false" type="hidden" />
+			<input id="selectSuccess" value="false" type="hidden" />
 		</div>
 		<!-- <div id="addWin"></div> -->
 		<div id="editWin"></div>
+	</div>
+	<div id="detailWin">
+	<div style="width:998px;" id="detail" ></div>
 	</div>
 	<script language="javascript">
 		$(function() {
@@ -169,6 +173,131 @@
 				
 
 			};
+			
+			detailWhite = function(){
+				var checkedItems = $('#dg').datagrid('getChecked');
+				var id = '';
+				if (!checkedItems || checkedItems.length == 0) {
+					$.messager.alert("温馨提示", "未选中,请选择需要修改的白名单客户", "info");
+					return;
+				} else {
+					$.each(checkedItems, function(index, item) {
+						id = item.id;
+					});
+					if(('#detailWin').panel==null){
+						
+					$('#detailWin').panel({
+						title:'订单详情',
+						width : 1000,
+						height : 180,
+						closable : true,
+						cache : false
+						/* tools : [{
+							text : '关闭',
+							iconCls : 'icon-close',
+							handler : function(){
+								$('#detailWin').panel('close');
+							}
+						}] */
+					}); 
+					}
+				}
+				$.ajax({
+					url:"${root}/saleorderdetail/getorderdetail",
+					type:'POST',
+					data:{"id":id},
+					dataType:"json",
+					success:function(map){
+						$('#detail').datagrid({
+							data:[{
+								order_id : map.order_id,
+								good_id : map.good_id,
+								good_name : map.good_name,
+								good_price_id : map.good_price_id,
+								good_price : map.good_price,
+								good_num : map.good_num,
+								total_price : map.total_price
+							}]
+						});
+					}
+				});
+				var middleWidth = "180px";
+				var min2MidWith = "120px";
+				var minWidth = "100px";
+				$("#detail").datagrid({
+ 						/* data : loadData, */	
+						rownumbers : true,
+						fit : true,
+						pagination : true,
+						singleSelect : true,
+						pageList : [ 50, 20 ],
+						pageNumber : pageObj.varPageNum,
+						pageSize : pageObj.varPageSize,
+						onLoadSuccess : function(data) {
+							if (data.total > 0) {
+								return;
+							}
+								$('#detail').datagrid('insertRow', {
+									row : {
+										id : '没有查到数据',
+									}
+								});
+						},
+						autoRowHeight : false,//取消自动行高
+						remoteSort : false,
+						multiSort : true,
+						cache : false,
+						columns : [ [ 
+						{
+							field : 'sno',
+							title : '编号',
+							hidden : true
+						},
+						{
+							//sortable : true,
+							field : 'order_id',
+							title : '订单编号',
+							width : min2MidWith,
+							align : 'center'
+						},{
+							
+							field : 'good_id',
+							title : '商品编号',
+							width : min2MidWith,
+							align : 'center'
+						}, {
+							field : 'good_name',
+							title : '商品名称',
+							width : min2MidWith
+						}, {
+							field : 'good_price_id',
+							title : '商品价格编号',
+							width : min2MidWith
+						}, {
+							field : 'good_price',
+							title : '商品价格',
+							width : min2MidWith
+						}, {
+							/* sortable : true, */
+							field : 'good_num',
+							title : '商品数量',
+							width : min2MidWith
+						}, {
+							field : 'total_price',
+							title : '订单总价',
+							width : min2MidWith
+						} ] ]
+					});
+				/* $('#detail').datagrid('load',{'order_id':'id','address':'${root}/saleorderdetail/getorderdetail'});
+				$('#detail').datagrid('reload'); */
+			};
+			//销毁订单详情面板
+			/* $('#detailWin').panel({
+				onClose : function(){
+					$('#detailWin').panel('destroy',true);
+					alert("面板关闭");
+				}
+			}); */
 
 			var toolbar = [ {
 				text : '修改',
@@ -178,6 +307,10 @@
 				text : '删除',
 				iconCls : 'icon-delete',
 				handler : deleteWhite
+			}  ,'-',{
+				text : '查看详情',
+				iconCls : 'icon-detail',
+				handler : detailWhite
 			} ];
 
 			//刷新datafrid
@@ -304,8 +437,10 @@
 			function loadDg(postUrl, params) {
 				ajaxLoadDg(postUrl, params, refreshDg, $("#dg"));
 			}
+			/* function loadDetail(postUrl,params) */
 			//加载空查询结果数据
 			refreshDg();
+			
 		});
 	</script>
 </body>
