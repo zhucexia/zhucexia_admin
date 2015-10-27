@@ -180,6 +180,35 @@
 				});
 
 			};
+			setPowerWhite = function(){
+				var id = '';
+				var checkedItems = $('#dg').datagrid('getChecked');
+				if (!checkedItems || checkedItems.length == 0) {
+					alert("未选中任何值,请选择需要删除的白名单客户");
+					return;
+				} else {
+					$.each(checkedItems, function(index, item) {
+						id = item.id;
+					});
+				}
+				$("#changeSuccess").val("false");
+				$("#editWin").window({
+					width : 800,
+					height : 300,
+					method : 'post',
+					closeAnimation : 'fade',
+					cache : false,
+					//closable : false,
+					maximizable : false,
+					minimizable : false,
+					href : "${root}/sysRole/toSetRolePower?id=" + id,
+					onClose : function() {
+						if ($("#changeSuccess").val() == "success") {
+							queryDg();
+						}
+					}
+				});
+			};
 
 			var toolbar = [ {
 				text : '增加',

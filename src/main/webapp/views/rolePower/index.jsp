@@ -88,7 +88,7 @@
 					pageNum : pageObj.varPageNum,
 					pageSize : pageObj.varPageSize
 				};
-				loadDg('${root}/goodprice/getGoodPriceList', params);
+				loadDg('${root}/rolePower/rolePowerList', params);
 			};
 
 			/* addWhite = function() {
