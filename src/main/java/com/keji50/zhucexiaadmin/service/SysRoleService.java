@@ -1,5 +1,6 @@
 package com.keji50.zhucexiaadmin.service;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -48,5 +49,9 @@ public class SysRoleService {
 	}
 	public int deleteRole(int id) {
 		return sysRolePoMapper.deleteRole(id);
+	}
+	/*查询所有角色的信息，用于添加用户的时候，用户选择角色---*/
+	public List<SysRolePo> addRoleToUser(){
+		return sysRolePoMapper.addRoleToUser();
 	}
 }

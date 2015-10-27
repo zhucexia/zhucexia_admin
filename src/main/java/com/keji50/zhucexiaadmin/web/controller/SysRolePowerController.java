@@ -1,5 +1,6 @@
 package com.keji50.zhucexiaadmin.web.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -56,5 +57,44 @@ public class SysRolePowerController {
 	public String aa(){
 		return "admin/login";
 	}
-
+	
+	
+	/*给角色分配权限*/
+	@RequestMapping("/toDistriPower")
+	public String toDistriPower(HttpServletRequest request){
+		/*从页面获取到角色的id值，通过角色的id值获取该角色对应 的所有的权限*/
+		System.out.println("进入了rolepowercontroller里面的toDistriPower方法");
+		String role_id=request.getParameter("id");
+		System.out.println("id--"+role_id);
+		List<HashMap<String,Object>> list=sysRolePowerService.getPowers(role_id);
+		String str="[";
+		/*获取所有权限的枚举值*/
+		for(HashMap<String,Object> map :list){
+			System.out.println("进入了rolepowercontroller里面的toDistriPower方法----"+map.get("id"));
+			System.out.println("power--id--"+map.get("id")+"---powerName--"+map.get("name"));
+			System.out.println("role_power--role_id---"+map.get("role_id")+"---power_id==="+map.get("power_id"));
+			/*判断该角色有没有当前的权限*/
+			if(map.get("power_id")!=null){
+				str+="{'id':'"+map.get("id")+"','text':'"+map.get("name")+"',"
+						+ "'checked':true},";
+			}
+			else{
+				str+="{'id':'"+map.get("id")+"','text':'"+map.get("name")+"'},";
+			}
+		}
+		str=str.substring(0,str.length()-1)+"]";
+		request.setAttribute("json", str);
+		request.setAttribute("role_id", role_id);
+		System.out.println("进入了rolepowercontroller里面的toDistriPower方法----"+str);
+		return "admin/distributionPower";
+	}
+	
+	/*重新选择权限，进行分配*/
+	@RequestMapping("/distriPower")
+	public String distriPower(String role_id,String selectedPower,HttpServletRequest request){
+		/*获取目前角色有那些权限*/
+		selectedPower =selectedPower.substring(0,selectedPower.length()-1);
+		System.out.println("进入了rolepowercontroller里面的方法--distriPower--"+"id--"+role_id+"--"+selectedPower);
+		return null;
+	}
 }

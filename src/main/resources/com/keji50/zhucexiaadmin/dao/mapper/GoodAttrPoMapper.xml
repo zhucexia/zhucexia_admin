@@ -5,7 +5,7 @@
 		<id column="id" property="id" jdbcType="DECIMAL" />
 		<result column="good_id" property="goodid" jdbcType="DECIMAL" />
 		<result column="code" property="code" jdbcType="VARCHAR" />
-		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="names" property="name" jdbcType="VARCHAR" />
 		<result column="sort" property="sort" jdbcType="DECIMAL" />
 		<result column="remark" property="remark" jdbcType="VARCHAR" />
 		<result column="option_value" property="optionvalue" jdbcType="VARCHAR" />
@@ -16,7 +16,7 @@
 		<result column="state" property="state" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, code,good_id, name, sort,remark, create_by,create_time, update_by, update_time,state,option_value
+		id, code,good_id, names, sort,remark, create_by,create_time, update_by, update_time,state,option_value
 	</sql>
 
 	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="java.util.HashMap">
@@ -31,12 +31,12 @@
 		delete from good_attr where id=#{id,jdbcType=DECIMAL}
 	</delete>
 	<insert id="addgoodattr"  parameterType="com.keji50.zhucexiaadmin.dao.po.GoodAttrPo" >
-		insert into good_attr(id, name, code, sort, create_by,remark,good_id,option_value) value(#{id},#{name},#{code},#{sort},#{createBy},#{remark},#{goodid},#{optionvalue})
+		insert into good_attr(id, names, code, sort, create_by,remark,good_id,option_value) value(#{id},#{name},#{code},#{sort},#{createBy},#{remark},#{goodid},#{optionvalue})
 	</insert>
 	<select id="getgoodattr" parameterType="int" resultMap="BaseResultMap">
 		select <include refid="Base_Column_List" /> from good_attr where id=#{id,jdbcType=DECIMAL}
 	</select>
 	<update id="updategoodattr">
-		update good_attr set name=#{name,jdbcType=VARCHAR},code=#{code,jdbcType=VARCHAR},remark=#{remark,jdbcType=VARCHAR},update_by=#{updateBy,jdbcType=VARCHAR},sort=#{sort,jdbcType=VARCHAR},option_value=#{optionvalue,jdbcType=VARCHAR},update_time=now() where id=#{id}
+		update good_attr set names=#{name,jdbcType=VARCHAR},code=#{code,jdbcType=VARCHAR},remark=#{remark,jdbcType=VARCHAR},update_by=#{updateBy,jdbcType=VARCHAR},sort=#{sort,jdbcType=VARCHAR},option_value=#{optionvalue,jdbcType=VARCHAR},update_time=now() where id=#{id}
 	</update>
 </mapper>

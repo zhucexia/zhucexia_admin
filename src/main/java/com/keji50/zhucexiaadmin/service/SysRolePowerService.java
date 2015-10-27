@@ -1,5 +1,6 @@
 package com.keji50.zhucexiaadmin.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -16,5 +17,11 @@ public class SysRolePowerService {
 
 	public List<SysRolePowerPo> getRolePower(String role_id) {
 		return  sysRolePowerPoMapper.selectRolePower(role_id);
+	}
+
+	public List<HashMap<String, Object>> getPowers(String role_id) {
+		System.out.println("进入了SysRolePowerService里面的getPowers方法");
+		return sysRolePowerPoMapper.getPowers(role_id);
+		
 	}
 }

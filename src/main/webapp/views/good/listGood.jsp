@@ -30,6 +30,10 @@
 <script type="text/javascript"
 	src="${root }/static/js/jquery-openwindow.js"></script>
 <script type="text/javascript" src="${root }/static/js/dataDic.js"></script>
+<%-- <script type="text/javascript"
+	src="${root }/static/tinymce/tinymce.min.js"></script>  --%> 
+ <script type="text/javascript"
+	src="${root }/static/ckeditor/ckeditor.js"></script>
 </head>
 <body id="depositBody" class="ContentBody">
 	<div class="CContent">
@@ -74,6 +78,7 @@
 		</div>
 		<div id="addWin"></div>
 		<div id="editWin"></div>
+		<div id="manageWin"></div>		
 	</div>
 	<script language="javascript">
 		$(function() {
@@ -98,7 +103,7 @@
 					pageNum : pageObj.varPageNum,
 					pageSize : pageObj.varPageSize
 				};
-				loadDg('${root}/product/getProductList', params);
+				loadDg('${root}/good/getGoodList', params);
 			};
 
 			addWhite = function() {
@@ -113,7 +118,7 @@
 					closable : true,
 					maximizable : false,
 					minimizable : false,
-					href : "${root}/product/toAddPro",
+					href : "${root}/good/toAddGood",
 					onClose: function() {	
 								queryDg();
 					
@@ -129,12 +134,12 @@
 					return;
 				} else {
 					$.each(checkedItems, function(index, item) {
-						id = item.sno;
+						id = item.id;
 					});
 				}
 				$("#changeSuccess").val("false");
 				$("#editWin").window({
-					width : 800,
+					width : 820,
 					height : 300,
 					method : 'post',
 					closeAnimation : 'fade',
@@ -142,7 +147,7 @@
 					//closable : false,
 					maximizable : false,
 					minimizable : false,
-					href : "${root}/whiteList/updateAcWhitleList?sno=" + id,
+					href : "${root}/good/toUpdateGood?id=" + id,
 					onClose : function() {
 						if ($("#changeSuccess").val() == "success") {
 							queryDg();
@@ -172,7 +177,38 @@
 				});
 
 			};
+			manageWhite = function() {
+				var checkedItems = $('#dg').datagrid('getChecked');
+				var id = '';
+				if (!checkedItems || checkedItems.length == 0) {
+					alert("未选中任何值,请选择需要修改的白名单客户");
+					return;
+				} else {
+					$.each(checkedItems, function(index, item) {
+						id = item.id;
+						good_type_name=item.good_type_name;
+					});
+				}
+				$("#changeSuccess").val("false");
+				$("#manageWin").window({
+					title:"产品关联",
+					width : 400,
+					height : 300,
+					method : 'post',
+					closeAnimation : 'fade',
+					cache : false,
+					//closable : false,
+					maximizable : false,
+					minimizable : false,
+					href : "${root}/goodRelation/toManageGood?id=" + id+"&good_type_name="+good_type_name,
+					onClose : function() {
+						if ($("#changeSuccess").val() == "success") {
+							queryDg();
+						}
+					}
+				});
 
+			};
 			var toolbar = [ {
 				text : '增加',
 				iconCls : 'icon-add',
@@ -185,6 +221,10 @@
 				text : '删除',
 				iconCls : 'icon-delete',
 				handler : deleteWhite
+			}, {
+				text : '产品管理',
+				iconCls : 'icon-delete',
+				handler : manageWhite
 			} ];
 
 			//刷新datafrid
@@ -231,40 +271,128 @@
 						hidden : true
 					},{
 						sortable : true,
-						field : 'product_name',
-						title : '用户名',
+						field : 'code',
+						title : '商品编号',
+						width : min2MidWith,
+						align : 'center'
+					},{
+						sortable : true,
+						field : 'name',
+						title : '商品名称',
 						width : min2MidWith,
 						align : 'center'
 					}, {
-						field : 'product_price',
-						title : '价格',
+						field : 'good_type_name',
+						title : '商品类型',
 						width : min2MidWith
 					}, {
-						field : 'product_description',
-						title : '产品描述',
+						field : 'price_market',
+						title : '市场价',
 						width : middleWidth
 					}, {
-						field : 'product_code',
-						title : '产品编号',
-						width : min2MidWith
+						sortable : true,
+						field : 'pic',
+						title : '图片',
+						/* width : "40px",*/
+						height:200, 
+						width : middleWidth,
+					//	height: middleHeight,
+						align: "center",
+						formatter:function(value,row,index){
+							return "<img src='${root}/static/upload/"+value+"' width='200px' height='400px'>";
+						}
 					}, {
 						sortable : true,
-						field : 'product_grounding',
-						title : '上架/下架',
+						field : 'begin_sale_time',
+						title : '上市时间',
+						width : min2MidWith,
+						formatter: function (value, row, index) {
+							var date = new Date(value);
+							var year = date.getFullYear().toString();
+							var month = (date.getMonth() + 1);
+							var day = date.getDate().toString();
+							var hour = date.getHours().toString();
+							var minutes = date.getMinutes().toString();
+							var seconds = date.getSeconds().toString();
+							if (month < 10) {
+								month = "0" + month;
+							}
+							if (day < 10) {
+								day = "0" + day;
+							}
+							if (hour < 10) {
+								 hour = "0" + hour;
+							}
+							if (minutes < 10) {
+								minutes = "0" + minutes;
+							}
+							if (seconds < 10) {
+								seconds = "0" + seconds;
+							 }
+							return year + "-" + month + "-" + day + " " + hour + ":" + minutes + ":" + seconds;
+							}
+					}, {
+						sortable : true,
+						field : 'end_sale_time',
+						title : '下市时间',
+						width : min2MidWith,
+						formatter: function (value, row, index) {
+							var date = new Date(value);
+							var year = date.getFullYear().toString();
+							var month = (date.getMonth() + 1);
+							var day = date.getDate().toString();
+							var hour = date.getHours().toString();
+							var minutes = date.getMinutes().toString();
+							var seconds = date.getSeconds().toString();
+							if (month < 10) {
+								month = "0" + month;
+							}
+							if (day < 10) {
+								day = "0" + day;
+							}
+							if (hour < 10) {
+								 hour = "0" + hour;
+							}
+							if (minutes < 10) {
+								minutes = "0" + minutes;
+							}
+							if (seconds < 10) {
+								seconds = "0" + seconds;
+							 }
+							return year + "-" + month + "-" + day + " " + hour + ":" + minutes + ":" + seconds;
+							}
+					}, {
+						sortable : true,
+						field : 'index_show',
+						title : '首页显示(是/否)',
+						width : min2MidWith,
+						formatter: function(value,row,index){
+							/*判断是否显示*/
+							if(value==1){
+								return "是";
+							}
+							else if(value==0){
+								return "否";
+							}
+							else{
+								return "不解之谜";
+							}
+						}
+					} , {
+						sortable : true,
+						field : 'sort',
+						title : '排序',
 						width : min2MidWith
-					}] ]
+					}]]
 				});
-
 				//设置分页控件
 				setDgPagination();
 			}
-
 			//设置分页控件
 			function setDgPagination() {
 				var p = $('#dg').datagrid('getPager');
 				dgPagination(p, pageObj, queryDg);
 			}
-
 			//加载查询结果
 			function loadDg(postUrl, params) {
 				ajaxLoadDg(postUrl, params, refreshDg, $("#dg"));
