@@ -139,4 +139,12 @@ public class SysRoleController {
 		return  json;
 	}
     
+	@RequestMapping("/toSetRolePower")
+	@ResponseBody
+	public String setRolePower(String id,HttpServletRequest request){
+		int ids=Integer.parseInt(request.getParameter("id"));
+		
+		
+		return null;
+	}
 }

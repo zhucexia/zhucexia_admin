@@ -222,7 +222,11 @@
 				text : '删除',
 				iconCls : 'icon-delete',
 				handler : deleteWhite
-			} ];
+			}, '-', {
+				text : '分配权限',
+				iconCls : 'icon-delete',
+				handler : setPowerWhite
+			 } ];
 
 			//刷新datafrid
 			function refreshDg(loadData) {
