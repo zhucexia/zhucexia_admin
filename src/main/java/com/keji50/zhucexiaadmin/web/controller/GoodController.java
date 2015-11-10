@@ -2,6 +2,7 @@ package com.keji50.zhucexiaadmin.web.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -121,8 +123,21 @@ public class GoodController {
 		  if(req.getFileNames().hasNext()){
 			  file=req.getFile(req.getFileNames().next());
 		  }
+		  /*读取config配置文件里的配置*/
+		String tempPath="";
+      	Properties prop = new Properties(); 
+      	InputStream in = this.getClass() .getResourceAsStream("/config.properties" ); 
+      	try {
+  			prop.load(in);
+  			tempPath=(String) prop.get("fileupload.dir");
+  		} catch (IOException e) {
+  			// TODO Auto-generated catch block
+  			e.printStackTrace();
+  		} 	
 		  String fileName = file.getOriginalFilename(); 
-		  String path = request.getSession().getServletContext().getRealPath("/")+"/static/upload";
+		  System.out.println("fileName----"+fileName);
+		 // String path = request.getSession().getServletContext().getRealPath("/")+"/static/upload";
+		  String path=tempPath+"/resour/upload/img";
 		  System.out.println("paht---"+path);
 		  File files= new File(path);
 		  System.out.println("files.path"+files.getAbsolutePath());
@@ -149,8 +164,8 @@ public class GoodController {
 	        goodPo.setPrice_market(req.getParameter("price_market"));
 	        String rPath=request.getSession().getServletContext().getRealPath("/")+"/static/upload/"+String.valueOf(fileName);
 	        System.out.println(rPath);
-	        goodPo.setPic(tempFile.getName());
-	        goodPo.setPic_id(tempFile.getName());
+	        goodPo.setPic("${www.url}/resour/upload/img/"+tempFile.getName());
+	        goodPo.setPic_id(fileName);
 	        goodPo.setRegister_cost(req.getParameter("register_cost"));
 	        goodPo.setApply_condition(req.getParameter("apply_condition"));
 	        goodPo.setDetail_content(req.getParameter("detail_content"));

@@ -61,6 +61,7 @@ public class FileBrowerController {
             HttpServletRequest request, HttpServletResponse response) {  
         //项目路径
     	 String tempPath="";
+    	 String tempsPath="";
      	/*读取config配置文件里的配置*/
      	Properties prop = new Properties(); 
      	InputStream in = this.getClass() .getResourceAsStream("/config.properties" ); 
@@ -68,6 +69,7 @@ public class FileBrowerController {
  			prop.load(in);
  			System.out.println("------"+prop.get("fileupload.dir"));
  			tempPath=(String) prop.get("fileupload.dir");
+ 			tempsPath=(String)prop.getProperty("www.url");
  		} catch (IOException e) {
  			// TODO Auto-generated catch block
  			e.printStackTrace();
@@ -86,7 +88,7 @@ public class FileBrowerController {
         if(StringUtils.isNotBlank(floderName)){  
             floderName = URLDecoder.decode(floderName);  
             // 如果请求中存在文件夹名称，则定位到文件夹中  
-            realPath = tempPath+floderName;  
+            realPath = tempPath+"/"+floderName;  
            // System.out.println("realPath----111---"+realPath);
             if(logger.isInfoEnabled()){  
                 logger.info("sub floder:"+realPath);  
@@ -103,7 +105,7 @@ public class FileBrowerController {
             }  
         }  
          // System.out.println("----------------"+FOR_FREEMARKER_LOAD_DIR+ File.separator+FILE_UPLOAD_DIR+ File.separator+FILE_UPLOAD_SUB_IMG_DIR);
-         // System.out.println("realPath----"+realPath);
+          System.out.println("realPath----"+realPath);
         File folder = new File(realPath);  
         if(!folder.exists()){  
         	System.out.println("不存在！！！！！！！！！！！！！！！！！！");
@@ -187,9 +189,10 @@ public class FileBrowerController {
                 while(subFileerSetIndex.hasNext()){  
                     String ftemp = subFileerSetIndex.next();  
                     String f = getDefaultFolderFromFreemarker(folder);  
+                    System.out.println("ftemp---"+ftemp+"====f=="+f);
                     String fileUrl = f + File.separator + ftemp;     
                     fileUrl = StringUtils.replace(fileUrl, "//", "/"); 
-                    fileUrl=str1+"/"+fileUrl;
+                    fileUrl="http://"+tempsPath+"/"+fileUrl;
                     fileUrl=StringUtils.replace(fileUrl, "\\", "/"); 
                     
                       

@@ -78,7 +78,6 @@
 		</div>
 		<div id="addWin"></div>
 		<div id="editWin"></div>
-<<<<<<< HEAD
 		<div id="manageWin"></div>	
 		<div id="attrWin"></div>	
 	</div>
@@ -121,9 +120,10 @@
 					maximizable : false,
 					minimizable : false,
 					href : "${root}/good/toAddGood",
-					onClose: function() {	
+					onClose: function() {
+								location.reload();
+								pageObj.varPageNum = 1;
 								queryDg();
-					
 					}
 				});
 			};
@@ -300,224 +300,7 @@
 						title : '市场价',
 						width : middleWidth
 					}, {
-=======
-		<div id="manageWin"></div>		
-	</div>
-	<script language="javascript">
-		$(function() {
-			$("#queryBtn").click(function() {
-				pageObj.varPageNum = 1;
-				queryDg();
-			});
 
-			$("#clearBtn").click(function() {
-				$("input[type!=button]").val("");
-			});
-			var pageObj = new Object();
-			pageObj.varPageNum = 1;
-			pageObj.varPageSize = 50;
-
-			//查询执行
-			queryDg = function() {
-				var params = {
-					isPinlessMobile : $("#isPinlessMobile").val(),
-					username : $("#username").val(),
-					phoneNumber : $("#phoneNumber").val(),
-					pageNum : pageObj.varPageNum,
-					pageSize : pageObj.varPageSize
-				};
-				loadDg('${root}/good/getGoodList', params);
-			};
-
-			addWhite = function() {
-				$("#changeSuccess").val("false");
-				$("#addWin").window({
-					width : 800,
-					height : 600,
-					method : 'post',
-					cache : false,
-					modal : true,
-					//closeAnimation : 'fade',
-					closable : true,
-					maximizable : false,
-					minimizable : false,
-					href : "${root}/good/toAddGood",
-					onClose: function() {	
-								queryDg();
-					
-					}
-				});
-			};
-
-			editWhite = function() {
-				var checkedItems = $('#dg').datagrid('getChecked');
-				var id = '';
-				if (!checkedItems || checkedItems.length == 0) {
-					alert("未选中任何值,请选择需要修改的白名单客户");
-					return;
-				} else {
-					$.each(checkedItems, function(index, item) {
-						id = item.id;
-					});
-				}
-				$("#changeSuccess").val("false");
-				$("#editWin").window({
-					width : 820,
-					height : 300,
-					method : 'post',
-					closeAnimation : 'fade',
-					cache : false,
-					//closable : false,
-					maximizable : false,
-					minimizable : false,
-					href : "${root}/good/toUpdateGood?id=" + id,
-					onClose : function() {
-						if ($("#changeSuccess").val() == "success") {
-							queryDg();
-						}
-					}
-				});
-
-			};
-			deleteWhite = function() {
-				var id = '';
-				var checkedItems = $('#dg').datagrid('getChecked');
-				if (!checkedItems || checkedItems.length == 0) {
-					alert("未选中任何值,请选择需要删除的白名单客户");
-					return;
-				} else {
-					$.each(checkedItems, function(index, item) {
-						id = item.id;
-					});
-				}
-				$.ajax({
-					url : "${root}/product/delPro",
-					type : 'POST',
-					data : {
-						"id" : id
-					},
-					success : queryDg()
-				});
-
-			};
-			manageWhite = function() {
-				var checkedItems = $('#dg').datagrid('getChecked');
-				var id = '';
-				if (!checkedItems || checkedItems.length == 0) {
-					alert("未选中任何值,请选择需要修改的白名单客户");
-					return;
-				} else {
-					$.each(checkedItems, function(index, item) {
-						id = item.id;
-						good_type_name=item.good_type_name;
-					});
-				}
-				$("#changeSuccess").val("false");
-				$("#manageWin").window({
-					title:"产品关联",
-					width : 400,
-					height : 300,
-					method : 'post',
-					closeAnimation : 'fade',
-					cache : false,
-					//closable : false,
-					maximizable : false,
-					minimizable : false,
-					href : "${root}/goodRelation/toManageGood?id=" + id+"&good_type_name="+good_type_name,
-					onClose : function() {
-						if ($("#changeSuccess").val() == "success") {
-							queryDg();
-						}
-					}
-				});
-
-			};
-			var toolbar = [ {
-				text : '增加',
-				iconCls : 'icon-add',
-				handler : addWhite
-			}, {
-				text : '修改',
-				iconCls : 'icon-edit',
-				handler : editWhite
-			}, '-', {
-				text : '删除',
-				iconCls : 'icon-delete',
-				handler : deleteWhite
-			}, {
-				text : '产品管理',
-				iconCls : 'icon-delete',
-				handler : manageWhite
-			} ];
-
-			//刷新datafrid
-			function refreshDg(loadData) {
-				var cols = 10;
-				var middleWidth = "180px";
-				var min2MidWith = "120px";
-				var minWidth = "100px";
-				$("#dg").datagrid({
-					data : loadData,
-					rownumbers : 'true',
-					pagination : true,
-					singleSelect : true,
-					pageList : [ 50, 20 ],
-					pageNumber : pageObj.varPageNum,
-					pageSize : pageObj.varPageSize,
-					toolbar : toolbar,
-					onLoadSuccess : function(data) {
-						if (data.total > 0) {
-							return;
-						}
-						$('#dg').datagrid('insertRow', {
-							row : {
-								username : '没有查到数据',
-							}
-						});
-						/* $('#dg').datagrid('mergeCells', {
-							index : 0,
-							field : 'username',
-							colspan : cols,
-							type : 'body'
-						}); */
-					},
-					autoRowHeight : false,//取消自动行高
-					remoteSort : false,
-					multiSort : true,
-					columns : [ [ 
-					   {
-						field : 'ck',
-						checkbox : 'true'
-					}, {
-						field : 'id',
-						title : '编号',
-						hidden : true
-					},{
-						sortable : true,
-						field : 'code',
-						title : '商品编号',
-						width : min2MidWith,
-						align : 'center'
-					},{
-						sortable : true,
-						field : 'name',
-						title : '商品名称',
-						width : min2MidWith,
-						align : 'center'
-					}, {
-						field : 'good_type_name',
-						title : '商品类型',
-						width : min2MidWith
-					}, {
-						field : 'price_market',
-						title : '市场价',
-						width : middleWidth
-					}, {
-						field : 'price',
-						title : '商品价格',
-						width : middleWidth
-					}, {
->>>>>>> refs/remotes/origin/master
 						sortable : true,
 						field : 'pic',
 						title : '图片',
@@ -527,7 +310,7 @@
 					//	height: middleHeight,
 						align: "center",
 						formatter:function(value,row,index){
-							return "<img src='${root}/static/upload/"+value+"' width='200px' height='400px'>";
+							return "<img src='"+value+"' width='200px' height='400px'>";
 						}
 					}, {
 						sortable : true,
