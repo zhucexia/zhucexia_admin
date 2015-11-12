@@ -49,11 +49,7 @@
 			//获取未被选中的节点
             var unnodes=$('#tt').tree('getChecked','unchecked');	// get checked nodes
             var stId="";
-<<<<<<< HEAD
             var stName="";
-=======
-            var stName=""
->>>>>>> refs/remotes/origin/master
             /*拼接选中id字符串*/
             $.each(nodes,function (name,value){
             	stId+=value.id+",";

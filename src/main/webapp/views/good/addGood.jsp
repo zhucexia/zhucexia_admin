@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/views/include/base.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
- <%@ taglib uri="http://ckeditor.com" prefix="ckeditor" %> 
+<%@ taglib uri="http://ckeditor.com" prefix="ckeditor" %> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -29,7 +29,6 @@
 		    <tr>
 		    	<td>商品类型</td>
 		    	<td>
-<<<<<<< HEAD
 		    		<input  name="good_type_name" class="easyui-combobox" data-options="editable:false,valueField:'values',textField:'fields',data:${jsons}" />
 		    	    <!-- <input type="text" name="good_type_name" id="good_type_name"> -->
 		    	</td>
@@ -254,7 +253,6 @@
 	<%--  <ckeditor:replace replace="mytextarea" basePath="${root}/static/ckeditor/"/>    --%>
 </body>
 </html>
-=======
 		    		<input  name="good_type_name" name="good_type_name" class="easyui-combobox" data-options="editable:false,valueField:'values',textField:'fields',data:${jsons}" />
 		    	    <!-- <input type="text" name="good_type_name" id="good_type_name"> -->
 		    	</td>
@@ -486,4 +484,3 @@
 	<%--  <ckeditor:replace replace="mytextarea" basePath="${root}/static/ckeditor/"/>    --%>
 </body>
 </html>
->>>>>>> refs/remotes/origin/master
