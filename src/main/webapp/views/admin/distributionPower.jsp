@@ -22,14 +22,14 @@
 		    </tr>
 		    <tr>
 		    	<td><input type="button" value="保存"  id="sub" onclick="submits()"></td>
-		    	<td><input type="button" value="取消"></td>
+		    	<td><input type="button" value="取消" onclick="cancels()"></td>
 		    </tr>	    		    		   		    
 		</table>
 	</form>
 	
 	<script type="text/javascript">
-<<<<<<< HEAD
-	function validates () {
+	function cancels () {
+		$("#distriWin").window('close');
 	
 	}
 	function submits(){
@@ -40,9 +40,15 @@
             var str="";
             $.each(nodes,function (name,value){
             	str+=value.id+",";
-            	alert(value.id);
             });
             $("#selectedPower").attr("value",str);
+            alert(str);
+            var str1="";
+            $.each(unnodes,function (name,value){
+            	str1+=value.id+",";
+            });
+            $("#unSelected").attr("value",str1);
+            alert(str1);
             //$("#unselected").attr("value",)
 			//ajax 动态提交表单数据			
 			$("#distributePowerForm").form('submit',{
@@ -56,44 +62,15 @@
 				success:function(data){
 					var data=eval("("+data+")");
 					/*判断是否成功插入数据到数据库*/
-					alert(data.message);
-					if(data.message){	
+					if(data.msg){	
+						alert("权限分配成功！");
 						$("#changeSuccess").val() == "success"
-						$("#editWin").window('close');		
+						$("#distriWin").window('close');		
 					}
 					else{}
 				}	
 			})
-=======
 
-	function submits(){
-			//获取被选中的tree节点
-			var nodes=$('#tt').tree('getChecked');	// get checked nodes
-			//获取未被选中的节点
-            var unnodes=$('#tt').tree('getChecked','unchecked');	// get checked nodes
-            var str="";
-            $.each(nodes,function (name,value){
-            	str+=value.id+",";
-            });
-            $("#selectedPower").attr("value",str);
-            var str2="";
-            $.each(unnodes,function(name,value){
-            	str2+=value.id+",";
-            });
-            $("#unSelected").attr("value",str2);
-            //$("#unselected").attr("value",);
-			//ajax 动态提交表单数据			
-			$("#distributePowerForm").form('submit',{
-				url :"${root}/sysRolePower/distriPower", 
-				success:function(data){
-					/*判断是否成功插入数据到数据库*/
-					data=eval('('+data+')');
-					alert(data.msg);
-						$("#changeSuccess").val="success";
-						$("#distriWin").window('close');						
-				}	
-			});
->>>>>>> refs/remotes/origin/master
 		}
 	</script>	   
 </body>

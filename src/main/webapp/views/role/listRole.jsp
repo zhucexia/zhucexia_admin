@@ -180,12 +180,8 @@
 					}
 				});
 
-<<<<<<< HEAD
 			};
-=======
-			};
-			
->>>>>>> refs/remotes/origin/master
+
              
 			distributionWhite = function() {
 				var checkedItems = $('#dg').datagrid('getChecked');

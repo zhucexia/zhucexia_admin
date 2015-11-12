@@ -49,7 +49,7 @@ public class AdminFileUploadController<logger> {
      
     private static final String FILE_UPLOAD_DIR = "/upload";
     private static final String FILE_UPLOAD_SUB_IMG_DIR = "/img";
-    private static final String FOR_RESOURCES_LOAD_DIR = "resour";
+    private static final String FOR_RESOURCES_LOAD_DIR = "/resour";
     //每个上传子目录保存的文件的最大数目
     private static final int MAX_NUM_PER_UPLOAD_SUB_DIR = 500;
     //上传文件的最大文件大小
@@ -164,14 +164,14 @@ public class AdminFileUploadController<logger> {
             	InputStream in = this.getClass() .getResourceAsStream("/config.properties" ); 
             	try {
         			prop.load(in);
-        			System.out.println("------"+prop.get("fileupload.dir"));
-        			tempPath=(String) prop.get("fileupload.dir");
+        			System.out.println("------"+prop.get("www.url"));
+        			tempPath=(String) prop.get("www.url");
         		} catch (IOException e) {
         			// TODO Auto-generated catch block
         			e.printStackTrace();
         		} 	
                 fileUrl = tempPath + fileUrl;
-                fileUrl = StringUtils.replace(fileUrl, "//", "/");
+                fileUrl = "http://"+StringUtils.replace(fileUrl, "//", "/");
                  System.out.println("fileUrl-----"+fileUrl+"===================");
                 // 将上传的图片的url返回给ckeditor
                 String callback = request.getParameter("CKEditorFuncNum");

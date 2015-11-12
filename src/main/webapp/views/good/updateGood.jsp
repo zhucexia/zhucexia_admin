@@ -12,16 +12,16 @@
 </head>
 <body>
    
-  <%--   <script type="text/javascript"
-	src="${root }/static/js/jquery-1.7.2.min.js"></script>  --%> 
-
-	  
+<%--     <script type="text/javascript"
+	src="${root }/static/js/jquery-1.7.2.min.js"></script>  --%>
+	  <script type="text/javascript" src="${root }/static/js/customer.js">
+	  </script>
 	<form method="post" id ="addProForm"  enctype="multipart/form-data">
 		<input type="hidden" name="id" value="${goodPo.id}">
 		<table border="1" cellspacing="0" bordercolor="green" align="center">
 			<tr>
 				<td>商品编号</td>
-				<td><input type="text"  name="code" value="${goodPo.code} }"></td>
+				<td><input type="text"  name="code" value="${goodPo.code}"></td>
 			</tr>
 		    <tr>
 		    	<td>商品名称</td>
@@ -43,13 +43,14 @@
 		    <tr>
 		    	<td>市场价</td>
 		    	<td>
-		    		<input type="text" name="price_market"/>
+		    		<input type="text" name="price_market" value="${goodPo.price_market }"/>
 		    	</td>
 		    </tr>
 		    <tr>
 		    	<td>封面图片</td>
 		    	<td>
-		    		<input type="file" name="pic"/>
+		    		<div id="preview"></div>
+		    		<input type="file" name="pic" value="${goodPo.pic}" onclick="previewImage(this)"/>
 		    	</td>
 		    </tr>
 		    <tr>
@@ -61,9 +62,7 @@
 		    <tr>
 		    	<td>申请条件</td>
 		    	<td>
-		    		<textarea rows="3" cols="20" name="apply_condition" >
-		    		${goodPo.apply_condition}
-		    		</textarea>
+		    		<textarea rows="3" cols="20" name="apply_condition" >${goodPo.apply_condition}</textarea>
 		    	</td>
 		    </tr>
 		    <tr>
@@ -91,20 +90,20 @@
 		    <tr>
 		    	<td>上架时间</td>
 		    	<td>
-		    		<input type="text"  class="easyui-datebox" name="begin_sale_time" id="begin_sale_time" ><!-- data-options="formatter:function(){	    		
+		    		<input type="text"  class="easyui-datebox" name="begin_sale_time" id="begin_sale_time" value="${goodPo.begin_sale_time}"><!-- data-options="formatter:function(){	    		
 				return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();}" > -->
 		    	</td>
 		    </tr>
             <tr>
 		    	<td>下架时间</td>
 		    	<td>
-		    		<input type="text" class="easyui-datebox"  name="end_sale_time" id="end_sale_time">
+		    		<input type="text" class="easyui-datebox"  name="end_sale_time" id="end_sale_time" value="${goodPo.end_sale_time }">
 		    	</td>
 		    </tr>
 		    <tr>
 		    	<td>首页显示</td>
 		    	<td>
-		    		<input  name="index_show" name="index_show" class="easyui-combobox" data-options="valueField:'values',textField:'fields',data:[{values:'1',fields:'是',selected:true},{values:'0',fields:'否'}]"  value="${goodPo.index_show}"/>
+		    		<input  name="index_show" name="index_show" class="easyui-combobox" data-options="valueField:'value',textField:'fields',data:[{value:'1',fields:'是'<c:if test="${goodPo.index_show==1}">,selected:true</c:if>},{value:'0',fields:'否'<c:if test="${goodPo.index_show==0}">,selected:true</c:if>}]"  value="${goodPo.index_show}"/>
 		    		<!-- <input type="text"  name="index_show" id="index_show" > -->
 		    	</td>
 		    </tr>
@@ -121,17 +120,12 @@
 		    		<input type="text"  name="sort" id="sort" value="${goodPo.sort}">
 		    	</td>
 		    </tr>
-		 <!--    <tr>
-		    	<td>创建人</td>
-		    	<td>
-		    		<input type="text"  name="createBy" id="createBy" >
-		    	</td>
-		    </tr> -->
 		    <tr>
 		    	<td><input type="button" value="保存"  id="sub" onclick="submits()"></td>
 		    	<td><input type="button" value="取消"></td>
 		    </tr>	    		    		   		    
 		</table>
+		<input type="hidden" value="${goodPo.id }" name="goodId">
 	</form>
 	<script type="text/javascript" src="${root }/static/js/validate.js"></script>
 	<script type="text/javascript">
@@ -208,17 +202,19 @@
 	function submits(){
 			//ajax 动态提交表单数据			
 			$("#addProForm").form('submit',{
-				url :"${root}/good/upload", 
+				url :"${root}/good/updateGood",
+				dataType:'json',
 				onSubmit:function(){
 					alert($(this).form('enableValidation').form('validate'));
 					validates();
 					return $(this).form('enableValidation').form('validate');			
 				},
 				success:function(data){
-					var data=eval("("+data+")");
+					var datas=eval("("+data+")");
 					/*判断是否成功插入数据到数据库*/
-					if(data.message){	
-						$("#addWin").window('close');		
+					if(datas.message){	
+						$("#changeSuccess").val("success");
+						$("#editWin").window('close');		
 					}
 					else{}
 				}	
@@ -228,33 +224,5 @@
 			alert("aaaaaaaaaaaaaaaaa");		
 		}
 	</script>
-	
-	 <!-- <script type="text/javascript">
-        tinymce.init({
-            selector: "#mytextarea",
-            theme:"modern",
-          //  plugins:"advlist,anchor,autolink,autoresize,autosave,bbcode,charmap,code,colorpicker,compat3x,contextmenu,directionality,emoticons,example,image,layer,link,lists,noneditable,paste,print,save,tabfocus,imagetools,table,textpattern,wordcount,pagebreak,fullscreen"
-            theme: "modern",
-   			 width: 300,
-   			 height: 300,
-   			 plugins: [
-         				"advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
-        				"searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-         				"save table contextmenu directionality emoticons template paste textcolor imagetools"
-  					 ],
-   			content_css: "css/content.css",
-   			toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      ink image | print preview media fullpage | forecolor backcolor emoticons", 
-   			style_formats: [
-        				{title: 'Bold text', inline: 'b'},
-        				{title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
-       				    {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
-        				{title: 'Example 1', inline: 'span', classes: 'example1'},
-        				{title: 'Example 2', inline: 'span', classes: 'example2'},
-        				{title: 'Table styles'},
-        				{title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
-    				]
-        });
-    </script>	 -->
-	<%--  <ckeditor:replace replace="mytextarea" basePath="${root}/static/ckeditor/"/>    --%>
 </body>
 </html>

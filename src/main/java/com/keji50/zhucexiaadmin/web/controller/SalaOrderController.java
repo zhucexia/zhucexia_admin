@@ -40,18 +40,18 @@ public class SalaOrderController {
 		String requestJson = WebUtils.getRequestPayload(request);
 		Map<String, Object> conditions = JSONObject.parseObject(requestJson);
 		Page<SalaOrderPo> page = salaorderservice.getorderByConditions(conditions);
-		for (SalaOrderPo salaOrderPo : page) {
+/*		for (SalaOrderPo salaOrderPo : page) {
 			System.out.println(salaOrderPo.getOrderstate());
 			if(salaOrderPo.getOrderstate().equals("0")){
-				salaOrderPo.setOrderstate("未确认");
+				salaOrderPo.setOrderstate("所有订单");
 			}else if(salaOrderPo.getOrderstate().equals("1")) {
-				salaOrderPo.setOrderstate("已确认");
+				salaOrderPo.setOrderstate("待付款");
 			}else if(salaOrderPo.getOrderstate().equals("2")){
 				salaOrderPo.setOrderstate("交易成功");
 			}else{
 				salaOrderPo.setOrderstate("交易取消");
 			}
-		}
+		}*/
 		System.out.println("执行查询"+page.size());
 		return PageUtils.pageToMap(page);
 	}

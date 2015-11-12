@@ -32,9 +32,11 @@
 		<result column="payment_time" property="paymenttime" jdbcType="TIMESTAMP" />
 		<result column="delivery_time" property="deliverytime" jdbcType="TIMESTAMP" />
 		<result column="cancel_time" property="canceltime" jdbcType="TIMESTAMP" />
+		<result column="order_no" property="order_no" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, customer_name, mobile, email, order_state, order_money, update_by, update_time
+		id, order_no ,customer_name, mobile, email, order_state, order_money, update_by, update_time,payment_state,payment_name,
+		payment_code
 	</sql>
 
 	<!-- 新增会员 -->
@@ -43,10 +45,33 @@
 		from sale_order
 		where 1=1
 		<if test="id != null and id !=''">
-			and id = #{id,jdbcType=DECIMAL}
+			and order_no = #{id,jdbcType=DECIMAL}
 		</if>
 		<if test="orderstate != null and orderstate !=''">
-			and order_state = #{orderstate,jdbcType=VARCHAR}
+			<choose>
+				<when test="orderstate==0">
+					and order_state!='8'
+				</when>
+				<when test="orderstate==1">
+					and (payment_state='0' and (payment_code!='cash_on_delivery' or payment_code is null) and order_state='1')
+				</when>
+				<when test="orderstate==6">
+					and ((order_state='1'and payment_state=1 and (payment_code!='cash_on_delivery' )) or (order_state='1'
+					and payment_state=0 and payment_code='cash_on_delivery'))
+				</when>
+				<when test="orderstate==7">
+					and order_state='7'
+				</when>
+				<when test="orderstate==2">
+					and order_state='2' and payment_state='1'
+				</when>
+				<when test="orderstate==9">
+					and order_state='9'
+				</when>
+				<when test="orderstate==8">
+					and order_state='8'
+				</when>
+			</choose>
 		</if>
 		<if test="mobile != null and mobile !=''">
 			and mobile = #{mobile,jdbcType=VARCHAR}

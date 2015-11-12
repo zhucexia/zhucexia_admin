@@ -45,10 +45,13 @@
 							<td><label>订单状态:</label></td>
 							<td>
 								<select id="orderstate"  name="orderstate" class="text" style="width:150px">
-										<option value="0" selected="selected">未确认</option>
-										<option value="1">已确认</option>
-										<option value="2">交易成功</option>
-										<option value="9">交易取消</option>
+										<option value="0" selected="selected">所有订单</option>
+										<option value="1">待付款</option>
+										<option value="6">平台待处理</option>
+										<option value="7">平台处理中</option>
+										<option value="2">交易完成</option>
+										<option value="8">删除订单</option>
+										<option value="9">取消订单</option>
 								</select>
 							</td>
 							<td><label>订单号:</label></td>
@@ -360,9 +363,9 @@
 					},
 					{
 						//sortable : true,
-						field : 'id',
+						field : 'order_no',
 						title : '订单编号',
-						width : min2MidWith,
+						width : middleWidth,
 						align : 'center'
 					},{
 						
@@ -381,7 +384,26 @@
 					}, {
 						field : 'orderstate',
 						title : '订单状态',
-						width : min2MidWith
+						width : min2MidWith,
+						formatter: function (value, row, index) {
+							var paymentcode=row.paymentcode;
+							var paymentstate=row.paymentstate;
+							var orderstate=row.orderstate;
+							if(paymentstate=='0'&&orderstate=='1'&&(paymentcode!='cash_on_delivery'||paymentcode==""||paymentcode==null)){
+								return "待付款";
+							}else if(orderstate==8){
+								return "订单删除";		
+							}else if(orderstate=='7'){
+								return "处理中";
+							}else if(paymentstate==1&& orderstate==2){
+								return "交易完成";
+							}else if(orderstate==9){
+								return "订单取消";
+							}else if((paymentstate=='1'&&orderstate=='1'&&paymentcode!='cash_on_delivery')||
+									(orderstate='1'&& paymentstate=='0' && paymentcode=='cash_on_delivery')){
+								return "待处理";
+							}
+						}
 					}, {
 						sortable : true,
 						field : 'ordermoney',
@@ -420,7 +442,9 @@
 							 }
 							return year + "-" + month + "-" + day + " " + hour + ":" + minutes + ":" + seconds;
 							}
-					} ] ]
+					}
+					
+					] ]
 				});
 
 				//设置分页控件

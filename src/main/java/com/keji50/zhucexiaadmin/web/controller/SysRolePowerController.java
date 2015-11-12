@@ -116,7 +116,7 @@ public class SysRolePowerController {
 			}
 		}
 		System.out.println("进入了rolepowercontroller里面的方法--distriPower--"+"id--"+role_id+"--"+selectedPower);
-		String str = "{'msg':'权限分配成功！'}";
+		String str = "{'msg':'true'}";
 		JSONObject json = JSONObject.parseObject(str);
 		return json;
 	}

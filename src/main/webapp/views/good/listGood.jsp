@@ -120,9 +120,10 @@
 					maximizable : false,
 					minimizable : false,
 					href : "${root}/good/toAddGood",
-					onClose: function() {	
+					onClose: function() {
+								location.reload();
+								pageObj.varPageNum = 1;
 								queryDg();
-					
 					}
 				});
 			};
@@ -141,7 +142,7 @@
 				$("#changeSuccess").val("false");
 				$("#editWin").window({
 					width : 820,
-					height : 300,
+					height : 600,
 					method : 'post',
 					closeAnimation : 'fade',
 					cache : false,
@@ -152,6 +153,9 @@
 					onClose : function() {
 						if ($("#changeSuccess").val() == "success") {
 							queryDg();
+						}
+						else{
+							location.reload();
 						}
 					}
 				});
@@ -169,12 +173,20 @@
 					});
 				}
 				$.ajax({
-					url : "${root}/product/delPro",
+					url : "${root}/good/delGoods",
 					type : 'POST',
 					data : {
 						"id" : id
 					},
-					success : queryDg()
+					success :function(data){
+						alert(data.message);
+						$.messager.alert("温馨提示",data.message,"info");
+						queryDg();	
+					},
+					error:function(data){
+						alert(data.message);
+						$.messager.alert("温馨提示",data.message,"info");
+					}
 				});
 
 			};
@@ -299,6 +311,7 @@
 						title : '市场价',
 						width : middleWidth
 					}, {
+
 						sortable : true,
 						field : 'pic',
 						title : '图片',
@@ -308,7 +321,7 @@
 					//	height: middleHeight,
 						align: "center",
 						formatter:function(value,row,index){
-							return "<img src='${root}/static/upload/"+value+"' width='200px' height='400px'>";
+							return "<img src='http://"+value+"' width='200px' height='400px'>";
 						}
 					}, {
 						sortable : true,

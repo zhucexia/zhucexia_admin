@@ -22,5 +22,9 @@ public interface GoodPoMapper {
 	 * @return
 	 */
 	public List<Map<String, Object>> selectGood();
+	/*修改商品信息
+	 * */
+	public int updateGood(GoodPo goodPo);
+	public int delGood(int id);
 
 }

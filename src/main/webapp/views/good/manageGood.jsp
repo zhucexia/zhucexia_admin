@@ -51,7 +51,7 @@
             var stId="";
             var stName="";
             /*拼接选中id字符串*/
-            $.each(nodes,function (name,value){
+            $.each(nodes,function(name,value){
             	stId+=value.id+",";
             	stName+=value.text+","
             });
