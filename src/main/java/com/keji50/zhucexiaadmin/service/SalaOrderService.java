@@ -25,6 +25,7 @@ public class SalaOrderService {
 		// TODO Auto-generated method stub
 		// 设置分页信息
 				PageUtils.initPageInfo(conditions);
+				System.out.println("conditions------"+conditions.toString());
 				
 				// 分页插件
 		        PageHelper.startPage((Integer) conditions.get(PageUtils.PAGE_NUM), (Integer) conditions.get(PageUtils.PAGE_SIZE));

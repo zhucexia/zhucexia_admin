@@ -58,4 +58,6 @@ public class SalaOrderPo extends BasePo{
 	
 	private Date canceltime;
 	
+	private String order_no;
+	
 }

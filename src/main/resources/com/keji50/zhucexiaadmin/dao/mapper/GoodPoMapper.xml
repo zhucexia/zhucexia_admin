@@ -78,9 +78,22 @@
 	delete from good where id=#{id,jdbcType=DECIMAL}
 	</delete>
 	
-	<update id="updateGood">
+	<update id="updateGood" parameterType="com.keji50.zhucexiaadmin.dao.po.GoodPo">
+		update good set code=#{code,jdbcType=VARCHAR},name=#{name,jdbcType=VARCHAR},good_type_id=#{good_type_id,jdbcType=DECIMAL},
+		good_type_name=#{good_type_name,jdbcType=VARCHAR},price_range=#{price_range,jdbcType=VARCHAR},
+		price_market=#{price_market,jdbcType=DECIMAL},
+		pic_id=#{pic_id,jdbcType=VARCHAR}, pic=#{pic,jdbcType=VARCHAR},
+		register_cost=#{register_cost,jdbcType=VARCHAR}, apply_condition=#{apply_condition,jdbcType=VARCHAR},
+		detail_content=#{detail_content,jdbcType=DECIMAL}, begin_sale_time=#{begin_sale_time,jdbcType=TIMESTAMP},
+		end_sale_time=#{end_sale_time,jdbcType=VARCHAR}, index_show=#{index_show,jdbcType=VARCHAR},
+		initialNum=#{initialNum,jdbcType=DECIMAL}, remark=#{remark,jdbcType=VARCHAR},
+		sort=#{sort,jdbcType=DECIMAL}, update_by=#{updateBy,jdbcType=DECIMAL},
+		update_time=#{updateTime,jdbcType=TIMESTAMP} where id=#{id}
+	</update>
 	
-	
+	<!-- 逻辑删除商品信息 -->
+	<update id="delGood" parameterType="java.lang.Integer">
+		update good set state='d' where id=#{id}
 	</update>
 	<select id="selectGood" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		select name,id from good

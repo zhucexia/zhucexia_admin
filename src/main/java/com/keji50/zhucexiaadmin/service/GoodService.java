@@ -61,4 +61,24 @@ public class GoodService {
 		return goodPoMapper.selectGood();
 	}
 
+	public int updateGood(GoodPo goodPo) throws RuntimeException {
+		int flag=goodPoMapper.updateGood(goodPo);
+		if(flag>0){
+			return flag;
+		}
+		else{
+			throw new RuntimeException();
+		}
+	}
+
+	public int delGood(int id) throws RuntimeException{
+		int flag=goodPoMapper.delGood(id);
+		if(flag>0){
+			return flag;
+		}
+		else{
+			throw new RuntimeException();
+		}
+	}
+
 }
