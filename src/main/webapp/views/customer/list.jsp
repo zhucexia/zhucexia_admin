@@ -42,20 +42,13 @@
 				<table style="width: 100%;" class="CContent">
 					<tbody>
 						<tr>
-							<td><label>绑定手机号:</label></td>
-							<td>
-								<select id="isPinlessMobile"  name="isPinlessMobile" class="text" class="text" style="width:150px">
-										<option value="0" selected="selected">已绑定</option>
-										<option value="1">未绑定</option>
-								</select>
-							</td>
 							<td><label>用户名:</label></td>
 							<td><input id="username" type="text" /></td>
 						</tr>
 						<tr>
 							<td><label>手机号:</label></td>
 							<td><input id="phoneNumber" type="text" /></td>
-						</tr>
+						</tr>	
 					</tbody>
 					<tfoot>
 						<tr>
@@ -199,11 +192,11 @@
 				text : '修改',
 				iconCls : 'icon-edit',
 				handler : editWhite
-			}, '-', {
+			}/* , '-', {
 				text : '删除',
 				iconCls : 'icon-delete',
 				handler : deleteWhite
-			} ];
+			} */ ];
 
 			//刷新datafrid
 			function refreshDg(loadData) {

@@ -34,7 +34,7 @@
 <body id="depositBody" class="ContentBody">
 	<div class="CContent">
 		<div id="title" class="tablestyle_title">
-			<label>客户查询</label>
+			<label>商品类型查询</label>
 		</div>
 		<div class="CPanel">
 			<fieldset>
@@ -44,11 +44,7 @@
 						<tr>
 							<td><label>商品类型名称:</label></td>
 							<td>
-								<select id="code"  name="code" class="text" style="width:150px">
-										<option value="" selected="selected">全部</option>
-										<option value="company_register_basic">基本套餐</option>
-										<option value="company_register_service">附加套餐</option>
-								</select>
+								<input id="id" name="id" class="easyui-combobox" data-options="editable:false,valueField:'values',textField:'fields',data:${jsons}" />
 							</td>
 							<!-- <td><label>用户名:</label></td>
 							<td><input id="username" type="text" /></td> -->
@@ -93,7 +89,7 @@
 			//查询执行
 			queryDg = function() {
 				var params = {
-					code : $("#code").val(),
+					id : $("input[name=id]").val(),
 					pageNum : pageObj.varPageNum,
 					pageSize : pageObj.varPageSize
 				};

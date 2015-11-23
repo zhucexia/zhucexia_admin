@@ -84,7 +84,7 @@
 
 			//查询执行
 			queryDg = function() {
-				alert($('#code').combobox('getValue'));
+				//alert($('#code').combobox('getValue'));
 				var params = {
 					code : $("#code").val(),
 					pageNum : pageObj.varPageNum,
@@ -187,11 +187,11 @@
 				text : '增加',
 				iconCls : 'icon-add',
 				handler : addWhite
-			}, {
+			}, /* {
 				text : '修改',
 				iconCls : 'icon-edit',
 				handler : editWhite
-			}, '-', {
+			},  */'-', {
 				text : '删除',
 				iconCls : 'icon-delete',
 				handler : deleteWhite
@@ -239,14 +239,13 @@
 						field : 'sno',
 						title : '编号',
 						hidden : true
-					},
-					{
+					}, {
 						sortable : true,
 						field : 'name',
 						title : '商品名称',
 						width : min2MidWith,
 						align : 'center'
-					},{
+					}, {
 						sortable : true,
 						field : 'names',
 						title : '条件名称',
@@ -257,20 +256,17 @@
 						title : '条件代码',
 						width : min2MidWith,
 						align : 'center'
-					}, 
-					{
+					}, {
 						field : 'sort',
 						title : '条件序号',
 						width : min2MidWith,
 						align : 'center'
-					}, 
-					{
+					}, {
 						field : 'op',
 						title : '可选值',
 						width : min2MidWith,
 						align : 'center'
-					},
-					{
+					}, {
 						field : 'remark',
 						title : '备注',
 						width : min2MidWith

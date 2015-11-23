@@ -18,6 +18,12 @@
 	<select id="selectByCondition" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		select a.*,b.name
 		from good_price a,good b where a.good_id=b.id and b.state='s'
+		<if test="goodName!=null and goodName!=''">
+			and b.name like concat('%',#{goodName},'%')
+		</if>
+		<if test="goodAttr!=null and goodAttr!=''">
+			and a.good_attr like concat('%',#{goodAttr},'%')
+		</if>
 	</select>
 	<select id="toAddPrice" resultType="java.util.HashMap">
 		select id, name from good

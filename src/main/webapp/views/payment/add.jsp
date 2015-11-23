@@ -35,7 +35,7 @@
 							<td><label>备注:</label></td>
 							<td><input id="remark" type="text" name="remark"/></td>
 						</tr>
-						<tr>
+						<tr style="display:none;">
 							 <!-- <td><label>创建时间:</label></td>
 							<td><input id="createTime" type="text" name="createTime"/></td> 
 							 <td><label>状态:</label></td>

@@ -20,7 +20,7 @@
 	<form method="post" id ="updatePrice"  enctype="multipart/form-data">
 		<input type="hidden" name="id" value="${json.id}">
 		<input type="hidden" name="good_id" value="${json.good_id}">
-		<table border="1" cellspacing="0" bordercolor="green" align="center">
+		<table style="width: 100%;height:auto" class="CContent">
 		    <tr>
 		    	<td>商品名称</td>
 		    	<td><input type="text" name="name" id="name" readonly="true" value="${json.name}"></td>
@@ -43,12 +43,15 @@
 		    </tr>
 		    <tr>
 		    	<td><input type="button" value="保存"  id="sub" onclick="submits()"></td>
-		    	<td><input type="button" value="取消"></td>
+		    	<td><input type="button" value="取消" onclick="cancel()"></td>
 		    </tr>	    		    		   		    
 		</table>
 	</form>
 	<script type="text/javascript" src="${root }/static/js/validate.js"></script>
 	<script type="text/javascript">
+	function cancel(){
+		$("#editWin").window('close');
+	}
 	
 	function validates () {
 		$("input[name='price']").validatebox({    

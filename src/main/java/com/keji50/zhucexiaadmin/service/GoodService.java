@@ -36,9 +36,6 @@ public class GoodService {
         // 根据查询条件查询客户信息
         Page<GoodPo> page = goodPoMapper.selectByCondition(conditions);
         System.out.println("在getGoodByCondtions中-----"+page.getTotal());
-        System.out.println(page.get(0).toString());
-        System.out.println(page.get(1).toString());
-        System.out.println(page.get(2).toString());
         return page;
 	}
 	

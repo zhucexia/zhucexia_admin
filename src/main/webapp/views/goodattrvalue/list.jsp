@@ -50,8 +50,8 @@
 										<option value="hongkou">虹口</option>
 								</select>
 							</td> -->
-							 <td><label>商品可选属性值id:</label></td>
-							<td><input id="attrvalue" type="text" name="id"/></td> 
+							 <td><label>商品可选条件:</label></td>
+							<td><input id="attr" type="text" name="names"/></td> 
 						</tr>
 						<!-- <tr>
 							<td><label>手机号:</label></td>
@@ -93,7 +93,7 @@
 			//查询执行
 			queryDg = function() {
 				var params = {
-					code : $("#code").val(),
+					names : $("#attr").val(),
 					pageNum : pageObj.varPageNum,
 					pageSize : pageObj.varPageSize
 				};
@@ -189,11 +189,11 @@
 				text : '增加',
 				iconCls : 'icon-add',
 				handler : addWhite
-			}, {
+			}, /* {
 				text : '修改',
 				iconCls : 'icon-edit',
 				handler : editWhite
-			}, '-', {
+			},  */'-', {
 				text : '删除',
 				iconCls : 'icon-delete',
 				handler : deleteWhite
@@ -243,15 +243,15 @@
 						title : '编号',
 						hidden : true
 					}, {
-						sortable : true,
-						field : 'name',
+						
+						field : 'names',
 						title : '条件名称',
 						width : min2MidWith,
 						align : 'center',
-						formatter:function goodattrname(val,row){  
-						    if(row.goodattr) return row.goodattr.name;  
+						formatter:function goodattrnames(val,row){  
+						    if(row.goodattr) return row.goodattr.names;  
 						    else return "";  
-						}  
+						}
 					},  {
 						field : 'code',
 						title : '条件代码',

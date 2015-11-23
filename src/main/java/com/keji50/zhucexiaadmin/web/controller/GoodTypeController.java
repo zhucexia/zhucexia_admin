@@ -3,6 +3,7 @@ package com.keji50.zhucexiaadmin.web.controller;
 
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -18,6 +19,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.keji50.zhucexiaadmin.dao.po.GoodTypePo;
 import com.keji50.zhucexiaadmin.dao.po.SysUserPo;
+import com.keji50.zhucexiaadmin.service.GoodAttrService;
 import com.keji50.zhucexiaadmin.service.GoodTypeService;
 import com.keji50.zhucexiaadmin.web.utils.PageUtils;
 import com.keji50.zhucexiaadmin.web.utils.WebUtils;
@@ -33,9 +35,20 @@ public class GoodTypeController {
 
 	@Resource(name = "goodTypeService")
 	private GoodTypeService goodTypeService;
+	@Resource(name = "goodAttrService")
+	private GoodAttrService goodAttrService;
 
 	@RequestMapping(value = "/index")
 	public String index(HttpServletRequest request) {
+		List<Map<String,Object>> list = goodAttrService.getGoodType();
+		String json="[{\'values\':\'\',\'fields\':\'全部\',\'selected\':true},";
+		for(Map<String, Object> map:list){
+			json+="{\'values\':\'"+map.get("id").toString()+"\',"
+					+ "\'fields\':\'"+map.get("name").toString()+"\'},";	
+		}
+		json=json.substring(0, json.length()-1)+"]";
+		System.out.println("进入了sysGoodController的方法--toAddGood--"+json);
+		request.setAttribute("jsons", json);		
 		return "goodtype/list";
 	}
 	@RequestMapping(value = "/add")
@@ -47,7 +60,7 @@ public class GoodTypeController {
 	public Map<String, Object> listByCondition(HttpServletRequest request) {
 		String requestJson = WebUtils.getRequestPayload(request);
 		Map<String, Object> conditions = JSONObject.parseObject(requestJson);
-		Page<GoodTypePo> page = goodTypeService.getCustomerByConditions(conditions);
+		Page<GoodTypePo> page = goodTypeService.getGoodTypeByConditions(conditions);
 		System.out.println("执行查询"+page.size());
 		return PageUtils.pageToMap(page);
 	}

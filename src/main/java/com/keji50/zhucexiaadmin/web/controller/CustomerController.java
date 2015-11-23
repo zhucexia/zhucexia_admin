@@ -39,16 +39,18 @@ public class CustomerController {
 	}
 	@RequestMapping(value = "/getCustomerList", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> listByCondition(HttpServletRequest request) {
+	public Map<String, Object> listByCondition(HttpServletRequest request,HttpServletResponse response) {
 		String requestJson = WebUtils.getRequestPayload(request);
 		Map<String, Object> conditions = JSONObject.parseObject(requestJson);
 		Page<CustomerPo> page = customerService.getCustomerByConditions(conditions);
-		System.out.println("执行查询"+page.size());
-		for (CustomerPo customerPo : page) {
+		//System.out.println("执行查询"+page.s);
+/*		for (CustomerPo customerPo : page) {
 			
 			System.out.println("修改时间"+customerPo.getUpdateTime());
 			
-		}
+		}*/
+		System.out.println(page.getTotal());
+		System.out.println(PageUtils.pageToMap(page));
 	
 		return PageUtils.pageToMap(page);
 	}

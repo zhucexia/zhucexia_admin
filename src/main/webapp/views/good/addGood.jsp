@@ -86,14 +86,14 @@
 		    <tr>
 		    	<td>上架时间</td>
 		    	<td>
-		    		<input type="text"  class="easyui-datebox" name="begin_sale_time" id="begin_sale_time" ><!-- data-options="formatter:function(){	    		
+		    		<input type="text"  class="easyui-datebox" name="begin_sale_time" id="begin_sale_time" data-options="formatter:myformatter,parser:myparser"><!-- data-options="formatter:function(){	    		
 				return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();}" > -->
 		    	</td>
 		    </tr>
             <tr>
 		    	<td>下架时间</td>
 		    	<td>
-		    		<input type="text" class="easyui-datebox"  name="end_sale_time" id="end_sale_time">
+		    		<input type="text" class="easyui-datebox"  name="end_sale_time" id="end_sale_time" data-options="formatter:myformatter,parser:myparser">
 		    	</td>
 		    </tr>
 		    <tr>
@@ -124,7 +124,7 @@
 		    </tr> -->
 		    <tr>
 		    	<td><input type="button" value="保存"  id="sub" onclick="submits()"></td>
-		    	<td><input type="button" value="取消"></td>
+		    	<td><input type="button" value="取消" onclick="cancel()"></td>
 		    </tr>	    		    		   		    
 		</table>
 	</form>
@@ -146,6 +146,28 @@
 		$("#begin_sale_time").datebox(options); 
 		
 	 }); */
+	function cancel(){
+		 $("#addWin").window('close');
+	 } 
+	
+	function myformatter(data){
+		var y = data.getFullYear();
+		var m = data.getMonth()+1;
+		var d = data.getDate();
+		return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
+	}
+	function myparser(s){
+		if (!s) return new Date();
+		var ss = (s.split('-'));
+		var y = parseInt(ss[0],10);
+		var m = parseInt(ss[1],10);
+		var d = parseInt(ss[2],10);
+		if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
+			return new Date(y,m-1,d);
+		} else {
+			return new Date();
+		}
+	}
 	function validates () {
 		$("input[name='sort']").validatebox({    
 			required: true,    

@@ -53,7 +53,6 @@ public class GoodPriceService {
 	public int upLoadPrice(GoodPricePo goodPricePo, SysUserPo sysUserPo){
 		System.out.println("service中"+goodPricePo.getGoodAttr());
 		int goodId = goodPricePo.getGoodId();
-		int good_type_id = goodPricePoMapper.selGoodTypeId(goodId);
 		String userName = sysUserPo.getUsername();
 		Timestamp time = new Timestamp(System.currentTimeMillis());
 		//提取商品属性字段，并解析出属性名和枚举值，分别插入good_attr和good_attr_value
@@ -67,7 +66,7 @@ public class GoodPriceService {
 			GoodAttrPo goodAttrPo =new GoodAttrPo();
 			goodAttrPo.setCode(CodeUtil.createCode(16));
 			System.out.println(goodAttrPo.getCode());
-			goodAttrPo.setGoodTypeId(good_type_id);
+			goodAttrPo.setGoodId(goodId);
 			goodAttrPo.setNames(goodAttrName);
 			goodAttrPo.setOptionvalue(goodAttrValue);
 			int goodAttrId;

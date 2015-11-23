@@ -40,7 +40,6 @@ public class GoodAttrController {
 	
 	@RequestMapping(value = "/index")
 	public String index(HttpServletRequest request) {
-		System.out.println("进入了toAddGood方法里面！");
 		/*查询出所有的商品*/
 		List<Map<String,Object>> list = goodService.selectGood();
 		System.out.println("商品总共："+list);
@@ -58,8 +57,8 @@ public class GoodAttrController {
 	@RequestMapping(value = "/add")
 
 	public String add(HttpServletRequest request) {
-		List<Map<String,Object>> list = goodAttrService.getGoodType();
-		String json="[{\'values\':\'0\',\'fields\':\'请选择类型\',\'selected\':true},";
+		List<Map<String,Object>> list = goodService.selectGood();
+		String json="[{\'values\':\'0\',\'fields\':\'请选择商品\',\'selected\':true},";
 		for(Map<String, Object> map:list){
 			json+="{\'values\':\'"+map.get("id").toString()+"\',"
 					+ "\'fields\':\'"+map.get("name").toString()+"\'},";	
@@ -97,7 +96,7 @@ public class GoodAttrController {
 	@ResponseBody
 	public int addgoodattr(HttpServletRequest request,HttpServletResponse response,GoodAttrPo goodattr) {
 		System.out.println("进入新增controller");
-		System.out.println(goodattr.getCreateBy()+"---"+goodattr.getNames()+"---"+goodattr.getSort()+"---"+goodattr.getRemark()+"---"+goodattr.getCode()+"---"+goodattr.getGoodTypeId());
+		System.out.println(goodattr.getCreateBy()+"---"+goodattr.getNames()+"---"+goodattr.getSort()+"---"+goodattr.getRemark()+"---"+goodattr.getCode()+"---"+goodattr.getGoodId());
 		Boolean flag = goodAttrService.checkGoodAtrr(goodattr);
 		int i = 0;
 		if(flag){

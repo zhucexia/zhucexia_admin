@@ -21,15 +21,12 @@
 		select <include refid="Base_Column_List" />
 		from customer
 		where 1=1
-		<if test="isPinlessMobile != null and isPinlessMobile !=''">
-			and is_pinlessmobile = #{isPinlessMobile,jdbcType=VARCHAR}
-		</if>
 		<if test="username != null and username !=''">
 			and username = #{username,jdbcType=VARCHAR}
 		</if>
 		<if test="phoneNumber != null and phoneNumber !=''">
 			and mobile = #{phoneNumber,jdbcType=VARCHAR}
-		</if> -->
+		</if>
 	</select>
 	<delete id="deletecustomer" parameterType="int">
 		delete from customer where id=#{id,jdbcType=DECIMAL}

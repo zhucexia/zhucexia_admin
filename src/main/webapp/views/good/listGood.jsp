@@ -9,7 +9,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html class="htmlOverFlowHidden" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>客户查询</title>
+<title>商品查询</title>
 <link href="${root }/static/css/css.css" rel="stylesheet"
 	type="text/css" />
 <link href="${root }/static/css/style.css" rel="stylesheet"
@@ -38,7 +38,7 @@
 <body id="depositBody" class="ContentBody">
 	<div class="CContent">
 		<div id="title" class="tablestyle_title">
-			<label>客户查询</label>
+			<label>商品查询</label>
 		</div>
 		<div class="CPanel">
 			<fieldset>
@@ -46,19 +46,16 @@
 				<table style="width: 100%;" class="CContent">
 					<tbody>
 						<tr>
-							<td><label>绑定手机号:</label></td>
+							<td><label>商品类型:</label></td>
 							<td>
-								<select id="isPinlessMobile"  name="isPinlessMobile" class="text" class="text" style="width:150px">
-										<option value="0" selected="selected">已绑定</option>
-										<option value="1">未绑定</option>
-								</select>
+								<input name="good_type_id" class="easyui-combobox" data-options="editable:false,valueField:'values',textField:'fields',data:${jsons}" />
 							</td>
-							<td><label>用户名:</label></td>
-							<td><input id="username" type="text" /></td>
+							<td><label>商品名称:</label></td>
+							<td><input id="good_name" type="text" /></td>
 						</tr>
 						<tr>
-							<td><label>手机号:</label></td>
-							<td><input id="phoneNumber" type="text" /></td>
+							<td><label>商品编号:</label></td>
+							<td><input id="code" type="text" /></td>
 						</tr>
 					</tbody>
 					<tfoot>
@@ -98,9 +95,9 @@
 			//查询执行
 			queryDg = function() {
 				var params = {
-					isPinlessMobile : $("#isPinlessMobile").val(),
-					username : $("#username").val(),
-					phoneNumber : $("#phoneNumber").val(),
+					good_type_id : $("input[name=good_type_id]").val(),
+					name : $("#good_name").val(),
+					code : $("#code").val(),
 					pageNum : pageObj.varPageNum,
 					pageSize : pageObj.varPageSize
 				};
@@ -112,6 +109,7 @@
 				$("#addWin").window({
 					width : 800,
 					height : 600,
+					title : "添加商品",
 					method : 'post',
 					cache : false,
 					modal : true,
@@ -143,6 +141,7 @@
 				$("#editWin").window({
 					width : 820,
 					height : 600,
+					title : "商品编辑",
 					method : 'post',
 					closeAnimation : 'fade',
 					cache : false,
@@ -242,11 +241,11 @@
 				text : '商品关联管理',
 				iconCls : 'icon-add',
 				handler : manageWhite
-			}, {
+			}/* , {
 				text : '商品属性管理',
 				iconCls : 'icon-add',
 				handler : attrmanage
-			} ];
+			} */ ];
 
 			//刷新datafrid
 			function refreshDg(loadData) {

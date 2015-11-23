@@ -50,7 +50,17 @@
 	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="java.util.HashMap">
 		select <include refid="simple_Column_List" />
 		from good
-		where 1=1  and state='s' order by sort
+		where 1=1  and state='s' 
+		<if test="good_type_id != null and good_type_id != ''">
+			and good_type_id=#{good_type_id}
+		</if>
+		<if test="name!= null and name!=''">
+			and name like concat('%',#{name},'%')
+		</if>
+		<if test="code!=null and code!=''">
+			and code=#{code}
+		</if>
+		order by sort
 	</select>
 	
 	<!-- 查询单个商品信息，商品信息修改 -->
