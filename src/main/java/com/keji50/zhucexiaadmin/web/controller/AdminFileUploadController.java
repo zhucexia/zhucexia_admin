@@ -68,14 +68,6 @@ public class AdminFileUploadController<logger> {
     @RequestMapping(method = RequestMethod.POST)
     public void processUploadPost(ModelMap modelMap,
             HttpServletRequest request, HttpServletResponse response) {
-    		System.out.println("进入了processUploadPost");
-        // 判断提交的请求是否包含文件
-       // boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-
-       // if (!isMultipart) {
-           // return;
-       // }
-
         // 获取目录
         File folder = buildFolder(request);
         if (null == folder) {
@@ -89,11 +81,6 @@ public class AdminFileUploadController<logger> {
             String fileUrl = "";
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;  
            Iterator<String> fileNames = multipartRequest.getFileNames();
-          //  MultipartFile file=MultipartFile(request);
-            //DiskFileItemFactory factory = new DiskFileItemFactory();
-            //System.out.println("进入了processUploadPost++======FileItemFactory");
-            //ServletFileUpload servletFileUpload = new ServletFileUpload(factory);
-           // servletFileUpload.setFileSizeMax(MAX_FILE_SIZE);
            List<MultipartFile> fileitem=new ArrayList<MultipartFile>();
            int flag=0;
              if(fileNames.hasNext()){
@@ -101,10 +88,7 @@ public class AdminFileUploadController<logger> {
             	 fileitem.add(multipartRequest.getFile(fileName));
             	 flag++;
              } 
-			//List<FileItem> fileitem = servletFileUpload.parseRequest(request);
-            System.out.println("fileitem--size"+fileitem.size()+"--------------");
             if (null == fileitem || 0 == fileitem.size()) {
-            	System.out.println("size---------------------size-size");
                 return;
             }
             Iterator<MultipartFile> fileitemIndex = fileitem.iterator();
@@ -114,7 +98,7 @@ public class AdminFileUploadController<logger> {
                     logger.error("上传文件非法！isFormField=true");
                 }*/
                 String fileClientName = getFileName(file.getOriginalFilename());
-                System.out.println("fileClientName"+fileClientName);
+                //System.out.println("fileClientName"+fileClientName);
                 String fileSuffix = StringUtils.substring(fileClientName,
                         fileClientName.lastIndexOf(".") + 1);
                 if (!StringUtils.equalsIgnoreCase(fileSuffix, "jpg")
@@ -164,7 +148,7 @@ public class AdminFileUploadController<logger> {
             	InputStream in = this.getClass() .getResourceAsStream("/config.properties" ); 
             	try {
         			prop.load(in);
-        			System.out.println("------"+prop.get("www.url"));
+        			//System.out.println("------"+prop.get("www.url"));
         			tempPath=(String) prop.get("www.url");
         		} catch (IOException e) {
         			// TODO Auto-generated catch block
@@ -172,7 +156,7 @@ public class AdminFileUploadController<logger> {
         		} 	
                 fileUrl = tempPath + fileUrl;
                 fileUrl = "http://"+StringUtils.replace(fileUrl, "//", "/");
-                 System.out.println("fileUrl-----"+fileUrl+"===================");
+                // System.out.println("fileUrl-----"+fileUrl+"===================");
                 // 将上传的图片的url返回给ckeditor
                 String callback = request.getParameter("CKEditorFuncNum");
                 out.println("<script type=\"text/javascript\">");
@@ -240,7 +224,7 @@ public class AdminFileUploadController<logger> {
     	InputStream in = this.getClass() .getResourceAsStream("/config.properties" ); 
     	try {
 			prop.load(in);
-			System.out.println("------"+prop.get("fileupload.dir"));
+			//System.out.println("------"+prop.get("fileupload.dir"));
 			tempPath=(String) prop.get("fileupload.dir");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -249,18 +233,17 @@ public class AdminFileUploadController<logger> {
         // 这里照顾一下CKEDITOR，由于ftl放置位置的原因，这里必须要在freemarker目录下才能被加载到图片，否则虽然可以正常上传和使用，但是
         // 在控件中无法正常操作
         String realPath = tempPath+FOR_RESOURCES_LOAD_DIR;
-        	System.out.println("buildFolder方法中====realPath---"+realPath);
+        	//System.out.println("buildFolder方法中====realPath---"+realPath);
         logger.error(realPath);
 
         // 一级目录，如果不存在，创建
         File firstFolder = new File(realPath + FILE_UPLOAD_DIR);
         if (!firstFolder.exists()) {
             if (!firstFolder.mkdirs()) {
-            	System.out.println("firstFolder.mkdir()---"+firstFolder.mkdir());
+            	//System.out.println("firstFolder.mkdir()---"+firstFolder.mkdir());
                 return null;
             }
         }
-        System.out.println("buildFolder方法中====一级目录--firstFolder---"+firstFolder.getAbsolutePath());
         // 二级目录，如果不存在，创建
         String folderdir = realPath + FILE_UPLOAD_DIR + FILE_UPLOAD_SUB_IMG_DIR;
         if (logger.isDebugEnabled()) {
@@ -280,7 +263,7 @@ public class AdminFileUploadController<logger> {
             }
 
         }
-        System.out.println("buildFolder方法中====二级目录--floder---"+floder.getAbsolutePath());
+      //  System.out.println("buildFolder方法中====二级目录--floder---"+floder.getAbsolutePath());
         // 再往下的文件夹都是以时间字符串来命名的，所以获取最新时间的文件夹即可
         String[] files = floder.list();
         if (null != files && 0 < files.length) {

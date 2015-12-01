@@ -115,6 +115,7 @@
 					method : 'post',
 					cache : false,
 					modal : true,
+					title:'添加产品',
 					//closeAnimation : 'fade',
 					closable : true,
 					maximizable : false,
@@ -146,6 +147,7 @@
 					method : 'post',
 					closeAnimation : 'fade',
 					cache : false,
+					title:'修改产品',
 					//closable : false,
 					maximizable : false,
 					minimizable : false,
@@ -159,7 +161,6 @@
 						}
 					}
 				});
-
 			};
 			deleteWhite = function() {
 				var id = '';
@@ -221,8 +222,7 @@
 					}
 				});
 
-			};
-			
+			};		
 			attrmanage = function() {
 				location.href = "${root}/goodattr/index";				
 			};
@@ -242,11 +242,11 @@
 				text : '商品关联管理',
 				iconCls : 'icon-add',
 				handler : manageWhite
-			}, {
+			}/* , {
 				text : '商品属性管理',
 				iconCls : 'icon-add',
 				handler : attrmanage
-			} ];
+			}*/ ] ;
 
 			//刷新datafrid
 			function refreshDg(loadData) {
@@ -267,11 +267,13 @@
 						if (data.total > 0) {
 							return;
 						}
+						else{
 						$('#dg').datagrid('insertRow', {
 							row : {
 								username : '没有查到数据',
 							}
 						});
+						}
 						/* $('#dg').datagrid('mergeCells', {
 							index : 0,
 							field : 'username',

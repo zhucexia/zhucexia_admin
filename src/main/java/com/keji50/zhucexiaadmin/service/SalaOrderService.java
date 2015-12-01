@@ -25,7 +25,6 @@ public class SalaOrderService {
 		// TODO Auto-generated method stub
 		// 设置分页信息
 				PageUtils.initPageInfo(conditions);
-				System.out.println("conditions------"+conditions.toString());
 				
 				// 分页插件
 		        PageHelper.startPage((Integer) conditions.get(PageUtils.PAGE_NUM), (Integer) conditions.get(PageUtils.PAGE_SIZE));
@@ -57,6 +56,9 @@ public class SalaOrderService {
 		
 		int result=salaOrderPoMapper.updateorder(cust);
 		return result;
+	}
+	public SalaOrderPo getOrderByNo(String order_no){
+		return salaOrderPoMapper.getOrderByNo(order_no);
 	}
 
 

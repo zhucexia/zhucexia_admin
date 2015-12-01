@@ -28,13 +28,10 @@ public class SysRolePowerController {
 	@ResponseBody
 	public JSON getRolePower(HttpServletRequest request){
 		SysUserPo sysUserPo = (SysUserPo) request.getSession().getAttribute("sysUserpo");
-		System.out.println("role_id值为--"+sysUserPo.getRole_id());
 		List<SysRolePowerPo> list=sysRolePowerService.getRolePower(sysUserPo.getRole_id());
-		System.out.println(list.size()+"------");
 		String str = "[";
 		if(list.size()>0){
 			for(SysRolePowerPo sysRole:list){
-				System.out.println(sysRole.getSysPowerPo().toString());
 				str+="{\"id\":\""+sysRole.getId()+"\",\"text\":"
 						+ "\""+sysRole.getSysPowerPo().getName()+"\","
 								+ "\"attributes\":{\"url\":\""+request.getContextPath()+"/"+sysRole.getSysPowerPo().getHref()+"\"},"
@@ -42,15 +39,12 @@ public class SysRolePowerController {
 			}
 			str=str.substring(0,str.length()-1);
 			str+="]";
-			System.out.println(str);
 			//json=JSONObject.parseObject(str);
 		}
 		else{
 			
 		}
-		System.out.println("进入了rolepowercontroller里面的getRolePower方法----"+list.size());
 		JSON json = JSON.parseArray(str);
-		System.out.println(json.toString());
 		return json;
 	}
 	@RequestMapping("/aa")
@@ -63,16 +57,11 @@ public class SysRolePowerController {
 	@RequestMapping("/toDistriPower")
 	public String toDistriPower(HttpServletRequest request){
 		/*从页面获取到角色的id值，通过角色的id值获取该角色对应 的所有的权限*/
-		System.out.println("进入了rolepowercontroller里面的toDistriPower方法");
 		String role_id=request.getParameter("id");
-		System.out.println("id--"+role_id);
 		List<HashMap<String,Object>> list=sysRolePowerService.getPowers(role_id);
 		String str="[";
 		/*获取所有权限的枚举值*/
 		for(HashMap<String,Object> map :list){
-			System.out.println("进入了rolepowercontroller里面的toDistriPower方法----"+map.get("id"));
-			System.out.println("power--id--"+map.get("id")+"---powerName--"+map.get("name"));
-			System.out.println("role_power--role_id---"+map.get("role_id")+"---power_id==="+map.get("power_id"));
 			/*判断该角色有没有当前的权限*/
 			if(map.get("power_id")!=null){
 				str+="{'id':'"+map.get("id")+"','text':'"+map.get("name")+"',"
@@ -85,7 +74,6 @@ public class SysRolePowerController {
 		str=str.substring(0,str.length()-1)+"]";
 		request.setAttribute("json", str);
 		request.setAttribute("role_id", role_id);
-		System.out.println("进入了rolepowercontroller里面的toDistriPower方法----"+str);
 		return "admin/distributionPower";
 	}
 	
@@ -98,7 +86,6 @@ public class SysRolePowerController {
 		selectedPower =selectedPower.substring(0,selectedPower.length()-1);
 		String [] powerIds = selectedPower.split(",");
 		for(int i=0;i<powerIds.length;i++){
-			System.out.println(powerIds[i]);
 			sysRolePowerPo.setPower_id(powerIds[i]);
 			sysRolePowerPo.setRole_id(role_id);
 			if(sysRolePowerService.checkRolePower(sysRolePowerPo)){
@@ -107,7 +94,6 @@ public class SysRolePowerController {
 		}
 		unselected = unselected.substring(0, unselected.length()-1);
 		String [] unselectedIds = unselected.split(",");
-		System.out.println("未选中ID"+unselectedIds.toString());
 		for(int i=0;i<unselectedIds.length;i++){
 			sysRolePowerPo.setPower_id(unselectedIds[i]);
 			sysRolePowerPo.setRole_id(role_id);
@@ -115,7 +101,6 @@ public class SysRolePowerController {
 				sysRolePowerService.deleteRolePower(sysRolePowerPo);
 			}
 		}
-		System.out.println("进入了rolepowercontroller里面的方法--distriPower--"+"id--"+role_id+"--"+selectedPower);
 		String str = "{'msg':'true'}";
 		JSONObject json = JSONObject.parseObject(str);
 		return json;

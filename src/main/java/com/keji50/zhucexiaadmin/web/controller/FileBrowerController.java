@@ -67,7 +67,7 @@ public class FileBrowerController {
      	InputStream in = this.getClass() .getResourceAsStream("/config.properties" ); 
      	try {
  			prop.load(in);
- 			System.out.println("------"+prop.get("fileupload.dir"));
+ 			//System.out.println("------"+prop.get("fileupload.dir"));
  			tempPath=(String) prop.get("fileupload.dir");
  			tempsPath=(String)prop.getProperty("www.url");
  		} catch (IOException e) {
@@ -77,7 +77,7 @@ public class FileBrowerController {
     	String str1=tempPath;
         String typeStr = request.getParameter("type");  
         String floderName =request.getParameter("fo");  
-        System.out.println("floderName ---"+floderName );
+        //System.out.println("floderName ---"+floderName );
           
         if (logger.isDebugEnabled()) {  
             logger.debug("浏览文件，文件格式:" + typeStr);  
@@ -89,7 +89,6 @@ public class FileBrowerController {
             floderName = URLDecoder.decode(floderName);  
             // 如果请求中存在文件夹名称，则定位到文件夹中  
             realPath = tempPath+"/"+floderName;  
-           // System.out.println("realPath----111---"+realPath);
             if(logger.isInfoEnabled()){  
                 logger.info("sub floder:"+realPath);  
             }  
@@ -104,11 +103,9 @@ public class FileBrowerController {
                 logger.info("default floder:"+realPath);  
             }  
         }  
-         // System.out.println("----------------"+FOR_FREEMARKER_LOAD_DIR+ File.separator+FILE_UPLOAD_DIR+ File.separator+FILE_UPLOAD_SUB_IMG_DIR);
-          System.out.println("realPath----"+realPath);
+         // System.out.println("realPath----"+realPath);
         File folder = new File(realPath);  
         if(!folder.exists()){  
-        	System.out.println("不存在！！！！！！！！！！！！！！！！！！");
             return;  
         }  
           
@@ -117,13 +114,10 @@ public class FileBrowerController {
         //System.out.println("subFolderSet-----"+subFolderSet.size());
         // 存储文件夹  
         List<String> subFileerSet = new ArrayList<String>();  
-        //System.out.println("subFileerSet-----"+subFileerSet.size());
         File[] subFiles = folder.listFiles();
-        //System.out.println("subFiles====folder---"+subFiles.length+"------"+folder.getAbsoluteFile());
         if(null != subFiles && 0 < subFiles.length){  
             for(int i=0;i < subFiles.length; i++){  
                 File _file = subFiles[i]; 
-                //System.out.println("i------------"+i);
                 if(_file.isDirectory()){  
                     subFolderSet.add(getDefaultFolderFromFreemarker(_file));  
                 } else {  
@@ -189,7 +183,7 @@ public class FileBrowerController {
                 while(subFileerSetIndex.hasNext()){  
                     String ftemp = subFileerSetIndex.next();  
                     String f = getDefaultFolderFromFreemarker(folder);  
-                    System.out.println("ftemp---"+ftemp+"====f=="+f);
+                   // System.out.println("ftemp---"+ftemp+"====f=="+f);
                     String fileUrl = f + File.separator + ftemp;     
                     fileUrl = StringUtils.replace(fileUrl, "//", "/"); 
                     fileUrl="http://"+tempsPath+"/"+fileUrl;

@@ -22,7 +22,7 @@
 		    </tr>
 		    <tr>
 		    	<td><input type="button" value="保存"  id="sub" onclick="submits()"></td>
-		    	<td><input type="button" value="取消"></td>
+		    	<td><input type="button" value="取消" onclick="closes()"></td>
 		    </tr>	    		    		   		    
 		</table>
 	</form>
@@ -57,6 +57,9 @@
 				}	
 			})
 		}
+	function closes(){
+		$("#addWin").window('close');
+	}
 	</script>	   
 </body>
 </html>

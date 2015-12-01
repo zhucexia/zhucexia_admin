@@ -20,7 +20,6 @@ public class SysRolePowerService {
 	}
 
 	public List<HashMap<String, Object>> getPowers(String role_id) {
-		System.out.println("进入了SysRolePowerService里面的getPowers方法");
 		return sysRolePowerPoMapper.getPowers(role_id);
 			
 	}

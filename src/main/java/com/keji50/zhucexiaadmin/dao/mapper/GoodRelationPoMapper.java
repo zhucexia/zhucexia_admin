@@ -12,4 +12,7 @@ public interface GoodRelationPoMapper {
 
 	public int addRelation(GoodRelationPo goodRelationPo);
 
+	public GoodRelationPo querry(GoodRelationPo goodRelationPo);
+	
+
 }

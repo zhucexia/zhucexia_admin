@@ -40,26 +40,12 @@ public class SalaOrderController {
 		String requestJson = WebUtils.getRequestPayload(request);
 		Map<String, Object> conditions = JSONObject.parseObject(requestJson);
 		Page<SalaOrderPo> page = salaorderservice.getorderByConditions(conditions);
-/*		for (SalaOrderPo salaOrderPo : page) {
-			System.out.println(salaOrderPo.getOrderstate());
-			if(salaOrderPo.getOrderstate().equals("0")){
-				salaOrderPo.setOrderstate("所有订单");
-			}else if(salaOrderPo.getOrderstate().equals("1")) {
-				salaOrderPo.setOrderstate("待付款");
-			}else if(salaOrderPo.getOrderstate().equals("2")){
-				salaOrderPo.setOrderstate("交易成功");
-			}else{
-				salaOrderPo.setOrderstate("交易取消");
-			}
-		}*/
-		System.out.println("执行查询"+page.size());
 		return PageUtils.pageToMap(page);
 	}
 	
 	@RequestMapping(value = "/deletesalaorder", method = RequestMethod.POST)	
 	@ResponseBody
 	public JSONObject deletesalaorder(HttpServletRequest request) {
-		System.out.println(request.getParameter("sno"));
 		int id=Integer.valueOf(request.getParameter("sno"));
 		int result=salaorderservice.deletesalaorder(id);
 		JSONObject json;
@@ -79,7 +65,6 @@ public class SalaOrderController {
 	
 	@RequestMapping(value = "/getorder", method = RequestMethod.POST)	
 	public String getorder(HttpServletRequest request) {
-		System.out.println("编辑id："+request.getParameter("id"));
 		int id=Integer.valueOf(request.getParameter("id"));
 		SalaOrderPo order=salaorderservice.getorder(id);
 		if(order.getOrderstate().equals("0")){
@@ -92,14 +77,12 @@ public class SalaOrderController {
 			order.setOrderstate("交易取消");
 		}
 		request.setAttribute("order", order);
-		//System.out.println(cus.getUsername());
 		return "salaorder/update";
 	}
 	
 	@RequestMapping(value = "/updateorder")	
 	@ResponseBody
 	public String updateorder(HttpServletRequest request,SalaOrderPo cust) {
-		System.out.println("进入修改controller,名为："+cust.getOrderstate());
 		int result=salaorderservice.updateorder(cust);
 		String mess="";
 		if(result>0){

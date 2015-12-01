@@ -15,6 +15,8 @@ public interface SalaOrderPoMapper {
 
 	int updateorder(SalaOrderPo cust);
 
+	public SalaOrderPo getOrderByNo(String order_no);
+
 	
 
 }

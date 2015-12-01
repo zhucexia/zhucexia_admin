@@ -19,13 +19,24 @@ public class GoodRelationService {
 	}
 
 	public int delRelation(Map<String, Object> map) {
-		System.out.println(map.get("unSelected"));
 		return goodRelationPoMapper.delRelation(map);
 	}
 
-	public int addRelation(GoodRelationPo goodRelationPo) {
-		// TODO Auto-generated method stub
-		return goodRelationPoMapper.addRelation(goodRelationPo);
+	public int addRelation(GoodRelationPo goodRelationPo) throws RuntimeException {
+		// 判断当前的配置关系是否存在,不存在时执行添加操作
+		GoodRelationPo  goodRelation=goodRelationPoMapper.querry(goodRelationPo);
+		if(goodRelation==null){
+			int flag=goodRelationPoMapper.addRelation(goodRelationPo);
+			if(flag>0){
+				return flag;
+			}
+			else{
+				throw new RuntimeException();
+			}
+		}
+		else{
+			return 0;
+		}
 	}
 
 

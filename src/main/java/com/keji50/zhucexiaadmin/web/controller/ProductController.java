@@ -30,14 +30,12 @@ public class ProductController {
 	
 	@RequestMapping("/toAddPro")
 	public String toAddPro(){
-		System.out.println("进入了toAddPro方法里面！");
 		return "product/addPro";
 	}
 	@RequestMapping(value="/addPros",method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject  addPro(ProductPo productpo,HttpServletRequest request){
 		/*调用service层方法*/
-		System.out.println(productpo.toString()) ;
 		/*返回是否插入数据的标示值*/
 		int flag=productService.insertProduct(productpo);
 		/*声明json数据类型变量，返回到前台*/
@@ -54,7 +52,6 @@ public class ProductController {
 	/*列表显示产品信息*/
 	@RequestMapping("/listPro")
 	public String listPro(){
-		System.out.println("进入了listpro方法里面！");
 		return "product/listPro";
 	}
 	
@@ -74,10 +71,7 @@ public class ProductController {
 	@RequestMapping("/delPro")
 	public void deletePro(HttpServletRequest request){
 		int id=Integer.parseInt(request.getParameter("id"));
-		System.out.println("当前被删除的值得id是："+id);
-		int flag=productService.deletePro(id);
-		System.out.println("执行了productController的deletePro方法---"+flag);
-		
+		int flag=productService.deletePro(id);		
 	}
 
 }

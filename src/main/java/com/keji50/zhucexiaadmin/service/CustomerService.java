@@ -27,14 +27,9 @@ public class CustomerService {
 		// 分页插件
         PageHelper.startPage((Integer) conditions.get(PageUtils.PAGE_NUM), (Integer) conditions.get(PageUtils.PAGE_SIZE));
         // 根据查询条件查询客户信息
-        System.out.println("service中"+customerPoMapper.selectByCondition(conditions).toString());
+        //System.out.println("service中"+customerPoMapper.selectByCondition(conditions).toString());
         Page<CustomerPo> page = customerPoMapper.selectByCondition(conditions);
-       /* SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd");
-        for (CustomerPo customerPo : page) {
-        	@SuppressWarnings("unused")
-			String date=sf.format(customerPo.getCreateTime());
-            
-		}*/
+
         return page;
 	}
 

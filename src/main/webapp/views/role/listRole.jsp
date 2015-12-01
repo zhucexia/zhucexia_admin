@@ -42,20 +42,20 @@
 				<table style="width: 100%;" class="CContent">
 					<tbody>
 						<tr>
-							<td><label>绑定手机号:</label></td>
+<!-- 							<td><label>绑定手机号:</label></td>
 							<td>
 								<select id="isPinlessMobile"  name="isPinlessMobile" class="text" class="text" style="width:150px">
 										<option value="0" selected="selected">已绑定</option>
 										<option value="1">未绑定</option>
 								</select>
-							</td>
-							<td><label>用户名:</label></td>
-							<td><input id="username" type="text" /></td>
+							</td> -->
+							<td><label>角色名称:</label></td>
+							<td><input id="names" type="text" name ="names"/></td>
 						</tr>
-						<tr>
+<!-- 						<tr>
 							<td><label>手机号:</label></td>
 							<td><input id="phoneNumber" type="text" /></td>
-						</tr>
+						</tr> -->
 					</tbody>
 					<tfoot>
 						<tr>
@@ -93,9 +93,7 @@
 			//查询执行
 			queryDg = function() {
 				var params = {
-					isPinlessMobile : $("#isPinlessMobile").val(),
-					username : $("#username").val(),
-					phoneNumber : $("#phoneNumber").val(),
+					names : $("#names").val(),
 					pageNum : pageObj.varPageNum,
 					pageSize : pageObj.varPageSize
 				};
@@ -110,6 +108,7 @@
 					method : 'post',
 					cache : false,
 					modal : true,
+					title: '角色添加',
 					//closeAnimation : 'fade',
 					closable : true,
 					maximizable : false,
@@ -140,6 +139,7 @@
 					method : 'post',
 					closeAnimation : 'fade',
 					cache : false,
+					title: '角色修改',
 					//closable : false,
 					maximizable : false,
 					minimizable : false,
@@ -202,6 +202,7 @@
 					method : 'post',
 					closeAnimation : 'fade',
 					cache : false,
+					title: '权限分配',
 					//closable : false,
 					maximizable : false,
 					minimizable : false,

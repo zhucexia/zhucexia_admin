@@ -34,7 +34,6 @@ public class GoodRelationController {
 		String id=request.getParameter("id");
 		request.setCharacterEncoding("utf-8");
 		String good_type_name=new String(request.getParameter("good_type_name").getBytes("iso-8859-1"),"utf-8");
-		System.out.println("good_type_name"+good_type_name);
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("id", id);
 		map.put("good_type_name", good_type_name);
@@ -43,9 +42,6 @@ public class GoodRelationController {
 		/*格式化数据,返回产品间配置到前台*/
 		String str="[";
 		for(HashMap<String,Object> maps :list){
-			System.out.println("进入了GoodRelationController里面的toManageGood方法----"+maps.get("id"));
-			System.out.println("id--"+maps.get("id")+"---Name--"+maps.get("name"));
-			System.out.println("related_good_id----"+maps.get("related_good_id")+"---related_good_name==="+maps.get("related_good_name")+"good_id--"+maps.get("good_id"));
 			/*判断该角色有没有当前的权限*/
 			if(maps.get("related_good_id")!=null){
 				str+="{'id':'"+maps.get("id")+"','text':'"+maps.get("name")+"',"
@@ -56,10 +52,8 @@ public class GoodRelationController {
 			}
 		}
 		str=str.substring(0,str.length()-1)+"]";
-		System.out.println(str);
 		request.setAttribute("json", str);
 		request.setAttribute("good_id", id);
-		System.out.println("进入了rolepowercontroller里面的toDistriPower方法----"+str);
 		return "good/manageGood";
 	}
 	/*提交商品关系配置,
@@ -72,21 +66,19 @@ public class GoodRelationController {
 		String selectedGood=request.getParameter("selectedGood");
 		String unSelected =request.getParameter("unSelected");
 		String selectedName=request.getParameter("selectedName");
-		System.out.println("selectedGood--"+selectedGood+"---"+unSelected);
 		String good_id=request.getParameter("good_id");
 		/*获取当前的用户名称*/
 		SysUserPo sysUserPo=(SysUserPo)request.getSession().getAttribute("sysUserpo");
 		String name=sysUserPo.getUsername();
 		/*判断是否有未被选中的值*/
 		if(unSelected.length()>0){
-			System.out.println(unSelected.length());
 		/*删除未被选中配置*/
 		Map<String,Object> map = new HashMap<String,Object>();
-		//System.out.println("unSelected.lastIndexOf(,)--"+unSelected.lastIndexOf(","));
-		unSelected=unSelected.substring(0,unSelected.lastIndexOf(","));
+		String[] unSelecte=unSelected.substring(0,unSelected.lastIndexOf(",")).split(",");
+		//unSelected="("+unSelected+")";
 		map.put("good_id", good_id);
-		map.put("unSelected", unSelected);
-	   goodRelationService.delRelation(map);
+		map.put("unSelected", unSelecte);
+		int flags=goodRelationService.delRelation(map);
 		}
 		/*插入选中配置,判断是否有选中的配置传递过来*/
 		if(selectedGood.length()>0){

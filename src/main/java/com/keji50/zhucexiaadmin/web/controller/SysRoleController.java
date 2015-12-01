@@ -47,20 +47,17 @@ public class SysRoleController {
 	/*角色添加*/
 	@RequestMapping("/toAddRole")
 	public String toAddRole(){
-		System.out.println("进入了toAddRole方法里面！");
 		return "role/addRole";
 	}
 	@RequestMapping(value="/addRoles",method = RequestMethod.POST)
 	@ResponseBody
 	public int addPro(SysRolePo sysRolePo,HttpServletRequest request){
 		/*调用service层方法*/
-		System.out.println(sysRolePo.toString()) ;
 		Boolean result = sysRoleService.checkRole(sysRolePo);
 		int i = 0;
 		if(result){
 			/*把负责添加人的id值放入到sysRolePo中去*/
 			SysUserPo sysUser=(SysUserPo)request.getSession().getAttribute("sysUserpo");
-			System.out.println(sysUser.toString());
 			String user_name = sysUser.getUsername();
 			sysRolePo.setCreateBy(user_name);
 			Timestamp time = new Timestamp(System.currentTimeMillis());
@@ -86,7 +83,6 @@ public class SysRoleController {
 	public String toEditRole(String id,HttpServletRequest request){
 		int ids=Integer.parseInt(id);
 		SysRolePo sysRolePo=sysRoleService.getRoleById(ids);
-		System.out.println("进入了sysRoleController方法--toEditRole--"+sysRolePo.toString());
 		request.setAttribute("sysRolePo", sysRolePo);
 		return "role/updateRole";
 	}
@@ -102,9 +98,7 @@ public class SysRoleController {
 			sysRolePo.setUpdateBy(user_name);
 			long l = System.currentTimeMillis();
 			Timestamp time = new Timestamp(l);
-			System.out.println(time);
 			sysRolePo.setUpdateTime(time);
-			System.out.println("=====-=-=-=-=-=-="+sysRolePo.getUpdateTime());
 			/*返回是否修改成功*/
 			int flag=sysRoleService.updateRole(sysRolePo);
 			/*声明json数据类型变量，返回到前台*/
@@ -125,9 +119,7 @@ public class SysRoleController {
 	@ResponseBody
 	public JSONObject delRole(HttpServletRequest request){
 		int id=Integer.parseInt(request.getParameter("id"));
-		System.out.println("当前被删除的值得id是："+id);
 		int flag=sysRoleService.deleteRole(id);
-		System.out.println("执行了sysRoleController的deleteRole方法---"+flag);
 		/*声明json数据类型变量，返回到前台*/
 		JSONObject json;
 		if(flag>0){

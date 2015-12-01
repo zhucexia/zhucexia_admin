@@ -37,14 +37,14 @@
 	
 	<select id="selectRolePower" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select a.*,c.name,c.href,c.treetype from sys_role_power a ,sys_power c 
-		where 1=1 and  a.power_id=c.id and a.role_id=#{role_id}
+		where 1=1 and  a.power_id=c.id and a.role_id=#{role_id} and c.state='s'
 	</select>
 		<!-- 左连接不同权限对应了的角色 -->
 	<select id="getPowers" resultType="java.util.HashMap" parameterType="java.lang.String">
 		<!-- select a.*,c.name,c.id from sys_role_power a right outer join sys_power c 
 		on 1=1 and  a.power_id=c.id and a.role_id=#{role_id} -->
 		select a.id,a.name,c.role_id,c.power_id from sys_power a left outer join sys_role_power c 
-		on a.id=c.power_id and c.role_id=#{role_id}
+		on a.id=c.power_id and c.role_id=#{role_id} and a.state='s'
 	</select>
 	<insert id="insertRolePower" parameterType="com.keji50.zhucexiaadmin.dao.po.SysRolePowerPo">
 		insert into sys_role_power (role_id,power_id) 

@@ -19,6 +19,9 @@
 		select <include refid="Base_Column_List" />
 	from sys_role
 	where 1=1 and state='s'
+	<if test="names!=null and names!=''">
+		and name=#{names}
+	</if>
 	</select>
     <insert id="insertRole" parameterType="com.keji50.zhucexiaadmin.dao.po.SysRolePo">
 		insert into sys_role(code,name,

@@ -37,7 +37,7 @@
 <div class="logintop">    
     <span>欢迎登录后台管理界面平台</span>    
     <ul>
-    <li><a href="#">回首页</a></li>
+   <!--  <li><a href="#">回首页</a></li> -->
     <!-- <li><a href="#">帮助</a></li>
     <li><a href="#">关于</a></li> -->
     </ul>    
@@ -50,8 +50,8 @@
     <div class="loginbox">
     <form id="loginForm" method="post" action="${root}/sysUser/login">
     <ul>
-    <li><input name="username" type="text" class="loginuser" value="0635ad" onclick="JavaScript:this.value=''"/></li>
-    <li><input name="password" type="text" class="loginpwd" value="密码" onclick="JavaScript:this.value=''"/></li>
+    <li><input name="username" type="text" class="loginuser" value="用户名" onclick="JavaScript:this.value=''"/></li>
+    <li><input name="password" type="password" class="loginpwd" value="密码" onclick="JavaScript:this.value=''"/></li>
     <li><input name="" type="submit" class="loginbtn" value="登录" /><label><input name="" type="checkbox" value="" checked="checked" />记住密码</label><label style="color:red;font-size:16px;font-weight:bold;"><span id="ts">${ts}</span></label></li>
     </ul>
     </form>

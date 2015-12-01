@@ -69,9 +69,29 @@
 	</bean>
 
 	<!-- 拦截器配置 -->
-	<!-- <mvc:interceptors> <mvc:interceptor> <mvc:mapping path="/*" /> <bean 
-		class="com.keji50.zhucexia.web.interceptor.ControllerInterceptor"></bean> 
-		</mvc:interceptor> </mvc:interceptors> -->
+	 <mvc:interceptors> 
+	 	<mvc:interceptor> 
+		 	<mvc:mapping path="/admin/upload" /> 
+		 	<mvc:mapping path="/customer/**" />
+		 	<mvc:mapping path="/browerServer/fil" />
+		 	<mvc:mapping path="/goodattr/**" />
+		 	<mvc:mapping path="/goodattrvalue/**" />
+		 	<mvc:mapping path="/good/**" />
+		 	<mvc:mapping path="/goodprice/**" />
+		 	<mvc:mapping path="/goodRelation/**" />
+		 	<mvc:mapping path="/goodtype/**" />
+		 	<mvc:mapping path="/payment/**" />
+		 	<mvc:mapping path="/salaorder/**" />
+		 	<mvc:mapping path="/saleorderdetail/**" />
+		 	<mvc:mapping path="/sysRole/**" />
+		 	<mvc:mapping path="/sysRolePower/**" />
+		 	<mvc:mapping path="/sysUser/**" />
+		 	<mvc:exclude-mapping path="/sysUser/toLogin"/> 	
+		 	<mvc:exclude-mapping path="/sysUser/login"/> 	
+		 		<bean 
+					class="com.keji50.zhucexiaadmin.web.interceptor.ControllerInterceptor"></bean> 
+		</mvc:interceptor> 
+	</mvc:interceptors> 
 
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">

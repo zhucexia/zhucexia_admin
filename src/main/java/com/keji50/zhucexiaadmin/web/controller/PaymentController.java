@@ -46,17 +46,13 @@ public class PaymentController {
 		String requestJson = WebUtils.getRequestPayload(request);
 		Map<String, Object> conditions = JSONObject.parseObject(requestJson);
 		Page<PaymentPo> page = paymentService.getCustomerByConditions(conditions);
-		System.out.println("执行查询"+page.size());
 		return PageUtils.pageToMap(page);
 	}
 	
 	
 	@RequestMapping(value = "/addpayment", method = RequestMethod.POST)	
 	@ResponseBody
-	public String addpayment(HttpServletRequest request,HttpServletResponse response,PaymentPo payment) {
-		System.out.println("进入新增controller");
-		System.out.println(payment.getCreateBy()+"---"+payment.getName()+"---"+payment.getCode()+"---"+payment.getRemark());
-		
+	public String addpayment(HttpServletRequest request,HttpServletResponse response,PaymentPo payment) {		
 		int result=paymentService.addpayment(payment);
 		String mess="";
 		if(result>0){
@@ -70,18 +66,15 @@ public class PaymentController {
 	
 	@RequestMapping(value = "/getpayment", method = RequestMethod.POST)	
 	public String getpayment(HttpServletRequest request) {
-		System.out.println("编辑id："+request.getParameter("id"));
 		int id=Integer.valueOf(request.getParameter("id"));
 		PaymentPo payment=paymentService.getpayment(id);
 		request.setAttribute("payment", payment);
-		//System.out.println(cus.getUsername());
 		return "payment/update";
 	}
 	
 	@RequestMapping(value = "/updatepayment")	
 	@ResponseBody
 	public String updatepayment(HttpServletRequest request,PaymentPo payment) {
-		System.out.println("进入修改controller,名为："+payment.getId()+"--------"+payment);
 		int result=paymentService.updatepayment(payment);
 		String mess="";
 		if(result>0){
@@ -89,13 +82,11 @@ public class PaymentController {
 		}else{
 			mess="修改成功";	
 		}
-		System.out.println(mess);
 		return mess;
 	}
 	@RequestMapping(value = "/deletepayment", method = RequestMethod.POST)	
 	@ResponseBody
 	public JSONObject deletepayment(HttpServletRequest request) {
-		System.out.println(request.getParameter("sno"));
 		int id=Integer.valueOf(request.getParameter("sno"));
 		int result=paymentService.deletepayment(id);
 		JSONObject json;
