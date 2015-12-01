@@ -202,11 +202,11 @@
 				text : '修改',
 				iconCls : 'icon-edit',
 				handler : editWhite
-			}, '-', {
+			}/* , '-', {
 				text : '删除',
 				iconCls : 'icon-delete',
 				handler : deleteWhite
-			}  ,'-',{
+			}   */,'-',{
 				text : '查看详情',
 				iconCls : 'icon-detail',
 				handler : detailWhite

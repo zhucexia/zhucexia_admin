@@ -46,12 +46,12 @@
 				<table style="width: 100%;" class="CContent">
 					<tbody>
 						<tr>
-							<td><label>商品编号:</label></td>
-							<td><input id="goodCode" type="test "/></td>
+							<td><label>商品名称:</label></td>
+							<td><input id="good_name" type="test "/></td>
 						</tr>
 						<tr>
 							<td><label>商品属性:</label></td>
-							<td><input id="goodAttr" type="text" /></td>
+							<td><input id="good_attr" type="text" /></td>
 						</tr>
 					</tbody>
 					<tfoot>
@@ -90,8 +90,8 @@
 			//查询执行
 			queryDg = function() {
 				var params = {
-					goodCode : $("#goodCode").val(),
-					username : $("#goodAttr").val(),
+					goodName : $("#good_name").val(),
+					goodAttr : $("#good_attr").val(),
 					
 					pageNum : pageObj.varPageNum,
 					pageSize : pageObj.varPageSize
@@ -102,6 +102,7 @@
 			addWhite = function() {
 				$("#changeSuccess").val("false");
 				$("#addWin").window({
+					title : '添加价格',
 					width : 800,
 					height : 600,
 					method : 'post',
@@ -120,7 +121,6 @@
 			};
 
 			editWhite = function() {
-				alert()
 				var checkedItems = $('#dg').datagrid('getChecked');
 				var id = '';
 				if (!checkedItems || checkedItems.length == 0) {
@@ -133,6 +133,7 @@
 				}
 				$("#changeSuccess").val("false");
 				$("#editWin").window({
+					title : '修改价格',
 					width : 820,
 					height : 300,
 					method : 'post',

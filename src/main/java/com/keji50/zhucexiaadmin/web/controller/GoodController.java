@@ -82,8 +82,18 @@ public class GoodController {
 	
 	/*列表显示产品信息*/
 	@RequestMapping("/listGood")
-	public String listPro(){
-		
+	public String listPro(HttpServletRequest request){
+		List<Map<String,Object>> list = goodService.selectGoodType();
+		/*返回json格式的数据，values,fields,是在addGoodjsp页面上规定的,显示商品类型下拉框*/
+		String json="[{\'values\':\'\',\'fields\':\'请选择类型\',\'selected\':true},";
+		for(Map<String, Object> map:list){
+			json+="{\'values\':\'"+map.get("id").toString()+","+map.get("name").toString()+"\',"
+					+ "\'fields\':\'"+map.get("name").toString()+"\'},";	
+		}
+		json=json.substring(0, json.length()-1)+"]";
+		System.out.println("进入了sysGoodController的方法--toAddGood--"+json);
+		request.setAttribute("jsons", json);		
+		System.out.println("进入了listGood方法里面！");
 		return "good/listGood";
 	}
 	
@@ -127,7 +137,6 @@ public class GoodController {
   			tempPath=(String) prop.get("fileupload.dir");
   			tempPaths=(String)prop.get("www.url");
   		} catch (IOException e) {
-  			// TODO Auto-generated catch block
   			e.printStackTrace();
   		} 	
 		  String fileName = file.getOriginalFilename(); 

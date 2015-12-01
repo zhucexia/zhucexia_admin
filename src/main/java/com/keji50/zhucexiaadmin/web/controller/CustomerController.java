@@ -39,7 +39,7 @@ public class CustomerController {
 	}
 	@RequestMapping(value = "/getCustomerList", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> listByCondition(HttpServletRequest request) {
+	public Map<String, Object> listByCondition(HttpServletRequest request,HttpServletResponse response) {
 		String requestJson = WebUtils.getRequestPayload(request);
 		Map<String, Object> conditions = JSONObject.parseObject(requestJson);
 		Page<CustomerPo> page = customerService.getCustomerByConditions(conditions);

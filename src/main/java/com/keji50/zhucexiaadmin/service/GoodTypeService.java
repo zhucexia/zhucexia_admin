@@ -18,7 +18,7 @@ public class GoodTypeService {
 	@Resource(name = "goodTypePoMapper")
 	private GoodTypePoMapper goodTypePoMapper;
 	
-	public Page<GoodTypePo> getCustomerByConditions(Map<String, Object> conditions){
+	public Page<GoodTypePo> getGoodTypeByConditions(Map<String, Object> conditions){
 		// 设置分页信息
 		PageUtils.initPageInfo(conditions);
 		

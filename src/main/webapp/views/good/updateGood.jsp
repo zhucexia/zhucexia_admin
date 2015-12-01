@@ -122,7 +122,7 @@
 		    </tr>
 		    <tr>
 		    	<td><input type="button" value="保存"  id="sub" onclick="submits()"></td>
-		    	<td><input type="button" value="取消"></td>
+		    	<td><input type="button" value="取消" onclick="cancel()"></td>
 		    </tr>	    		    		   		    
 		</table>
 		<input type="hidden" value="${goodPo.id }" name="goodId">
@@ -145,6 +145,10 @@
 		$("#begin_sale_time").datebox(options); 
 		
 	 }); */
+	function cancel(){
+		$("#editWin").window('close'); 
+	} 
+	
 	function validates () {
 		$("input[name='sort']").validatebox({    
 			required: true,    

@@ -55,8 +55,8 @@ public class GoodAttrController {
 	@RequestMapping(value = "/add")
 
 	public String add(HttpServletRequest request) {
-		List<Map<String,Object>> list = goodAttrService.getGoodType();
-		String json="[{\'values\':\'0\',\'fields\':\'请选择类型\',\'selected\':true},";
+		List<Map<String,Object>> list = goodService.selectGood();
+		String json="[{\'values\':\'0\',\'fields\':\'请选择商品\',\'selected\':true},";
 		for(Map<String, Object> map:list){
 			json+="{\'values\':\'"+map.get("id").toString()+"\',"
 					+ "\'fields\':\'"+map.get("name").toString()+"\'},";	

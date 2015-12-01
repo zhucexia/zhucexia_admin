@@ -22,7 +22,7 @@
 					javaType：映射到user的哪个属性
 			 -->
 		 	  <id column="id" property="id" jdbcType="DECIMAL" />
-			  <result column="names" property="name" jdbcType="VARCHAR" />
+			  <result column="names" property="names" jdbcType="VARCHAR" />
 			  <result column="code" property="code" jdbcType="VARCHAR" />
 		</association>
 	</resultMap>
@@ -33,8 +33,8 @@
 		SELECT a.*,b.names,b.code
 		FROM good_attr_value a LEFT JOIN good_attr b ON a.good_attr_id=b.id
 		WHERE 1=1
-		 <if test="id != null and id !=''">
-			and code = #{id,jdbcType=VARCHAR}
+		 <if test="names != null and names !=''">
+			and b.names = #{names,jdbcType=VARCHAR}
 		</if> 
 	</select>
 	<delete id="deletegoodattrvalue" parameterType="int">

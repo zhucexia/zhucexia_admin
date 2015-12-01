@@ -27,7 +27,6 @@ public class CustomerService {
 		// 分页插件
         PageHelper.startPage((Integer) conditions.get(PageUtils.PAGE_NUM), (Integer) conditions.get(PageUtils.PAGE_SIZE));
         // 根据查询条件查询客户信息
-        //System.out.println("service中"+customerPoMapper.selectByCondition(conditions).toString());
         Page<CustomerPo> page = customerPoMapper.selectByCondition(conditions);
 
         return page;

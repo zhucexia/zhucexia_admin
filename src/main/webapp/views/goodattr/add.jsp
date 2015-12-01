@@ -37,8 +37,8 @@
 						</tr>
 						<tr>
 
-							<td><label>商品类型:</label></td>
-							<td><input  name="good_type_id" class="easyui-combobox" data-options="editable:false,valueField:'values',textField:'fields',data:${jsons}" /> </td>
+							<td><label>商品名称:</label></td>
+							<td><input  name="good_id" class="easyui-combobox" data-options="editable:false,valueField:'values',textField:'fields',data:${jsons}" /> </td>
 						</tr>
 						<tr style="display:none">	
 							<td><label>创建人:</label></td>
