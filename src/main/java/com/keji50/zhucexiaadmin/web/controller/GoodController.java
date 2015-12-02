@@ -48,7 +48,6 @@ public class GoodController {
 	
 	@RequestMapping("/toAddGood")
 	public String toAddGood(HttpServletRequest request){
-		System.out.println("进入了toAddGood方法里面！");
 		/*查询出所有的商品类型*/
 		List<Map<String,Object>> list = goodService.selectGoodType();
 		/*返回json格式的数据，values,fields,是在addGoodjsp页面上规定的,显示商品类型下拉框*/
@@ -58,7 +57,6 @@ public class GoodController {
 					+ "\'fields\':\'"+map.get("name").toString()+"\'},";	
 		}
 		json=json.substring(0, json.length()-1)+"]";
-		System.out.println("进入了sysGoodController的方法--toAddGood--"+json);
 		request.setAttribute("jsons", json);
 		return "good/addGood";
 	}
@@ -66,8 +64,6 @@ public class GoodController {
 	@ResponseBody
 	public JSONObject  addGood(GoodPo goodPo,HttpServletRequest request){
 		/*调用service层方法*/
-		System.out.println(goodPo.toString()) ;
-		System.out.println("goodController---addGood方法---pic的值--"+goodPo.getPic());
 		goodPo.setPic("111");
 		goodPo.setPic_id("222");
 		/*返回是否插入数据的标示值*/
@@ -95,9 +91,7 @@ public class GoodController {
 					+ "\'fields\':\'"+map.get("name").toString()+"\'},";	
 		}
 		json=json.substring(0, json.length()-1)+"]";
-		System.out.println("进入了sysGoodController的方法--toAddGood--"+json);
 		request.setAttribute("jsons", json);		
-		System.out.println("进入了listGood方法里面！");
 		return "good/listGood";
 	}
 	
@@ -118,9 +112,7 @@ public class GoodController {
 	@RequestMapping("/delGood")
 	public void deletePro(HttpServletRequest request){
 		int id=Integer.parseInt(request.getParameter("id"));
-		System.out.println("当前被删除的值得id是："+id);
 		int flag=goodService.deleteGood(id);
-		System.out.println("执行了goodController的deleteGood方法---"+flag);
 		
 	}
 	
@@ -154,7 +146,6 @@ public class GoodController {
 		  File files= new File(path);
 		//  System.out.println("files.path"+files.getAbsolutePath());
 		  if(!files.exists()){
-			  System.out.println("--------------");
 			  files.mkdir();
 		  }
 	        File tempFile = new File(path, new Date().getTime() + String.valueOf(fileName));  
@@ -175,7 +166,6 @@ public class GoodController {
 	        goodPo.setPrice_range(req.getParameter("price_range"));
 	        goodPo.setPrice_market(req.getParameter("price_market"));
 	        String rPath=request.getSession().getServletContext().getRealPath("/")+"/static/upload/"+String.valueOf(fileName);
-	      //  System.out.println(rPath);
 	        goodPo.setPic(tempPaths+"/resour/upload/img/"+tempFile.getName());
 	        goodPo.setPic_id(fileName);
 	        goodPo.setRegister_cost(req.getParameter("register_cost"));
@@ -186,9 +176,6 @@ public class GoodController {
 	        String[] end_sale_time=req.getParameter("begin_sale_time").split("/");
 	        String est=end_sale_time[2]+"-"+end_sale_time[0]+"-"+end_sale_time[1];
 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-/*	        System.out.println(bst);
-	        System.out.println(est);
-	        System.out.println("---------"+req.getParameter("begin_sale_time").getClass().getName());*/
 	        String aa=sdf.format(sdf.parse(bst));
 	        String bb=sdf.format(sdf.parse(est));
 	        goodPo.setBegin_sale_time(sdf.parse(aa));
@@ -219,9 +206,7 @@ public class GoodController {
 	public String toUpdateGood(HttpServletRequest request){
 		/*查询商品原来信息*/
 		String id=request.getParameter("id");
-		System.out.println("进入了goodController--方法--toUpdateGood--id--"+id);
 		GoodPo goodPo=goodService.getGoodById(id);
-		System.out.println("进入了goodController--方法--toUpdateGood--"+goodPo.toString());
 		//获取当前的商品的商品类型id和name
 		String goodType_id_name =goodPo.getGood_type_id()+","+goodPo.getGood_type_name();
 		/*查询出所有的商品类型*/
@@ -244,7 +229,6 @@ public class GoodController {
 			}
 		}
 		json=json.substring(0, json.length()-1)+"]";
-		System.out.println("进入了GoodController的方法--toUpdateGood--"+json);
 		/*返回jsp页面所有商品类型信息*/
 		request.setAttribute("jsons", json);
 		/*返回jsp页面所有商品信息*/
@@ -274,14 +258,10 @@ public class GoodController {
 			e.printStackTrace();
 		} 	
 		  String fileName = file.getOriginalFilename(); 
-		  //System.out.println("fileName----"+fileName);
 		 // String path = request.getSession().getServletContext().getRealPath("/")+"/static/upload";
 		  String path=tempPath+"/resour/upload/img";
-		  System.out.println("paht---"+path);
 		  File files= new File(path);
-		//  System.out.println("files.path"+files.getAbsolutePath());
 		  if(!files.exists()){
-			  System.out.println("--------------");
 			  files.mkdir();
 		  }
 	        File tempFile = new File(path, new Date().getTime() + String.valueOf(fileName));  
@@ -302,7 +282,6 @@ public class GoodController {
 	        goodPo.setPrice_range(req.getParameter("price_range"));
 	        goodPo.setPrice_market(req.getParameter("price_market"));
 	       // String rPath=request.getSession().getServletContext().getRealPath("/")+"/static/upload/"+String.valueOf(fileName);
-	       // System.out.println(rPath);
 	        goodPo.setPic(tempPaths+"/resour/upload/img/"+tempFile.getName());
 	        goodPo.setPic_id(fileName);
 	        goodPo.setRegister_cost(req.getParameter("register_cost"));
@@ -314,9 +293,6 @@ public class GoodController {
 	        String[] end_sale_time=req.getParameter("begin_sale_time").split("/");
 	        String est=end_sale_time[2]+"-"+end_sale_time[0]+"-"+end_sale_time[1];
 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	        System.out.println(bst);
-	        System.out.println(est);
-	        System.out.println("---------"+req.getParameter("begin_sale_time").getClass().getName());
 	        String aa=sdf.format(sdf.parse(bst));
 	        String bb=sdf.format(sdf.parse(est));
 	        goodPo.setBegin_sale_time(sdf.parse(aa));
@@ -330,9 +306,7 @@ public class GoodController {
 			SysUserPo sysUserPo=(SysUserPo) request.getSession().getAttribute("sysUserpo");
 			goodPo.setUpdateBy(sysUserPo.getUsername());
 			goodPo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-			System.out.println("goodPo---"+goodPo);
 	        int flag=goodService.updateGood(goodPo);
-	        System.out.println("flag-----"+flag);
 /*	        声明json数据类型变量，返回到前台
 	        String json="";
 			if(flag>0){

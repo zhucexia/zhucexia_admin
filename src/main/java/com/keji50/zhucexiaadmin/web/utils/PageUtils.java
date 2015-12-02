@@ -38,7 +38,6 @@ public class PageUtils {
 		map.put(START_ROW, page.getStartRow());
 		map.put(TOTAL, page.getTotal());
 		map.put(ROWS, page.getResult());
-       // System.out.println("------map.get(Rows)===="+map.get("ROWS").toString());
 		return map;
 	}
 }

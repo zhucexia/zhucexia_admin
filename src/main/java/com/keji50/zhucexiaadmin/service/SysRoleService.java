@@ -26,10 +26,6 @@ public class SysRoleService {
         PageHelper.startPage((Integer) conditions.get(PageUtils.PAGE_NUM), (Integer) conditions.get(PageUtils.PAGE_SIZE));
         // 根据查询条件查询客户信息
         Page<SysRolePo> page = sysRolePoMapper.selectByCondition(conditions);
-        System.out.println("在getProductByCondtions中-----"+page.getTotal());
-        for (SysRolePo sysRolePo : page) {
-			System.out.println(sysRolePo.getCreateBy()+"----"+sysRolePo.getCreateTime()+"----"+sysRolePo.getUpdateTime());
-		}
         return page;
 
     }
@@ -48,7 +44,6 @@ public class SysRoleService {
 		return sysRolePoMapper.getRoleById(id);
 	}
 	public int updateRole(SysRolePo sysRolePo) {
-		System.out.println("在sysRoleService的方法--updateRole中--"+sysRolePo.toString());
 		return sysRolePoMapper.updateRole(sysRolePo);
 	}
 	public int deleteRole(int id) {

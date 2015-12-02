@@ -20,7 +20,6 @@ public class GoodService {
 	private GoodPoMapper goodPoMapper;
 	
 	public int insertGood(GoodPo goodPo){
-		System.out.println("进入了goodService");
 		goodPo.setDetail_content(goodPo.getDetail_content().trim());
 		return goodPoMapper.insertGood(goodPo);	
 	}
@@ -35,13 +34,11 @@ public class GoodService {
         PageHelper.startPage((Integer) conditions.get(PageUtils.PAGE_NUM), (Integer) conditions.get(PageUtils.PAGE_SIZE));
         // 根据查询条件查询客户信息
         Page<GoodPo> page = goodPoMapper.selectByCondition(conditions);
-        System.out.println("在getGoodByCondtions中-----"+page.getTotal());
         return page;
 	}
 	
 	/*删除产品信息*/
 	public int deleteGood(int id){
-		System.out.println("进入产品删除的service中的deleteGood方法，此处id值为："+id);
 		return goodPoMapper.deleteGood(id);
 	}
 

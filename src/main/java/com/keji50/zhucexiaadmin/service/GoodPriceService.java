@@ -40,18 +40,15 @@ public class GoodPriceService {
         PageHelper.startPage((Integer) conditions.get(PageUtils.PAGE_NUM), (Integer) conditions.get(PageUtils.PAGE_SIZE));
         // 根据查询条件查询客户信息
         Page<Map<String,Object>> page = goodPricePoMapper.selectByCondition(conditions);
-        System.out.println("在getGoodPriceByCondtions中-----"+page.toString());
         return page;
 	}
 	
 	//查出价格为空的商品
 	public List<Map<String,Object>> toAddPrice(){
-		System.out.println("进入了goodPriceService中的toAddPrice方法");       
         return goodPricePoMapper.toAddPrice();
 	}
 	
 	public int upLoadPrice(GoodPricePo goodPricePo, SysUserPo sysUserPo){
-		System.out.println("service中"+goodPricePo.getGoodAttr());
 		int goodId = goodPricePo.getGoodId();
 		String userName = sysUserPo.getUsername();
 		Timestamp time = new Timestamp(System.currentTimeMillis());
@@ -84,15 +81,12 @@ public class GoodPriceService {
 			goodAttrValuePo.setGoodid(goodPricePo.getGoodId());
 			goodAttrValuePo.setGoodattrid(goodAttrId);
 			goodAttrValuePo.setAttrvalue(goodAttrValue);
-			System.out.println("将属性枚举插入表good_attr_value");
 			Boolean bl1 = goodAttrValuePoMapper.checkAttrValue(goodAttrValuePo)==null;
 			if(bl1){
 				goodAttrValuePo.setCreateTime(time);
 				goodAttrValuePo.setCreateBy(userName);
-				System.out.println(goodAttrValuePo.toString());
 				goodAttrValuePoMapper.addgoodattrvalue(goodAttrValuePo);
 				String optionValue = goodAttrValuePoMapper.getAttrOptionValue(goodAttrId);
-				System.out.println(optionValue);
 				if(!optionValue.contains(goodAttrValue)){
 					optionValue+=","+goodAttrValue;
 					System.out.println(optionValue);
@@ -100,7 +94,6 @@ public class GoodPriceService {
 					goodAttrPo.setUpdateBy(userName);
 					goodAttrPo.setUpdateTime(time);
 					goodAttrPo.setId(goodAttrId);
-					System.out.println("goodAttrPo"+goodAttrPo.toString());
 					goodAttrValuePoMapper.updateAttrOptionValue(goodAttrPo);
 				}
 			}
@@ -123,7 +116,6 @@ public class GoodPriceService {
 	}
 
 	public Boolean checkPrice(GoodPricePo goodPricePo) {
-		System.out.println("service"+goodPricePo.getGoodAttr());
 		boolean flag=false;
 		if(goodPricePoMapper.checkPrice(goodPricePo)==null){
 			flag=true;

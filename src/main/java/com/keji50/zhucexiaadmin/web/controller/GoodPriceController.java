@@ -49,8 +49,6 @@ public class GoodPriceController {
 	/*列表显示产品信息*/
 	@RequestMapping("/listGoodPrice")
 	public String listPro(){
-		
-		System.out.println("进入了listGoodPrice方法里面！");
 		return "goodprice/listGoodPrice";
 	}
 	
@@ -60,7 +58,6 @@ public class GoodPriceController {
 		String requestJson = WebUtils.getRequestPayload(request);
 		Map<String, Object> conditions = JSONObject.parseObject(requestJson);
 		Page<Map<String,Object>> page = goodPriceService.getPriceByConditions(conditions);
-		System.out.println("getGoodPriceList中-------------"+page.toString());
 		return PageUtils.pageToMap(page);
 		
 	}
@@ -73,7 +70,6 @@ public class GoodPriceController {
 			str+="{\'good_id\':\'"+map.get("id")+"\',"+"\'name\':\'"+map.get("name")+"\'},";
 		}
 		str = str.substring(0, str.length()-1)+"]";
-		System.out.println(str);
 		request.setAttribute("json", str);
 		return "goodprice/addGoodPrice";
 	}
@@ -83,17 +79,13 @@ public class GoodPriceController {
 	public int upLoadPrice(HttpServletRequest request,HttpServletResponse response,GoodPricePo goodPricePo){
 		
 		SysUserPo sysUserPo = (SysUserPo)request.getSession().getAttribute("sysUserpo");
-		System.out.println(goodPricePo.getGoodAttr());
 		Boolean flag = goodPriceService.checkPrice(goodPricePo);
-		System.out.println("判断:"+flag);
 		int i ;
 		if(flag){	
 			goodPricePo.setCreateBy(sysUserPo.getUsername());
 			Timestamp time = new Timestamp(System.currentTimeMillis());
 			goodPricePo.setCreateTime(time);
 			int result = goodPriceService.upLoadPrice(goodPricePo,sysUserPo);
-			System.out.println("进入了uploaPrice方法----result--"+result);
-			System.out.println(result);
 			if(result>0){
 				i=0;
 			}else{
@@ -149,19 +141,6 @@ public class GoodPriceController {
 		}
 		return msg;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }

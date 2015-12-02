@@ -57,7 +57,6 @@ public class GoodAttrValueService {
 	}
 
 	public int updateAttrOptionValue(GoodAttrPo goodAttrPo) {
-		System.out.println("进入goodAttrValueService的updateAttrOprionValue方法！");
 		int i = goodAttrValuePoMapper.updateAttrOptionValue(goodAttrPo);
 		return i;
 	}

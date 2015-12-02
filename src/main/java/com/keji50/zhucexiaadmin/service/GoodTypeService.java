@@ -26,9 +26,6 @@ public class GoodTypeService {
         PageHelper.startPage((Integer) conditions.get(PageUtils.PAGE_NUM), (Integer) conditions.get(PageUtils.PAGE_SIZE));
         // 根据查询条件查询客户信息
         Page<GoodTypePo> page = goodTypePoMapper.selectByCondition(conditions);
-        for(GoodTypePo goodTypePo:page){
-        	System.out.println("时间++++++++"+goodTypePo.getCreateTime()+goodTypePo.getUpdateTime());
-        }
         return page;
 	}
 

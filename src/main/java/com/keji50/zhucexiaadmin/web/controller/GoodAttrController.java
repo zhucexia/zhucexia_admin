@@ -42,7 +42,6 @@ public class GoodAttrController {
 	public String index(HttpServletRequest request) {
 		/*查询出所有的商品*/
 		List<Map<String,Object>> list = goodService.selectGood();
-		System.out.println("商品总共："+list);
 		/*返回json格式的数据，values,fields,是在addGoodjsp页面上规定的,显示商品类型下拉框*/
 		String json="[{\'values\':\'0\',\'fields\':\'全部\',\'selected\':true},";
 		for(Map<String, Object> map:list){
@@ -50,7 +49,6 @@ public class GoodAttrController {
 					+ "\'fields\':\'"+map.get("name").toString()+"\'},";	
 		}
 		json=json.substring(0, json.length()-1)+"]";
-		System.out.println("进入了sysGoodController的方法--toAddGood--"+json);
 		request.setAttribute("jsons", json);
 		return "goodattr/list";
 	}
@@ -64,7 +62,6 @@ public class GoodAttrController {
 					+ "\'fields\':\'"+map.get("name").toString()+"\'},";	
 		}
 		json=json.substring(0, json.length()-1)+"]";
-		System.out.println("进入了sysGoodController的方法--toAddGood--"+json);
 		request.setAttribute("jsons", json);
 		return "goodattr/add";
 	}
@@ -80,7 +77,6 @@ public class GoodAttrController {
 	@RequestMapping(value = "/deletegoodattr", method = RequestMethod.POST)	
 	@ResponseBody
 	public JSONObject deletegoodattr(HttpServletRequest request) {
-		System.out.println(request.getParameter("sno"));
 		int id=Integer.valueOf(request.getParameter("sno"));
 		int result=goodAttrService.deletegoodattr(id);
 		JSONObject json;
@@ -95,8 +91,6 @@ public class GoodAttrController {
 	@RequestMapping(value = "/addgoodattr", method = RequestMethod.POST)	
 	@ResponseBody
 	public int addgoodattr(HttpServletRequest request,HttpServletResponse response,GoodAttrPo goodattr) {
-		System.out.println("进入新增controller");
-		System.out.println(goodattr.getCreateBy()+"---"+goodattr.getNames()+"---"+goodattr.getSort()+"---"+goodattr.getRemark()+"---"+goodattr.getCode()+"---"+goodattr.getGoodId());
 		Boolean flag = goodAttrService.checkGoodAtrr(goodattr);
 		int i = 0;
 		if(flag){
@@ -105,7 +99,6 @@ public class GoodAttrController {
 			Timestamp time = new Timestamp(System.currentTimeMillis());
 			goodattr.setCreateTime(time);
 			int result=goodAttrService.addgoodattr(goodattr);
-			System.out.println("插入结果："+result);
 			if(result>0){
 				i=0;
 			}else{
@@ -119,7 +112,6 @@ public class GoodAttrController {
 	
 	@RequestMapping(value = "/getgoodattr", method = RequestMethod.POST)	
 	public String getgoodattr(HttpServletRequest request) {
-		System.out.println("编辑id："+request.getParameter("id"));
 		int id=Integer.valueOf(request.getParameter("id"));
 		GoodAttrPo goodAttrPo=goodAttrService.getgoodattr(id);
 		request.setAttribute("goodAttr", goodAttrPo);
@@ -130,7 +122,6 @@ public class GoodAttrController {
 	@RequestMapping(value = "/updategoodattr")	
 	@ResponseBody
 	public int updategoodattr(HttpServletRequest request,GoodAttrPo goodattr) {
-		System.out.println("进入修改controller,名为："+goodattr.getNames());
 		Boolean flag = goodAttrService.checkGoodAtrr(goodattr);
 		int i=0;
 		if(flag){

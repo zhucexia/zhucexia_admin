@@ -19,14 +19,12 @@ public class ProductService {
 	private ProductPoMapper productPoMapper;
 	
 	public int insertProduct(ProductPo productPo){
-		System.out.println("进入了productService");
 		return productPoMapper.insertPro(productPo);	
 	}
 	
 	/*分页查询*/
 	public Page<ProductPo> getProductByConditions(Map<String, Object> conditions) {
 		
-		System.out.println("进入了ProductService的分页查询信息方法----getProductByCondtions");
 		// 设置分页信息
 		PageUtils.initPageInfo(conditions);
 		
@@ -34,14 +32,11 @@ public class ProductService {
         PageHelper.startPage((Integer) conditions.get(PageUtils.PAGE_NUM), (Integer) conditions.get(PageUtils.PAGE_SIZE));
         // 根据查询条件查询客户信息
         Page<ProductPo> page = productPoMapper.selectByCondition(conditions);
-        System.out.println("在getProductByCondtions中-----"+page.getTotal());
-        System.out.println(page.get(0).toString());
         return page;
 	}
 	
 	/*删除产品信息*/
 	public int deletePro(int id){
-		System.out.println("进入产品删除的service中的deletePro方法，此处id值为："+id);
 		return productPoMapper.deletePro(id);
 	}
 }

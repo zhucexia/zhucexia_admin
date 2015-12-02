@@ -49,8 +49,6 @@ public class CustomerController {
 			System.out.println("修改时间"+customerPo.getUpdateTime());
 			
 		}*/
-		System.out.println(page.getTotal());
-		System.out.println(PageUtils.pageToMap(page));
 	
 		return PageUtils.pageToMap(page);
 	}
@@ -100,7 +98,6 @@ public class CustomerController {
 	
 	@RequestMapping(value = "/getcustomer", method = RequestMethod.POST)	
 	public String getcustomer(HttpServletRequest request) {
-		System.out.println("编辑id："+request.getParameter("id"));
 		int id=Integer.valueOf(request.getParameter("id"));
 		CustomerPo cus=customerService.getCustomer(id);
 		request.setAttribute("customer", cus);
@@ -111,7 +108,6 @@ public class CustomerController {
 	@RequestMapping(value = "/updatecustomer")	
 	@ResponseBody
 	public int updatecustomer(HttpServletRequest request,CustomerPo cust) {
-		System.out.println("进入修改controller,名为："+cust.getUsername());
 		Boolean flag = customerService.checkCustomer(cust);
 		int i = 0;
 		if(flag){

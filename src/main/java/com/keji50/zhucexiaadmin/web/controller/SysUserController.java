@@ -42,7 +42,6 @@ public class SysUserController {
 	/*系统用户登录*/
 	@RequestMapping("/login")
 	public String login(SysUserPo sysuser,HttpServletRequest request){
-		System.out.println("进入了sysuserController的方法--login");
 		/*判断用户是否存在*/
 		SysUserPo sysUserPo=sysUserService.login(sysuser);
 		request.getSession().setAttribute("sysUserpo", sysUserPo);
@@ -64,12 +63,10 @@ public class SysUserController {
 					srp4.add(sysRolePowerPo);
 				}
 			}
-			System.out.println("总共条数"+srp.size());
-			System.out.println("------------**********"+srp);
-			request.setAttribute("srp1",srp1);System.out.println("srp1:size"+srp1.size());
-			request.setAttribute("srp2",srp2);System.out.println("srp2:size"+srp2.size());
-			request.setAttribute("srp3",srp3);System.out.println("srp3:size"+srp3.size());
-			request.setAttribute("srp4",srp4);System.out.println("srp4:size"+srp4.size());
+			request.setAttribute("srp1",srp1);
+			request.setAttribute("srp2",srp2);
+			request.setAttribute("srp3",srp3);
+			request.setAttribute("srp4",srp4);
 			return "admin/index";
 		}
 		else{
@@ -99,7 +96,6 @@ public class SysUserController {
 		String requestJson = WebUtils.getRequestPayload(request);
 		Map<String, Object> conditions = JSONObject.parseObject(requestJson);
 		Page<SysUserPo> page =  sysUserService.getUserByConditions(conditions);
-		System.out.println("进入了sysUserController的方法--listByConditon--"+page.getPages());
 		return PageUtils.pageToMap(page);	
 	}
 	
@@ -116,7 +112,6 @@ public class SysUserController {
 					+ "\'fields\':\'"+sysRole.getName()+"\'},";	
 		}
 		json=json.substring(0, json.length()-1)+"]";
-		System.out.println("进入了sysUserController的方法--toAddUser--"+json);
 		request.setAttribute("jsons", json);
 		return "admin/addUser";
 	}
@@ -124,7 +119,6 @@ public class SysUserController {
 	@ResponseBody
 	public JSONObject addUser(HttpServletRequest request,SysUserPo sysUserPo){
 		/*调用service层方法*/
-		System.out.println(sysUserPo.toString()) ;
 		/*把负责添加人的id值放入到sysRolePo中去*/
 		SysUserPo sysUser=(SysUserPo)request.getSession().getAttribute("sysUserpo");
 		String user_id = Integer.toString(sysUser.getId());
@@ -182,7 +176,6 @@ public class SysUserController {
 		
 		String user_id = Integer.toString(sysUser.getId());
 		sysUserPo.setUpdateBy(user_id);
-		System.out.println("进入了sysUserController的方法--updateuser--"+sysUserPo.toString());
 		/*调用service层方法*/
 		int flag=sysUserService.updateUser(sysUserPo);
 		/*声明json数据类型变量，返回到前台*/
@@ -201,9 +194,7 @@ public class SysUserController {
 	@ResponseBody
 	public JSONObject delUser(HttpServletRequest request){
 		int id=Integer.parseInt(request.getParameter("id"));
-		System.out.println("当前被删除的值得id是："+id);
 		int flag=sysUserService.deleteUser(id);
-		System.out.println("执行了sysUserController的deleteUser方法---"+flag);
 		/*声明json数据类型变量，返回到前台*/
 		JSONObject json;
 		if(flag>0){

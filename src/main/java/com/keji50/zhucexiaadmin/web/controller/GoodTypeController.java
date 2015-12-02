@@ -47,7 +47,6 @@ public class GoodTypeController {
 					+ "\'fields\':\'"+map.get("name").toString()+"\'},";	
 		}
 		json=json.substring(0, json.length()-1)+"]";
-		System.out.println("进入了sysGoodController的方法--toAddGood--"+json);
 		request.setAttribute("jsons", json);		
 		return "goodtype/list";
 	}
@@ -61,14 +60,12 @@ public class GoodTypeController {
 		String requestJson = WebUtils.getRequestPayload(request);
 		Map<String, Object> conditions = JSONObject.parseObject(requestJson);
 		Page<GoodTypePo> page = goodTypeService.getGoodTypeByConditions(conditions);
-		System.out.println("执行查询"+page.size());
 		return PageUtils.pageToMap(page);
 	}
 	
 	@RequestMapping(value = "/deletegoodtype", method = RequestMethod.POST)	
 	@ResponseBody
 	public JSONObject deletegoodtype(HttpServletRequest request) {
-		System.out.println(request.getParameter("sno"));
 		int id=Integer.valueOf(request.getParameter("sno"));
 		int result=goodTypeService.deletegoodtype(id);
 		JSONObject json;
@@ -84,8 +81,6 @@ public class GoodTypeController {
 	@RequestMapping(value = "/addgoodtype", method = RequestMethod.POST)	
 	@ResponseBody
 	public int addgoodtype(HttpServletRequest request,HttpServletResponse response,GoodTypePo goodtype) {
-		System.out.println("进入新增controller");
-		System.out.println(goodtype.getCreateBy()+"---"+goodtype.getName()+"---"+goodtype.getSort()+"---"+goodtype.getRemark()+"---"+goodtype.getCode());
 		Boolean flag = goodTypeService.checkGoodType(goodtype);
 		int i=0;
 		if(flag){
@@ -107,7 +102,6 @@ public class GoodTypeController {
 	
 	@RequestMapping(value = "/getgoodtype", method = RequestMethod.POST)	
 	public String getgoodtype(HttpServletRequest request) {
-		System.out.println("编辑id："+request.getParameter("id"));
 		int id=Integer.valueOf(request.getParameter("id"));
 		GoodTypePo goodty=goodTypeService.getgoodtype(id);
 		request.setAttribute("goodtype", goodty);
@@ -118,14 +112,12 @@ public class GoodTypeController {
 	@RequestMapping(value = "/updategoodtype")	
 	@ResponseBody
 	public int updategoodtype(HttpServletRequest request,GoodTypePo goodtype) {
-		System.out.println("进入修改controller,名为："+goodtype.getName());
 		Boolean flag = goodTypeService.checkGoodType(goodtype);
 		int i = 0;
 		if(flag){
 			SysUserPo sysUserPo = (SysUserPo)request.getSession().getAttribute("sysUserpo");
 			goodtype.setUpdateBy(sysUserPo.getUsername());
 			Timestamp time = new Timestamp(System.currentTimeMillis());
-			System.out.println(time);
 			goodtype.setUpdateTime(time);
 			int result=goodTypeService.updategoodtype(goodtype);
 			if(result>0){

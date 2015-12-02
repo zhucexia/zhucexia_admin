@@ -19,7 +19,6 @@ public class GoodRelationService {
 	}
 
 	public int delRelation(Map<String, Object> map) {
-		System.out.println(map.get("unSelected"));
 		return goodRelationPoMapper.delRelation(map);
 	}
 

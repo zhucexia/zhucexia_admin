@@ -1,4 +1,4 @@
-	package com.keji50.zhucexiaadmin.web.controller;
+package com.keji50.zhucexiaadmin.web.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +35,6 @@ public class SaleOrderDetailController {
 		map.put("good_price", c.getGood_price());
 		map.put("good_num", c.getGood_num());
 		map.put("total_price", c.getTotal_price());
-		System.out.println(map);
 		return map;
 	}
 }

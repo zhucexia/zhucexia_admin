@@ -67,7 +67,6 @@ public class FileBrowerController {
      	InputStream in = this.getClass() .getResourceAsStream("/config.properties" ); 
      	try {
  			prop.load(in);
- 			System.out.println("------"+prop.get("fileupload.dir"));
  			tempPath=(String) prop.get("fileupload.dir");
  			tempsPath=(String)prop.getProperty("www.url");
  		} catch (IOException e) {
@@ -77,7 +76,6 @@ public class FileBrowerController {
     	String str1=tempPath;
         String typeStr = request.getParameter("type");  
         String floderName =request.getParameter("fo");  
-        System.out.println("floderName ---"+floderName );
           
         if (logger.isDebugEnabled()) {  
             logger.debug("浏览文件，文件格式:" + typeStr);  
@@ -105,10 +103,8 @@ public class FileBrowerController {
             }  
         }  
          // System.out.println("----------------"+FOR_FREEMARKER_LOAD_DIR+ File.separator+FILE_UPLOAD_DIR+ File.separator+FILE_UPLOAD_SUB_IMG_DIR);
-          System.out.println("realPath----"+realPath);
         File folder = new File(realPath);  
         if(!folder.exists()){  
-        	System.out.println("不存在！！！！！！！！！！！！！！！！！！");
             return;  
         }  
           
@@ -189,7 +185,6 @@ public class FileBrowerController {
                 while(subFileerSetIndex.hasNext()){  
                     String ftemp = subFileerSetIndex.next();  
                     String f = getDefaultFolderFromFreemarker(folder);  
-                    System.out.println("ftemp---"+ftemp+"====f=="+f);
                     String fileUrl = f + File.separator + ftemp;     
                     fileUrl = StringUtils.replace(fileUrl, "//", "/"); 
                     fileUrl="http://"+tempsPath+"/"+fileUrl;
@@ -232,7 +227,6 @@ public class FileBrowerController {
      */  
     private static boolean checkIsRoot(File folder){  
         String name = folder.getName();  
-       // System.out.println("folder---------name---"+name);
         return StringUtils.equalsIgnoreCase(name, FOR_FREEMARKER_LOAD_DIR);  
     }  
 }  
