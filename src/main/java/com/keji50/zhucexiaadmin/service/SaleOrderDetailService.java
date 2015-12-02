@@ -1,5 +1,8 @@
 package com.keji50.zhucexiaadmin.service;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -15,4 +18,8 @@ public class SaleOrderDetailService {
 		SaleOrderDetailPo c=saleOrderDetailPoMapper.getOrderDetail(order_id);
 		return c;
 	}
+	public List<Map<String, Object>> queryDitail(int parseInt) {
+		return saleOrderDetailPoMapper.querryDetails(parseInt);
+	}
+	
 }

@@ -105,7 +105,6 @@ public class GoodTypeController {
 		int id=Integer.valueOf(request.getParameter("id"));
 		GoodTypePo goodty=goodTypeService.getgoodtype(id);
 		request.setAttribute("goodtype", goodty);
-		//System.out.println(cus.getUsername());
 		return "goodtype/update";
 	}
 	

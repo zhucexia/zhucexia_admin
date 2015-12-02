@@ -139,7 +139,8 @@ $(function(){
 		south region
 	</div> -->
 	<div data-options="region:'center',title:'功能模块',iconCls:'icon-database'" id="center-main" name="center-main">
-		 <iframe id="centerpanel" width="100%" height="100%" frameborder="no" border="0" name="centerpanel" scrolling="no"></iframe>
+		 <!-- <iframe id="centerpanel" width="100%" height="100%" frameborder="no" border="0" name="centerpanel" scrolling="no"></iframe> -->
+		 <iframe id="centerpanel" width="100%" height="100%" frameborder="no" border="0" name="centerpanel" ></iframe>
   	</div>
 </body>
 <script type="text/javascript">

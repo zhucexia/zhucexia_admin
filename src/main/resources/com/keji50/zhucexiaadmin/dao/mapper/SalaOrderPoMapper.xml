@@ -35,8 +35,8 @@
 		<result column="order_no" property="order_no" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, order_no ,customer_name, mobile, email, order_state, order_money, update_by, update_time,payment_state,payment_name,
-		payment_code
+		id, order_no ,customer_name, mobile, email, order_state, order_money, update_by, update_time,payment_state,payment_name,create_time,
+		payment_code,cancel_time,remark,address,orderstate_time,payment_time
 	</sql>
 
 	<!-- 新增会员 -->
@@ -90,4 +90,8 @@
 	<update id="updateorder" parameterType="com.keji50.zhucexiaadmin.dao.po.SalaOrderPo">
 		update sale_order set order_state=#{orderstate,jdbcType=VARCHAR} where id=#{id}
 	</update>  
+	
+	<select id="getOrderByNo">
+		select <include refid="Base_Column_List" /> from sale_order where order_no=#{order_no}
+	</select>
 </mapper>

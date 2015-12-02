@@ -44,8 +44,11 @@
     </update>
     
     <!-- 逻辑删除 -->
-    <delete id="delRelation">
-    	delete from good_relation where good_id=#{good_id} and related_good_id in (#{unSelected})
+    <delete id="delRelation" parameterType="java.util.HashMap">
+    	delete from good_relation where good_id=#{good_id} and related_good_id in 
+    	<foreach collection="unSelected" item="ids" open="(" close=")" separator=",">
+    		#{ids}
+    	</foreach>
     </delete>
     
     <!-- 添加用户时候，分配角色给用户，查询所有角色信息 -->
@@ -53,5 +56,9 @@
 		select id,code,name
 	from sys_role
 	where 1=1 and state='s'
+	</select>
+	
+	<select id="querry" parameterType="com.keji50.zhucexiaadmin.dao.po.SysRolePo" resultMap="BaseResultMap">
+		select id from good_relation where good_id=#{good_id} and related_good_id =#{related_good_id}
 	</select>
 </mapper>

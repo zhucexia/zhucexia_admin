@@ -23,7 +23,7 @@
 		    </tr>
 		    <tr>
 		    	<td><input type="button" value="保存"  id="sub" onclick="submits()"></td>
-		    	<td><input type="button" value="取消"></td>
+		    	<td><input type="button" value="取消" onclick="closes()"></td>
 		    </tr>	    		    		   		    
 		</table>
 	</form>
@@ -41,7 +41,7 @@
 					$("#role_name").textbox({
 						required:true
 					});
-					alert($(this).form('enableValidation').form('validate'));
+					//alert($(this).form('enableValidation').form('validate'));
 					return $(this).form('enableValidation').form('validate');
 					
 				},
@@ -49,7 +49,8 @@
 					/*判断是否成功插入数据到数据库*/
 					if(data==0){	
 						$("#editWin").window('close');
-						alert("修改成功！")
+						alert("修改成功！");
+						$("#changeSuccess").val("success");
 					}else if(data==1){
 						alert("出现异常，请联系系统管理员！");
 					}else{
@@ -58,6 +59,9 @@
 				}	
 			})
 		}
+	function closes(){
+		$("#editWin").window('close');
+	}
 	</script>	   
 </body>
 </html>

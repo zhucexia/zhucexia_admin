@@ -72,14 +72,13 @@ public class GoodRelationController {
 		String name=sysUserPo.getUsername();
 		/*判断是否有未被选中的值*/
 		if(unSelected.length()>0){
-			System.out.println(unSelected.length());
 		/*删除未被选中配置*/
 		Map<String,Object> map = new HashMap<String,Object>();
-		//System.out.println("unSelected.lastIndexOf(,)--"+unSelected.lastIndexOf(","));
-		unSelected=unSelected.substring(0,unSelected.lastIndexOf(","));
+		String[] unSelecte=unSelected.substring(0,unSelected.lastIndexOf(",")).split(",");
+		//unSelected="("+unSelected+")";
 		map.put("good_id", good_id);
-		map.put("unSelected", unSelected);
-	   goodRelationService.delRelation(map);
+		map.put("unSelected", unSelecte);
+		int flags=goodRelationService.delRelation(map);
 		}
 		/*插入选中配置,判断是否有选中的配置传递过来*/
 		if(selectedGood.length()>0){

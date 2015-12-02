@@ -91,7 +91,7 @@ public class GoodController {
 					+ "\'fields\':\'"+map.get("name").toString()+"\'},";	
 		}
 		json=json.substring(0, json.length()-1)+"]";
-		request.setAttribute("jsons", json);		
+		request.setAttribute("jsons", json);
 		return "good/listGood";
 	}
 	
@@ -113,7 +113,6 @@ public class GoodController {
 	public void deletePro(HttpServletRequest request){
 		int id=Integer.parseInt(request.getParameter("id"));
 		int flag=goodService.deleteGood(id);
-		
 	}
 	
 	
@@ -139,12 +138,8 @@ public class GoodController {
   			e.printStackTrace();
   		} 	
 		  String fileName = file.getOriginalFilename(); 
-		 // System.out.println("fileName----"+fileName);
-		 // String path = request.getSession().getServletContext().getRealPath("/")+"/static/upload";
 		  String path=tempPath+"/resour/upload/img";
-		 // System.out.println("paht---"+path);
 		  File files= new File(path);
-		//  System.out.println("files.path"+files.getAbsolutePath());
 		  if(!files.exists()){
 			  files.mkdir();
 		  }
@@ -216,8 +211,6 @@ public class GoodController {
 		/*遍历查询结果，获取商品类型id和那么，返回到jsp*/
 		for(Map<String, Object> map:list){
 			String type_id_name=map.get("id")+","+map.get("name");
-			System.out.println("type_id_name==="+type_id_name);
-			System.out.println("goodType_id_name---"+goodType_id_name);
 			/*确定当前商品的商品类型,增加selected属性，选中该类型*/
 			if(goodType_id_name.trim().equals(type_id_name.trim())){
 				json+="{\'values\':\'"+map.get("id").toString()+","+map.get("name").toString()+"\',"

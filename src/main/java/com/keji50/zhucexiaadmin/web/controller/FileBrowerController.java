@@ -75,11 +75,10 @@ public class FileBrowerController {
  		} 	
     	String str1=tempPath;
         String typeStr = request.getParameter("type");  
-        String floderName =request.getParameter("fo");  
-          
+        String floderName =request.getParameter("fo");
         if (logger.isDebugEnabled()) {  
             logger.debug("浏览文件，文件格式:" + typeStr);  
-        }  
+        }
         // System.out.println("111111111111111111111");
         // 定位到目标文件夹 ： 上传目录  
         String realPath = "";  
@@ -87,7 +86,6 @@ public class FileBrowerController {
             floderName = URLDecoder.decode(floderName);  
             // 如果请求中存在文件夹名称，则定位到文件夹中  
             realPath = tempPath+"/"+floderName;  
-           // System.out.println("realPath----111---"+realPath);
             if(logger.isInfoEnabled()){  
                 logger.info("sub floder:"+realPath);  
             }  
@@ -113,13 +111,10 @@ public class FileBrowerController {
         //System.out.println("subFolderSet-----"+subFolderSet.size());
         // 存储文件夹  
         List<String> subFileerSet = new ArrayList<String>();  
-        //System.out.println("subFileerSet-----"+subFileerSet.size());
         File[] subFiles = folder.listFiles();
-        //System.out.println("subFiles====folder---"+subFiles.length+"------"+folder.getAbsoluteFile());
         if(null != subFiles && 0 < subFiles.length){  
             for(int i=0;i < subFiles.length; i++){  
                 File _file = subFiles[i]; 
-                //System.out.println("i------------"+i);
                 if(_file.isDirectory()){  
                     subFolderSet.add(getDefaultFolderFromFreemarker(_file));  
                 } else {  
@@ -184,7 +179,7 @@ public class FileBrowerController {
                 Iterator<String> subFileerSetIndex = subFileerSet.iterator();  
                 while(subFileerSetIndex.hasNext()){  
                     String ftemp = subFileerSetIndex.next();  
-                    String f = getDefaultFolderFromFreemarker(folder);  
+                    String f = getDefaultFolderFromFreemarker(folder);
                     String fileUrl = f + File.separator + ftemp;     
                     fileUrl = StringUtils.replace(fileUrl, "//", "/"); 
                     fileUrl="http://"+tempsPath+"/"+fileUrl;

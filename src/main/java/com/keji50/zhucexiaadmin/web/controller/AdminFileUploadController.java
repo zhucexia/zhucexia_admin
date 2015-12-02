@@ -68,14 +68,6 @@ public class AdminFileUploadController<logger> {
     @RequestMapping(method = RequestMethod.POST)
     public void processUploadPost(ModelMap modelMap,
             HttpServletRequest request, HttpServletResponse response) {
-    		System.out.println("进入了processUploadPost");
-        // 判断提交的请求是否包含文件
-       // boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-
-       // if (!isMultipart) {
-           // return;
-       // }
-
         // 获取目录
         File folder = buildFolder(request);
         if (null == folder) {

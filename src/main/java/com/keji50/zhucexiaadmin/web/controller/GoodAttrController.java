@@ -115,7 +115,6 @@ public class GoodAttrController {
 		int id=Integer.valueOf(request.getParameter("id"));
 		GoodAttrPo goodAttrPo=goodAttrService.getgoodattr(id);
 		request.setAttribute("goodAttr", goodAttrPo);
-		//System.out.println(cus.getUsername());
 		return "goodattr/update";
 	}
 	

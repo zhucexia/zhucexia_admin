@@ -28,12 +28,7 @@ public class CustomerService {
         PageHelper.startPage((Integer) conditions.get(PageUtils.PAGE_NUM), (Integer) conditions.get(PageUtils.PAGE_SIZE));
         // 根据查询条件查询客户信息
         Page<CustomerPo> page = customerPoMapper.selectByCondition(conditions);
-       /* SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd");
-        for (CustomerPo customerPo : page) {
-        	@SuppressWarnings("unused")
-			String date=sf.format(customerPo.getCreateTime());
-            
-		}*/
+
         return page;
 	}
 

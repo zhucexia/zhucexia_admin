@@ -56,7 +56,6 @@ public class CustomerController {
 	@RequestMapping(value = "/deletecustomer", method = RequestMethod.POST)	
 	@ResponseBody
 	public JSONObject deletecustomer(HttpServletRequest request) {
-		System.out.println(request.getParameter("sno"));
 		int id=Integer.valueOf(request.getParameter("sno"));
 		int result=customerService.deletecustomer(id);
 		JSONObject json;
@@ -72,14 +71,10 @@ public class CustomerController {
 	@RequestMapping(value = "/newcus", method = RequestMethod.POST)	
 	@ResponseBody
 	public int newcus(HttpServletRequest request,HttpServletResponse response,CustomerPo cust) {
-		System.out.println("进入新增controller");
-		System.out.println(cust.getPassword()+"---"+cust.getUsername()+"---"+cust.getEmail()+"---"+cust.getPhoneNumber()+"---"+cust.getCreateBy());
 		Boolean flag = customerService.checkCustomer(cust);
-		System.out.println("查重结果"+flag);
 		int i = 0;
 		if(flag){
 			SysUserPo sysUserPo = (SysUserPo)request.getSession().getAttribute("sysUserpo");
-			System.out.println(sysUserPo.toString());
 			String userName = sysUserPo.getUsername();
 			cust.setCreateBy(userName);
 			Timestamp time = new Timestamp(System.currentTimeMillis());
@@ -101,7 +96,6 @@ public class CustomerController {
 		int id=Integer.valueOf(request.getParameter("id"));
 		CustomerPo cus=customerService.getCustomer(id);
 		request.setAttribute("customer", cus);
-		//System.out.println(cus.getUsername());
 		return "customer/update";
 	}
 	

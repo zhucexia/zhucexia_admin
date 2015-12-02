@@ -32,13 +32,13 @@
 		    </tr>
 		    <tr>
 		    	<td><input type="button" value="保存"  id="sub" onclick="submits()"></td>
-		    	<td><input type="button" value="取消" id="cancels" onclick="cancels()"></td>
+		    	<td><input type="button" value="取消" id="cancels" onclick="cancelss()"></td>
 		    </tr>	    		    		   		    
 		</table>
 	</form>
 	
 	<script type="text/javascript">
-	function cancels () {
+	function cancelss () {
 		if(confirm("确定离开本页面！")){
 			$("#manageWin").window('close');
 		}
@@ -55,6 +55,7 @@
             	stId+=value.id+",";
             	stName+=value.text+","
             });
+           // alert(stId+"----"+stName);
             /*拼接未选中id字符串*/
             var strId=""
             var strName="";
@@ -63,6 +64,7 @@
             	strId+=value.id+",";
             	strName=value.text+",";
             });
+           // alert(strId+"----"+strName);
             $("#selectedGood").attr("value",stId);
             $("#selectedName").attr("value",stName);
             $("#unSelected").attr("value",strId);

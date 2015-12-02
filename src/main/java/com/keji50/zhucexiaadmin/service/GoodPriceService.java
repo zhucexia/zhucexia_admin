@@ -33,7 +33,6 @@ public class GoodPriceService {
 	/*分页查询*/
 	public Page<Map<String,Object>> getPriceByConditions(Map<String, Object> conditions) {
 		
-		System.out.println("进入了GoodPriceService的分页查询信息方法----getGoodByCondtions");
 		// 设置分页信息
 		PageUtils.initPageInfo(conditions);
 		// 分页插件
@@ -56,12 +55,12 @@ public class GoodPriceService {
 		String goodAttr = goodPricePo.getGoodAttr();
 		String[] goodAttrs = goodAttr.split("；"); 
 		for(String item:goodAttrs){
-			System.out.println(item);
 			String goodAttrName = item.split("：")[0];
 			String goodAttrValue = item.split("：")[1];
 			//将属性名插入表good_attr
 			GoodAttrPo goodAttrPo =new GoodAttrPo();
 			goodAttrPo.setCode(CodeUtil.createCode(16));
+
 			System.out.println(goodAttrPo.getCode());
 			goodAttrPo.setGoodId(goodId);
 			goodAttrPo.setNames(goodAttrName);
@@ -89,7 +88,6 @@ public class GoodPriceService {
 				String optionValue = goodAttrValuePoMapper.getAttrOptionValue(goodAttrId);
 				if(!optionValue.contains(goodAttrValue)){
 					optionValue+=","+goodAttrValue;
-					System.out.println(optionValue);
 					goodAttrPo.setOptionvalue(optionValue);
 					goodAttrPo.setUpdateBy(userName);
 					goodAttrPo.setUpdateTime(time);

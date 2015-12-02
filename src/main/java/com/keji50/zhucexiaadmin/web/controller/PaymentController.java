@@ -52,8 +52,7 @@ public class PaymentController {
 	
 	@RequestMapping(value = "/addpayment", method = RequestMethod.POST)	
 	@ResponseBody
-	public String addpayment(HttpServletRequest request,HttpServletResponse response,PaymentPo payment) {
-		
+	public String addpayment(HttpServletRequest request,HttpServletResponse response,PaymentPo payment) {		
 		int result=paymentService.addpayment(payment);
 		String mess="";
 		if(result>0){

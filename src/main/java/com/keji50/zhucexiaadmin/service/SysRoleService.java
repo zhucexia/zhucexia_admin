@@ -19,7 +19,6 @@ public class SysRoleService {
 	@Resource(name="sysRolePoMapper")
 	private SysRolePoMapper sysRolePoMapper;
 	public Page<SysRolePo> getRoleByConditions(Map<String, Object> conditions) {
-		System.out.println("进入了SysRoleService的分页查询信息方法----getRolesByCondtions");
 		// 设置分页信息
 		PageUtils.initPageInfo(conditions);
 		// 分页插件

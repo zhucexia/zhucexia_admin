@@ -57,6 +57,9 @@ public class SalaOrderService {
 		int result=salaOrderPoMapper.updateorder(cust);
 		return result;
 	}
+	public SalaOrderPo getOrderByNo(String order_no){
+		return salaOrderPoMapper.getOrderByNo(order_no);
+	}
 
 
 	

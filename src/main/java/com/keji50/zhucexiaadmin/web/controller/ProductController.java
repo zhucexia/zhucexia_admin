@@ -72,7 +72,6 @@ public class ProductController {
 	public void deletePro(HttpServletRequest request){
 		int id=Integer.parseInt(request.getParameter("id"));
 		int flag=productService.deletePro(id);
-		
 	}
 
 }

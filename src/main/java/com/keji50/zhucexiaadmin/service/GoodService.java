@@ -27,7 +27,6 @@ public class GoodService {
 	/*分页查询*/
 	public Page<GoodPo> getGoodByConditions(Map<String, Object> conditions) {
 		
-		System.out.println("进入了GoodService的分页查询信息方法----getGoodByCondtions");
 		// 设置分页信息
 		PageUtils.initPageInfo(conditions);
 		// 分页插件
