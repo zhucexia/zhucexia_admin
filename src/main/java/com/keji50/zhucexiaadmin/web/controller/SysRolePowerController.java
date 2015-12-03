@@ -83,6 +83,7 @@ public class SysRolePowerController {
 	public JSONObject distriPower(String role_id,String selectedPower,String unselected,HttpServletRequest request){
 		/*获取目前角色有那些权限*/
 		SysRolePowerPo sysRolePowerPo = new SysRolePowerPo();
+		if(selectedPower!=null){
 		selectedPower =selectedPower.substring(0,selectedPower.length()-1);
 		String [] powerIds = selectedPower.split(",");
 		for(int i=0;i<powerIds.length;i++){
@@ -92,6 +93,8 @@ public class SysRolePowerController {
 				sysRolePowerService.insertRolePower(sysRolePowerPo);
 			}
 		}
+		}
+		if(unselected!=null&&(!(unselected.equals("")))){
 		unselected = unselected.substring(0, unselected.length()-1);
 		String [] unselectedIds = unselected.split(",");
 		for(int i=0;i<unselectedIds.length;i++){
@@ -100,6 +103,7 @@ public class SysRolePowerController {
 			if(!sysRolePowerService.checkRolePower(sysRolePowerPo)){
 				sysRolePowerService.deleteRolePower(sysRolePowerPo);
 			}
+		}
 		}
 		String str = "{'msg':'true'}";
 		JSONObject json = JSONObject.parseObject(str);
