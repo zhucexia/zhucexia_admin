@@ -166,10 +166,8 @@ public class GoodController {
 	        goodPo.setRegister_cost(req.getParameter("register_cost"));
 	        goodPo.setApply_condition(req.getParameter("apply_condition"));
 	        goodPo.setDetail_content(req.getParameter("detail_content"));
-	        String[] begin_sale_time=req.getParameter("begin_sale_time").split("/");
-	        String bst=begin_sale_time[2]+"-"+begin_sale_time[0]+"-"+begin_sale_time[1];
-	        String[] end_sale_time=req.getParameter("begin_sale_time").split("/");
-	        String est=end_sale_time[2]+"-"+end_sale_time[0]+"-"+end_sale_time[1];
+	        String bst=req.getParameter("begin_sale_time");
+	        String est=req.getParameter("begin_sale_time");
 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	        String aa=sdf.format(sdf.parse(bst));
 	        String bb=sdf.format(sdf.parse(est));
@@ -281,10 +279,8 @@ public class GoodController {
 	        goodPo.setApply_condition(req.getParameter("apply_condition"));
 	        goodPo.setDetail_content(req.getParameter("detail_content"));
 	        goodPo.setId(Integer.parseInt(req.getParameter("goodId")));
-	        String[] begin_sale_time=req.getParameter("begin_sale_time").split("/");
-	        String bst=begin_sale_time[2]+"-"+begin_sale_time[0]+"-"+begin_sale_time[1];
-	        String[] end_sale_time=req.getParameter("begin_sale_time").split("/");
-	        String est=end_sale_time[2]+"-"+end_sale_time[0]+"-"+end_sale_time[1];
+	        String bst=req.getParameter("begin_sale_time");
+	        String est=req.getParameter("begin_sale_time");
 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	        String aa=sdf.format(sdf.parse(bst));
 	        String bb=sdf.format(sdf.parse(est));
