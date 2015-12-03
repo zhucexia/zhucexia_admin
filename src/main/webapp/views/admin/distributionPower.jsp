@@ -42,20 +42,18 @@
             	str+=value.id+",";
             });
             $("#selectedPower").attr("value",str);
-            alert(str);
             var str1="";
             $.each(unnodes,function (name,value){
             	str1+=value.id+",";
             });
             $("#unSelected").attr("value",str1);
-            alert(str1);
             //$("#unselected").attr("value",)
 			//ajax 动态提交表单数据			
 			$("#distributePowerForm").form('submit',{
 				url :"${root}/sysRolePower/distriPower", 
 				onSubmit:function(param){
-					param.str1=str;
-					validates();
+					//param.str1=str;
+					//validates();
 					//alert($(this).form('enableValidation').form('validate'));
 					//return $(this).form('enableValidation').form('validate');	
 				},
