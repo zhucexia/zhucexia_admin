@@ -81,10 +81,6 @@ public class AdminFileUploadController<logger> {
             String fileUrl = "";
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;  
            Iterator<String> fileNames = multipartRequest.getFileNames();
-          //  MultipartFile file=MultipartFile(request);
-            //DiskFileItemFactory factory = new DiskFileItemFactory();
-            //ServletFileUpload servletFileUpload = new ServletFileUpload(factory);
-           // servletFileUpload.setFileSizeMax(MAX_FILE_SIZE);
            List<MultipartFile> fileitem=new ArrayList<MultipartFile>();
            int flag=0;
              if(fileNames.hasNext()){
@@ -92,16 +88,12 @@ public class AdminFileUploadController<logger> {
             	 fileitem.add(multipartRequest.getFile(fileName));
             	 flag++;
              } 
-			//List<FileItem> fileitem = servletFileUpload.parseRequest(request);
             if (null == fileitem || 0 == fileitem.size()) {
                 return;
             }
             Iterator<MultipartFile> fileitemIndex = fileitem.iterator();
             if (fileitemIndex.hasNext()) {
                 MultipartFile file = fileitemIndex.next();
-                /*if (file.isFormField()) {
-                    logger.error("上传文件非法！isFormField=true");
-                }*/
                 String fileClientName = getFileName(file.getOriginalFilename());
                 String fileSuffix = StringUtils.substring(fileClientName,
                         fileClientName.lastIndexOf(".") + 1);
@@ -128,22 +120,18 @@ public class AdminFileUploadController<logger> {
                     out.close();
                     return;
                 }
-
                 if (logger.isInfoEnabled()) {
                     logger.info("开始上传文件:" + file.getName());
                 }
-
                 String fileServerName = generateFileName(folder, fileSuffix);
                 // 为了客户端已经设置好了图片名称在服务器继续能够明确识别，这里不改名称
                 File newfile = new File(folder, fileServerName);
                 file.transferTo(newfile);
-               // file.write(newfile);
 
                 if (logger.isInfoEnabled()) {
                     logger.info("上传文件结束，新名称:" + fileServerName + ".floder:"
                             + newfile.getPath());
                 }
-
                 // 组装返回url，以便于ckeditor定位图片
                 fileUrl = FOR_RESOURCES_LOAD_DIR + FILE_UPLOAD_DIR + FILE_UPLOAD_SUB_IMG_DIR + "/" + folder.getName() + "/" + newfile.getName();
                 String tempPath="";
@@ -171,6 +159,7 @@ public class AdminFileUploadController<logger> {
             out.close();
 
         } catch (IOException e) {
+        	e.printStackTrace();
             logger.error("上传文件发生异常！", e);
         }  catch (Exception e) {
             logger.error("上传文件发生异常！", e);
@@ -252,15 +241,13 @@ public class AdminFileUploadController<logger> {
         if (StringUtils.isBlank(folderdir)) {
             logger.error("路径错误:" + folderdir);
             return null;
-        }
-       
+        }       
         File floder = new File(folderdir);
         if (!floder.exists()) {
             if (!floder.mkdir()) {
                 logger.error("创建文件夹出错！path=" + folderdir);
                 return null;
             }
-
         }
         // 再往下的文件夹都是以时间字符串来命名的，所以获取最新时间的文件夹即可
         String[] files = floder.list();
@@ -269,8 +256,7 @@ public class AdminFileUploadController<logger> {
             Date oldDate = null;
             int index = -1;
             for (int i = 0; i < files.length; i++) {
-                String fileName = files[i];
-
+                String fileName = files[i];               	
                 try {
                     Date thisDate = DateUtils.parseDate(fileName, new String[] {
                             DEFAULT_SUB_FOLDER_FORMAT_AUTO, DEFAULT_SUB_FOLDER_FORMAT_NO_AUTO });
@@ -288,7 +274,6 @@ public class AdminFileUploadController<logger> {
                     // 这里异常吃掉，不用做什么，如果解析失败，会建立新的文件夹，防止人为的建立文件夹导致的异常。
                 }
             }// for
-
             // 判断当前最新的文件夹下是否已经存在了最大数目的图片
             if (null != oldDate && -1 != index) {
                 File pointfloder = new File(folderdir + File.separator
@@ -299,19 +284,15 @@ public class AdminFileUploadController<logger> {
                         return null;
                     }
                 }
-
                 // 如果文件夹下的文件超过了最大值，那么也需要新建一个文件夹
                 String[] pointfloderFiles = pointfloder.list();
                 if (null != pointfloderFiles
                         && MAX_NUM_PER_UPLOAD_SUB_DIR < pointfloderFiles.length) {
                     return buildNewFile(folderdir);
-                }
-
+                } 
                 return pointfloder;
             }
-            
-            // 查找当前子文件夹失败，新建一个
-            return buildNewFile(folderdir);
+            return null;
         } else {
             // 不含有子文件夹，新建一个，通常系统首次上传会有这个情况
             return buildNewFile(folderdir);
@@ -330,7 +311,6 @@ public class AdminFileUploadController<logger> {
         if (null == newFile) {
             logger.error("创建文件夹失败！newFile=" + newFile);
         }
-
         return newFile;
     }
 

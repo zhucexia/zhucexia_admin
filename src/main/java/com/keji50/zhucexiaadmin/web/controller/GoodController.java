@@ -138,7 +138,8 @@ public class GoodController {
   			e.printStackTrace();
   		} 	
 		  String fileName = file.getOriginalFilename(); 
-		  String path=tempPath+"/resour/upload/img";
+		  String face="/resour/upload/img/faceimg";
+		  String path=tempPath+face;
 		  File files= new File(path);
 		  if(!files.exists()){
 			  files.mkdir();
@@ -160,8 +161,7 @@ public class GoodController {
 	        goodPo.setGood_type_id(Integer.parseInt(goodType_Name_id[0]));
 	        goodPo.setPrice_range(req.getParameter("price_range"));
 	        goodPo.setPrice_market(req.getParameter("price_market"));
-	        String rPath=request.getSession().getServletContext().getRealPath("/")+"/static/upload/"+String.valueOf(fileName);
-	        goodPo.setPic(tempPaths+"/resour/upload/img/"+tempFile.getName());
+	        goodPo.setPic(tempPaths+face+tempFile.getName());
 	        goodPo.setPic_id(fileName);
 	        goodPo.setRegister_cost(req.getParameter("register_cost"));
 	        goodPo.setApply_condition(req.getParameter("apply_condition"));
@@ -205,14 +205,15 @@ public class GoodController {
 		/*查询出所有的商品类型*/
 		List<Map<String,Object>> list = goodService.selectGoodType();
 		/*返回json格式的数据，values,fields,是在addGoodjsp页面上规定的,显示商品类型下拉框*/
-		String json="[{\'values\':\'0\',\'fields\':\'请选择类型\'},";
+		String json="[{\'values\':\'0\',\'fields\':\'请选择类型\',selected:true},";
 		/*遍历查询结果，获取商品类型id和那么，返回到jsp*/
 		for(Map<String, Object> map:list){
 			String type_id_name=map.get("id")+","+map.get("name");
+			System.out.println("--goodType_id_name---"+goodType_id_name+"----type_id_name---"+type_id_name);
 			/*确定当前商品的商品类型,增加selected属性，选中该类型*/
 			if(goodType_id_name.trim().equals(type_id_name.trim())){
 				json+="{\'values\':\'"+map.get("id").toString()+","+map.get("name").toString()+"\',"
-					+ "\'fields\':\'"+map.get("name").toString()+"\',\'selected\':true},";	
+					+ "\'fields\':\'"+map.get("name").toString()+"\',selected:true},";	
 			}
 			else{
 				json+="{\'values\':\'"+map.get("id").toString()+","+map.get("name").toString()+"\',"
@@ -245,12 +246,11 @@ public class GoodController {
 			tempPath=(String) prop.get("fileupload.dir");
 			tempPaths=(String)prop.get("www.url");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 	
 		  String fileName = file.getOriginalFilename(); 
-		 // String path = request.getSession().getServletContext().getRealPath("/")+"/static/upload";
-		  String path=tempPath+"/resour/upload/img";
+		  String face="/resour/upload/img/faceimg";
+		  String path=tempPath+face;
 		  File files= new File(path);
 		  if(!files.exists()){
 			  files.mkdir();
@@ -263,7 +263,6 @@ public class GoodController {
 	            tempFile.createNewFile();  
 	        }  
 	        file.transferTo(tempFile);  
-	        //String filePath= request.getSession().getServletContext().getContextPath()+"/static/upload/"+tempFile.getName();
 	        GoodPo goodPo= new GoodPo();
 	        goodPo.setCode(req.getParameter("code"));
 	        goodPo.setName(req.getParameter("name"));
@@ -272,15 +271,14 @@ public class GoodController {
 	        goodPo.setGood_type_id(Integer.parseInt(goodType_Name_id[0]));
 	        goodPo.setPrice_range(req.getParameter("price_range"));
 	        goodPo.setPrice_market(req.getParameter("price_market"));
-	       // String rPath=request.getSession().getServletContext().getRealPath("/")+"/static/upload/"+String.valueOf(fileName);
-	        goodPo.setPic(tempPaths+"/resour/upload/img/"+tempFile.getName());
+	        goodPo.setPic(tempPaths+face+tempFile.getName());
 	        goodPo.setPic_id(fileName);
 	        goodPo.setRegister_cost(req.getParameter("register_cost"));
 	        goodPo.setApply_condition(req.getParameter("apply_condition"));
 	        goodPo.setDetail_content(req.getParameter("detail_content"));
 	        goodPo.setId(Integer.parseInt(req.getParameter("goodId")));
 	        String bst=req.getParameter("begin_sale_time");
-	        String est=req.getParameter("begin_sale_time");
+	        String est=req.getParameter("end_sale_time");
 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	        String aa=sdf.format(sdf.parse(bst));
 	        String bb=sdf.format(sdf.parse(est));
@@ -296,17 +294,6 @@ public class GoodController {
 			goodPo.setUpdateBy(sysUserPo.getUsername());
 			goodPo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 	        int flag=goodService.updateGood(goodPo);
-/*	        声明json数据类型变量，返回到前台
-	        String json="";
-			if(flag>0){
-			json= "{'message':'true'}";
-			}
-			else{
-			json="{'message':'false'}";
-			}
-			System.out.println("json---"+json);
-			return  json; */   
-	        /*声明json数据类型变量，返回到前台*/
 			JSONObject json;
 			if(flag>0){
 			json= JSONObject.parseObject("{'message':'true'}");
