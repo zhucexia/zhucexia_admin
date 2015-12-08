@@ -138,7 +138,7 @@ public class GoodController {
   			e.printStackTrace();
   		} 	
 		  String fileName = file.getOriginalFilename(); 
-		  String face="/resour/upload/img/faceimg";
+		  String face="/resour/upload/img/faceimg/";
 		  String path=tempPath+face;
 		  File files= new File(path);
 		  if(!files.exists()){
@@ -249,7 +249,7 @@ public class GoodController {
 			e.printStackTrace();
 		} 	
 		  String fileName = file.getOriginalFilename(); 
-		  String face="/resour/upload/img/faceimg";
+		  String face="/resour/upload/img/faceimg/";
 		  String path=tempPath+face;
 		  File files= new File(path);
 		  if(!files.exists()){
