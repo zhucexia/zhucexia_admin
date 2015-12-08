@@ -1,18 +1,18 @@
 package com.keji50.zhucexiaadmin.web.controller;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.pagehelper.Page;
-import com.keji50.zhucexiaadmin.dao.po.SaleOrderDetailPo;
+import com.keji50.zhucexiaadmin.dao.po.CustomerAddrPo;
+import com.keji50.zhucexiaadmin.dao.po.SalaOrderPo;
+import com.keji50.zhucexiaadmin.service.CustomerAddressService;
+import com.keji50.zhucexiaadmin.service.SalaOrderService;
 import com.keji50.zhucexiaadmin.service.SaleOrderDetailService;
 
 @Controller
@@ -21,20 +21,26 @@ public class SaleOrderDetailController {
 	
 	@Resource(name="saleorderdetailservice")
 	private SaleOrderDetailService saleOrderDetailService;
+	@Resource(name = "salaorderservice")
+	private SalaOrderService salaorderservice;
+	@Resource(name = "customerAddressService")
+	private CustomerAddressService customerAddressService;
 	
 	@RequestMapping(value="/getorderdetail")
-	@ResponseBody
-	public Map<String,Object> getOrderDetail(HttpServletRequest request){
+	public String getOrderDetail(HttpServletRequest request){
 		int order_id = Integer.valueOf(request.getParameter("id"));
-		SaleOrderDetailPo c = saleOrderDetailService.getOrderDitail(order_id);
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("order_id", c.getOrder_id());
-		map.put("good_id", c.getGood_id());
-		map.put("good_name", c.getGood_name());
-		map.put("good_price_id", c.getGood_price_id());
-		map.put("good_price", c.getGood_price());
-		map.put("good_num", c.getGood_num());
-		map.put("total_price", c.getTotal_price());
-		return map;
+		/*查询订单的详细信息*/
+		SalaOrderPo saleOrderPo = salaorderservice.getorder(order_id);
+		/*查询地址信息*/
+		String addressId=saleOrderPo.getAddress();
+		CustomerAddrPo addrPo=null;
+		if(addressId!=null){
+			addrPo=customerAddressService.getAddr(Integer.parseInt(addressId));
+		}
+		List<Map<String,Object>> list=saleOrderDetailService.queryDitail(saleOrderPo.getId());
+		request.setAttribute("saleOrderPo", saleOrderPo);
+		request.setAttribute("addrPo", addrPo);
+		request.setAttribute("list", list);
+		return "salaorder/orderDetail";
 	}
 }
