@@ -188,11 +188,11 @@
 				text : '增加',
 				iconCls : 'icon-add',
 				handler : addWhite
-			}, {
+			}/*, {
 				text : '修改',
 				iconCls : 'icon-edit',
 				handler : editWhite
-			}/* , '-', {
+			}, '-', {
 				text : '删除',
 				iconCls : 'icon-delete',
 				handler : deleteWhite

@@ -93,7 +93,7 @@
 		password: {
 			 validator: function(value, param)
 	            {
-	                return /^(?=.*\d.*)(?=.*[a-zA-Z].*).{6,50}$/
+	                return /^\w{6,20}$/
 	                        .test(value);
 	            },
 	            message: "密码不合法（至少6位，必须有字母和数字）"
